@@ -1,0 +1,176 @@
+import Link from 'next/link';
+import { siteConfig } from '@/data/site';
+import { currentLearning } from '@/data/current-learning';
+import { getAllLogs, getAllNotes, getAllProjects } from '@/lib/content';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { SiteContainer } from '@/components/layout/SiteContainer';
+import { Hero } from '@/components/home/Hero';
+import { CurrentLearningCard } from '@/components/home/CurrentLearningCard';
+import { SectionHeader } from '@/components/common/SectionHeader';
+import { LogCard } from '@/components/logs/LogCard';
+import { NoteCard } from '@/components/notes/NoteCard';
+import { ProjectCard } from '@/components/projects/ProjectCard';
+import { FeaturePanel } from '@/components/common/FeaturePanel';
+
+export default function HomePage() {
+  const logs = getAllLogs();
+  const notes = getAllNotes();
+  const projects = getAllProjects();
+  const featuredLogs = logs.slice(0, 3);
+  const featuredNotes = notes.filter((item) => item.featured).slice(0, 3);
+  const featuredProjects = projects.slice(0, 2);
+
+  const stats = [
+    { label: 'Learning Logs', value: String(logs.length).padStart(2, '0'), note: '持续记录输入、实践与复盘' },
+    { label: 'Knowledge Notes', value: String(notes.length).padStart(2, '0'), note: '把零散理解整理成可复用卡片' },
+    { label: 'Projects', value: String(projects.length).padStart(2, '0'), note: '用项目验证抽象，而不只停留在阅读' },
+  ];
+
+  const quickMap = [
+    {
+      title: '学习日志',
+      description: '按时间查看最近在学什么、卡在哪里、下一步做什么。',
+      href: '/logs',
+      badge: 'Timeline',
+    },
+    {
+      title: '知识库',
+      description: '把重复出现的概念、方法和结构沉淀成随时可取用的条目。',
+      href: '/notes',
+      badge: 'Knowledge Base',
+    },
+    {
+      title: '项目实践',
+      description: '把学习结果落到真实产出里，避免“看过等于会了”的错觉。',
+      href: '/projects',
+      badge: 'Practice',
+    },
+  ];
+
+  return (
+    <>
+      <Navbar nav={siteConfig.nav} />
+      <main>
+        <SiteContainer className="space-y-8 py-8 md:space-y-10 md:py-10">
+          <Hero
+            title={siteConfig.tagline}
+            subtitle={siteConfig.description}
+            primaryAction={{ label: '查看学习日志', href: '/logs' }}
+            secondaryAction={{ label: '进入知识库', href: '/notes' }}
+            stats={stats}
+          />
+
+          <section className="section-shell">
+            <SectionHeader
+              title="这个站点怎么用"
+              description="它更像一个持续生长的学习工作台：前面记录过程，中间沉淀结构，后面通过项目检验理解。"
+            />
+            <div className="grid gap-4 md:grid-cols-3">
+              {quickMap.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="surface-card surface-card-hover group block p-5"
+                  style={{ animationDelay: `${index * 0.12}s` }}
+                >
+                  <div className="relative space-y-4">
+                    <span className="pill-tag inline-flex">{item.badge}</span>
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-medium text-stone-100">{item.title}</h3>
+                      <p className="text-sm leading-7 text-stone-400">{item.description}</p>
+                    </div>
+                    <p className="text-sm text-stone-500 transition group-hover:text-stone-200">进入看看 →</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <section className="section-shell">
+            <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
+            <div className="grid gap-4 xl:grid-cols-[1.55fr_0.95fr]">
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                {currentLearning.map((item) => (
+                  <CurrentLearningCard key={item.id} item={item} />
+                ))}
+              </div>
+              <FeaturePanel
+                eyebrow="Current Focus"
+                title="把学习过程变成一个可回看、可复用、可迭代的系统"
+                description="当前优化方向不是拼命堆内容，而是把页面结构、内容类型与视觉节奏统一起来，让记录、提炼、复习之间形成自然流动。"
+                href="/about"
+              />
+            </div>
+          </section>
+
+          <section className="section-shell overflow-hidden">
+            <div className="pointer-events-none absolute right-0 top-0 h-36 w-36 rounded-full bg-violet-500/10 blur-3xl" />
+            <SectionHeader title="最近留下的内容" description="最新更新的学习日志，保留过程而不是只展示结论。" actionLabel="查看全部" actionHref="/logs" />
+            <div className="grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
+              <div className="grid gap-4">
+                {featuredLogs.map((item) => (
+                  <LogCard key={item.id} item={item} />
+                ))}
+              </div>
+              <div className="grid gap-4">
+                <div className="surface-card p-5 md:p-6">
+                  <div className="relative space-y-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="text-lg font-medium text-stone-100">快速复习入口</h3>
+                      <span className="pill-tag">Review</span>
+                    </div>
+                    <p className="text-sm leading-7 text-stone-400">
+                      如果不想从长文开始，可以先看最近整理出来的知识卡片，再决定是否回到完整日志查看上下文。
+                    </p>
+                    <div className="grid gap-3">
+                      {featuredNotes.slice(0, 2).map((item) => (
+                        <NoteCard key={item.id} item={item} compact />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="section-shell">
+            <SectionHeader title="精选知识卡片" description="这些内容更偏“结构化沉淀”，适合回顾概念、方法和框架。" actionLabel="进入知识库" actionHref="/notes" />
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {featuredNotes.map((item) => (
+                <NoteCard key={item.id} item={item} />
+              ))}
+            </div>
+          </section>
+
+          <section className="section-shell">
+            <SectionHeader title="项目 / 实践" description="学习不是收藏信息，而是用真实产出来检验理解。" actionLabel="查看项目" actionHref="/projects" />
+            <div className="grid gap-4 md:grid-cols-2">
+              {featuredProjects.map((item) => (
+                <ProjectCard key={item.id} item={item} />
+              ))}
+            </div>
+          </section>
+
+          <section className="surface-card p-6 md:p-8">
+            <div className="relative grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+              <div className="space-y-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">About this site</p>
+                <h2 className="text-2xl font-semibold tracking-tight text-stone-100 md:text-3xl">这不是传统博客，而是我长期维护的学习记录系统</h2>
+                <p className="max-w-3xl text-base leading-7 text-stone-300">
+                  这里记录学习日志、沉淀知识结构，也保存那些在长期练习中逐渐成形的理解。目标不是“看起来很满”，而是让每一次学习都更容易被找回、连接和继续推进。
+                </p>
+              </div>
+              <div className="grid gap-2 text-sm text-stone-400 md:justify-items-end">
+                <span className="pill-tag">记录输入</span>
+                <span className="pill-tag">整理结构</span>
+                <span className="pill-tag">反复迭代</span>
+              </div>
+            </div>
+          </section>
+        </SiteContainer>
+      </main>
+      <Footer />
+    </>
+  );
+}
