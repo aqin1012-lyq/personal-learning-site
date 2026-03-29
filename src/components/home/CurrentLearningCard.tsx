@@ -7,7 +7,7 @@ export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
       <div className="relative space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">
-            {item.progressText ? <p className="text-xs uppercase tracking-[0.18em] text-amber-200/75">{item.progressText}</p> : null}
+            {item.progressText ? <p className="section-label text-amber-200/75">{item.progressText}</p> : null}
             <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
           </div>
           <span className="pill-tag shrink-0">{item.status}</span>

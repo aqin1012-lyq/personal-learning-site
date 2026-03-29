@@ -75,7 +75,9 @@ export default function HomePage() {
                       <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
                       <p className="text-sm leading-8 text-stone-400">{item.description}</p>
                     </div>
-                    <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
+                    <div className="border-t border-white/[0.06] pt-3">
+                      <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -117,10 +119,12 @@ export default function HomePage() {
                     <p className="text-sm leading-8 text-stone-400">
                       如果不想从长文开始，可以先看最近整理出来的知识卡片，再决定是否回到完整日志查看上下文。
                     </p>
-                    <div className="grid gap-3">
+                    <div className="border-t border-white/[0.06] pt-4">
+                      <div className="grid gap-3">
                       {featuredNotes.slice(0, 2).map((item) => (
                         <NoteCard key={item.id} item={item} compact />
                       ))}
+                      </div>
                     </div>
                   </div>
                 </div>

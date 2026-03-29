@@ -29,6 +29,7 @@ export function Hero({
   return (
     <section className="surface-card overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-amber-100/10 bg-[radial-gradient(circle,rgba(193,160,124,0.12),transparent_68%)] opacity-80 blur-2xl" />
 
       <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:items-end lg:gap-12">
         <div className="max-w-4xl space-y-8 md:space-y-9">
@@ -65,17 +66,11 @@ export function Hero({
           </div>
 
           <div className="flex flex-wrap gap-3 pt-1">
-            <Link
-              href={primaryAction.href}
-              className="inline-flex items-center rounded-full border border-amber-100/10 bg-[#8b6a4b] px-5 py-2.5 text-sm font-medium text-stone-50 hover:-translate-y-0.5 hover:bg-[#9b7754]"
-            >
+            <Link href={primaryAction.href} className="hero-button-primary">
               {primaryAction.label}
             </Link>
             {secondaryAction ? (
-              <Link
-                href={secondaryAction.href}
-                className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-stone-200 hover:-translate-y-0.5 hover:bg-white/[0.05]"
-              >
+              <Link href={secondaryAction.href} className="hero-button-secondary">
                 {secondaryAction.label}
               </Link>
             ) : null}
@@ -84,9 +79,9 @@ export function Hero({
 
         <div className="grid gap-3 self-stretch md:grid-cols-3 lg:grid-cols-1">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-[20px] border border-white/[0.06] bg-black/10 p-4">
-              <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">{stat.label}</p>
+            <div key={stat.label} className="hero-stat-card">
+              <div className="space-y-2.5">
+                <p className="section-label">{stat.label}</p>
                 <div className="space-y-2">
                   <p className="font-display text-[2rem] leading-none text-stone-100">{stat.value}</p>
                   <p className="text-xs leading-6 text-stone-400">{stat.note}</p>
