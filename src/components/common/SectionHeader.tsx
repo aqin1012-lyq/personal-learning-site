@@ -5,8 +5,8 @@ export function SectionHeader({ title, description, actionLabel, actionHref }: S
   return (
     <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-100 md:text-[1.75rem]">{title}</h2>
-        {description ? <p className="max-w-2xl text-sm leading-7 text-stone-400">{description}</p> : null}
+        <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem]">{title}</h2>
+        {description ? <p className="max-w-2xl text-sm leading-8 text-stone-400">{description}</p> : null}
       </div>
       {actionLabel && actionHref ? (
         <Link href={actionHref} className="inline-flex items-center gap-2 text-sm text-stone-400 hover:text-stone-100">

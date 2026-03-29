@@ -52,7 +52,7 @@ export default function HomePage() {
     <>
       <Navbar nav={siteConfig.nav} />
       <main>
-        <SiteContainer className="space-y-8 py-8 md:space-y-10 md:py-10">
+        <SiteContainer className="space-y-10 py-8 md:space-y-12 md:py-12">
           <Hero
             title={siteConfig.tagline}
             subtitle={siteConfig.description}
@@ -67,20 +67,15 @@ export default function HomePage() {
               description="它更像一个持续生长的学习工作台：前面记录过程，中间沉淀结构，后面通过项目检验理解。"
             />
             <div className="grid gap-4 md:grid-cols-3">
-              {quickMap.map((item, index) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="surface-card surface-card-hover group block p-5"
-                  style={{ animationDelay: `${index * 0.12}s` }}
-                >
+              {quickMap.map((item) => (
+                <Link key={item.href} href={item.href} className="surface-card surface-card-hover group block p-5 md:p-6">
                   <div className="relative space-y-4">
                     <span className="pill-tag inline-flex">{item.badge}</span>
                     <div className="space-y-2">
-                      <h3 className="text-lg font-medium text-stone-100">{item.title}</h3>
-                      <p className="text-sm leading-7 text-stone-400">{item.description}</p>
+                      <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
+                      <p className="text-sm leading-8 text-stone-400">{item.description}</p>
                     </div>
-                    <p className="text-sm text-stone-500 transition group-hover:text-stone-200">进入看看 →</p>
+                    <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
                   </div>
                 </Link>
               ))}
@@ -105,7 +100,6 @@ export default function HomePage() {
           </section>
 
           <section className="section-shell overflow-hidden">
-            <div className="pointer-events-none absolute right-0 top-0 h-36 w-36 rounded-full bg-violet-500/10 blur-3xl" />
             <SectionHeader title="最近留下的内容" description="最新更新的学习日志，保留过程而不是只展示结论。" actionLabel="查看全部" actionHref="/logs" />
             <div className="grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
               <div className="grid gap-4">
@@ -117,10 +111,10 @@ export default function HomePage() {
                 <div className="surface-card p-5 md:p-6">
                   <div className="relative space-y-4">
                     <div className="flex items-center justify-between gap-3">
-                      <h3 className="text-lg font-medium text-stone-100">快速复习入口</h3>
+                      <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">快速复习入口</h3>
                       <span className="pill-tag">Review</span>
                     </div>
-                    <p className="text-sm leading-7 text-stone-400">
+                    <p className="text-sm leading-8 text-stone-400">
                       如果不想从长文开始，可以先看最近整理出来的知识卡片，再决定是否回到完整日志查看上下文。
                     </p>
                     <div className="grid gap-3">
@@ -152,12 +146,12 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="surface-card p-6 md:p-8">
+          <section className="surface-card p-7 md:p-9">
             <div className="relative grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-end">
               <div className="space-y-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500">About this site</p>
-                <h2 className="text-2xl font-semibold tracking-tight text-stone-100 md:text-3xl">这不是传统博客，而是我长期维护的学习记录系统</h2>
-                <p className="max-w-3xl text-base leading-7 text-stone-300">
+                <h2 className="font-cjk text-[1.9rem] font-medium leading-[1.35] tracking-tight text-stone-100 md:text-[2.35rem]">这不是传统博客，而是我长期维护的学习记录系统</h2>
+                <p className="max-w-3xl text-[0.98rem] leading-8 text-stone-300">
                   这里记录学习日志、沉淀知识结构，也保存那些在长期练习中逐渐成形的理解。目标不是“看起来很满”，而是让每一次学习都更容易被找回、连接和继续推进。
                 </p>
               </div>
