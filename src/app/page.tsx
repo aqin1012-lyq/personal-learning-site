@@ -8,6 +8,7 @@ import { SiteContainer } from '@/components/layout/SiteContainer';
 import { Hero } from '@/components/home/Hero';
 import { HomeMotion } from '@/components/home/HomeMotion';
 import { CurrentLearningCard } from '@/components/home/CurrentLearningCard';
+import { TimelinePreview } from '@/components/home/TimelinePreview';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 import { LogCard } from '@/components/logs/LogCard';
@@ -50,6 +51,39 @@ export default function HomePage() {
     },
   ];
 
+  const timelineItems = [
+    ...logs.slice(0, 3).map((item) => ({
+      id: `log-${item.id}`,
+      title: item.title,
+      summary: item.summary,
+      date: item.date,
+      href: `/logs/${item.slug}`,
+      kind: 'log' as const,
+      meta: item.type,
+    })),
+    ...notes.slice(0, 2).map((item) => ({
+      id: `note-${item.id}`,
+      title: item.title,
+      summary: item.summary,
+      date: item.updatedAt,
+      href: `/notes/${item.slug}`,
+      kind: 'note' as const,
+      meta: item.category,
+    })),
+    ...projects.slice(0, 1).map((item) => ({
+      id: `project-${item.id}`,
+      title: item.title,
+      summary: item.summary,
+      date: item.period?.split('—')[0]?.trim() || item.period || '2026-03-01',
+      href: item.href || `/projects/${item.slug}`,
+      kind: 'project' as const,
+      meta: item.status,
+    })),
+  ]
+    .filter((item) => item.date)
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 5);
+
   return (
     <>
       <Navbar nav={siteConfig.nav} />
@@ -64,30 +98,32 @@ export default function HomePage() {
               stats={stats}
             />
 
+            <TimelinePreview items={timelineItems} />
+
             <section className="section-shell stagger-surface">
-            <SectionHeader
-              title="这个站点怎么用"
-              description="它更像一个持续生长的学习工作台：前面记录过程，中间沉淀结构，后面通过项目检验理解。"
-            />
-            <div className="grid gap-4 md:grid-cols-3">
-              {quickMap.map((item) => (
-                <InteractiveSurface key={item.href} className="surface-card surface-card-hover block rounded-[24px]">
-                  <Link href={item.href} className="group block p-5 md:p-6">
-                    <div className="relative space-y-4">
-                      <span className="pill-tag inline-flex">{item.badge}</span>
-                      <div className="space-y-2">
-                        <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
-                        <p className="text-sm leading-8 text-stone-400">{item.description}</p>
+              <SectionHeader
+                title="这个站点怎么用"
+                description="它更像一个持续生长的学习工作台：前面记录过程，中间沉淀结构，后面通过项目检验理解。"
+              />
+              <div className="grid gap-4 md:grid-cols-3">
+                {quickMap.map((item) => (
+                  <InteractiveSurface key={item.href} className="surface-card surface-card-hover block rounded-[24px]">
+                    <Link href={item.href} className="group block p-5 md:p-6">
+                      <div className="relative space-y-4">
+                        <span className="pill-tag inline-flex">{item.badge}</span>
+                        <div className="space-y-2">
+                          <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
+                          <p className="text-sm leading-8 text-stone-400">{item.description}</p>
+                        </div>
+                        <div className="border-t border-white/[0.06] pt-3">
+                          <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
+                        </div>
                       </div>
-                      <div className="border-t border-white/[0.06] pt-3">
-                        <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
-                      </div>
-                    </div>
-                  </Link>
-                </InteractiveSurface>
-              ))}
-            </div>
-          </section>
+                    </Link>
+                  </InteractiveSurface>
+                ))}
+              </div>
+            </section>
 
           <section className="section-shell stagger-surface">
             <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
