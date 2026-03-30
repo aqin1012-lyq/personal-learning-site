@@ -43,8 +43,8 @@ export default async function NoteDetailPage({ params }: PageProps) {
           <ContentHeader title={note.title} summary={note.summary} date={note.updatedAt} tags={note.tags} />
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <article className="rounded-3xl border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-6 shadow-[0_12px_40px_rgba(0,0,0,0.18)] md:p-8">
-              <div className="space-y-8 prose-custom max-w-none">
+            <article className="section-shell reveal-surface">
+              <div className="relative space-y-8 prose-custom max-w-none">
                 <div>
                   <h2>核心定义</h2>
                   <p>{note.summary}</p>
@@ -69,9 +69,11 @@ export default async function NoteDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
-                <h3 className="text-sm font-semibold text-stone-100">分类</h3>
-                <p className="mt-3 text-sm text-stone-400">{note.category}</p>
+              <div className="surface-card p-5 md:p-6">
+                <div className="relative space-y-3">
+                  <h3 className="text-sm font-semibold text-stone-100">分类</h3>
+                  <p className="text-sm text-stone-400">{note.category}</p>
+                </div>
               </div>
               <RelatedContent logs={relatedLogs} />
             </aside>

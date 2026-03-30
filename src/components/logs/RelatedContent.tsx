@@ -8,7 +8,7 @@ export function RelatedContent({ notes, logs }: { notes?: NoteItem[]; logs?: Log
     <div className="space-y-6">
       {notes?.length ? (
         <section className="space-y-3">
-          <h3 className="text-sm font-semibold text-stone-900">相关知识</h3>
+          <h3 className="text-sm font-semibold text-stone-100">相关知识</h3>
           <div className="space-y-3">
             {notes.map((note) => (
               <NoteCard key={note.id} item={note} compact />
@@ -18,7 +18,7 @@ export function RelatedContent({ notes, logs }: { notes?: NoteItem[]; logs?: Log
       ) : null}
       {logs?.length ? (
         <section className="space-y-3">
-          <h3 className="text-sm font-semibold text-stone-900">相关文章</h3>
+          <h3 className="text-sm font-semibold text-stone-100">相关文章</h3>
           <div className="space-y-3">
             {logs.map((log) => (
               <LogCard key={log.id} item={log} />

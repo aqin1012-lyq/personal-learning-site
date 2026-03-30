@@ -53,15 +53,19 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
-                <h3 className="text-sm font-semibold text-stone-100">项目状态</h3>
-                <p className="mt-3 text-sm text-stone-400">{project.status}</p>
-                {project.period ? (
-                  <>
-                    <h3 className="mt-5 text-sm font-semibold text-stone-100">项目周期</h3>
-                    <p className="mt-3 text-sm text-stone-400">{project.period}</p>
-                  </>
-                ) : null}
+              <div className="surface-card p-5 md:p-6">
+                <div className="relative space-y-4">
+                  <div>
+                    <h3 className="text-sm font-semibold text-stone-100">项目状态</h3>
+                    <p className="mt-2 text-sm text-stone-400">{project.status}</p>
+                  </div>
+                  {project.period ? (
+                    <div className="border-t border-white/[0.06] pt-4">
+                      <h3 className="text-sm font-semibold text-stone-100">项目周期</h3>
+                      <p className="mt-2 text-sm text-stone-400">{project.period}</p>
+                    </div>
+                  ) : null}
+                </div>
               </div>
               <RelatedContent logs={relatedLogs} />
             </aside>

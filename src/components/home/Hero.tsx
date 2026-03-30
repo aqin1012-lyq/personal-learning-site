@@ -29,7 +29,7 @@ export function Hero({
   return (
     <section className="surface-card overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-amber-100/10 bg-[radial-gradient(circle,rgba(193,160,124,0.12),transparent_68%)] opacity-80 blur-2xl" />
+      <div className="ambient-orb pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-amber-100/10 bg-[radial-gradient(circle,rgba(193,160,124,0.12),transparent_68%)] opacity-80 blur-2xl" />
 
       <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:items-end lg:gap-12">
         <div className="max-w-4xl space-y-8 md:space-y-9">

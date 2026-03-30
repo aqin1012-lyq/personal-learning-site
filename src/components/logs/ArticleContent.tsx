@@ -59,8 +59,9 @@ export function ArticleContent({ content }: { content: string }) {
   const blocks = parseContent(content);
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm md:p-8">
-      <div className="prose-custom max-w-none">
+    <div className="section-shell reveal-surface overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="relative prose-custom max-w-none">
         {blocks.map((block, index) => {
           if (block.type === 'h2') return <h2 key={index}>{block.content}</h2>;
           if (block.type === 'p') return <p key={index}>{block.content}</p>;

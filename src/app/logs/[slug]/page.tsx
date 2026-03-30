@@ -55,14 +55,16 @@ export default async function LogDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-                <h3 className="text-sm font-semibold text-stone-900">标签</h3>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {log.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-sm text-stone-600">
-                      {tag}
-                    </span>
-                  ))}
+              <div className="surface-card p-5 md:p-6">
+                <div className="relative space-y-4">
+                  <h3 className="text-sm font-semibold text-stone-100">标签</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {log.tags.map((tag) => (
+                      <span key={tag} className="pill-tag text-stone-400">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
               <RelatedContent notes={relatedNotes.slice(0, 4)} logs={relatedLogs} />
