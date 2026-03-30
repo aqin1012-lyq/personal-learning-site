@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SiteContainer } from '@/components/layout/SiteContainer';
 import { PageHeader } from '@/components/common/PageHeader';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 export default function AboutPage() {
   return (
@@ -25,7 +26,7 @@ export default function AboutPage() {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  <div className="surface-card p-5 md:p-6">
+                  <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                     <div className="relative space-y-3">
                       <p className="section-label">Learning focus</p>
                       <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">当前关注的学习方向</h3>
@@ -38,9 +39,9 @@ export default function AboutPage() {
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </InteractiveSurface>
 
-                  <div className="surface-card p-5 md:p-6">
+                  <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                     <div className="relative space-y-3">
                       <p className="section-label">Working principles</p>
                       <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">更新原则</h3>
@@ -53,13 +54,13 @@ export default function AboutPage() {
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </InteractiveSurface>
                 </div>
               </div>
             </article>
 
             <aside className="grid gap-4">
-              <section className="surface-card p-6 md:p-7">
+              <InteractiveSurface as="section" className="surface-card rounded-[24px] p-6 md:p-7">
                 <div className="relative space-y-4">
                   <p className="section-label">Site intent</p>
                   <h3 className="font-cjk text-[1.2rem] font-medium leading-8 text-stone-100">这更像一个长期维护的学习界面，而不是一次性写完的博客首页。</h3>
@@ -67,7 +68,7 @@ export default function AboutPage() {
                     前面用日志保留过程，中间用知识卡片整理结构，后面用项目验证理解。每个页面都不是孤立的，而是服务于同一个目标：让学习可以被找回、被连接、被继续推进。
                   </p>
                 </div>
-              </section>
+              </InteractiveSurface>
 
               <section className="section-shell space-y-5">
                 <div className="space-y-3">
@@ -80,9 +81,9 @@ export default function AboutPage() {
                     '把重复出现的理解沉淀成可复用结构',
                     '让内容之间能互相指向，而不是各写各的',
                   ].map((item) => (
-                    <div key={item} className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] px-4 py-4 text-sm leading-7 text-stone-300">
+                    <InteractiveSurface key={item} className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] px-4 py-4 text-sm leading-7 text-stone-300">
                       {item}
-                    </div>
+                    </InteractiveSurface>
                   ))}
                 </div>
               </section>

@@ -1,6 +1,8 @@
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
+
 export function InfoBlock({ title, items }: { title: string; items: string[] }) {
   return (
-    <section className="surface-card reveal-surface p-6 md:p-7">
+    <InteractiveSurface as="section" className="surface-card reveal-surface rounded-[24px] p-6 md:p-7">
       <div className="relative space-y-4">
         <h2 className="font-cjk text-[1.2rem] font-medium tracking-tight text-stone-100">{title}</h2>
         <ul className="space-y-3 text-[0.98rem] leading-8 text-stone-300">
@@ -12,6 +14,6 @@ export function InfoBlock({ title, items }: { title: string; items: string[] }) 
           ))}
         </ul>
       </div>
-    </section>
+    </InteractiveSurface>
   );
 }

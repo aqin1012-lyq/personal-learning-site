@@ -9,6 +9,7 @@ import { ContentHeader } from '@/components/logs/ContentHeader';
 import { ArticleContent } from '@/components/logs/ArticleContent';
 import { InfoBlock } from '@/components/logs/InfoBlock';
 import { RelatedContent } from '@/components/logs/RelatedContent';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -55,7 +56,7 @@ export default async function LogDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="surface-card p-5 md:p-6">
+              <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                 <div className="relative space-y-4">
                   <h3 className="text-sm font-semibold text-stone-100">标签</h3>
                   <div className="flex flex-wrap gap-2">
@@ -66,7 +67,7 @@ export default async function LogDetailPage({ params }: PageProps) {
                     ))}
                   </div>
                 </div>
-              </div>
+              </InteractiveSurface>
               <RelatedContent notes={relatedNotes.slice(0, 4)} logs={relatedLogs} />
             </aside>
           </div>

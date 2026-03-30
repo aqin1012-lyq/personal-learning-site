@@ -9,6 +9,7 @@ import { ContentHeader } from '@/components/logs/ContentHeader';
 import { ArticleContent } from '@/components/logs/ArticleContent';
 import { InfoBlock } from '@/components/logs/InfoBlock';
 import { RelatedContent } from '@/components/logs/RelatedContent';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -53,7 +54,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="surface-card p-5 md:p-6">
+              <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                 <div className="relative space-y-4">
                   <div>
                     <h3 className="text-sm font-semibold text-stone-100">项目状态</h3>
@@ -66,7 +67,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     </div>
                   ) : null}
                 </div>
-              </div>
+              </InteractiveSurface>
               <RelatedContent logs={relatedLogs} />
             </aside>
           </div>

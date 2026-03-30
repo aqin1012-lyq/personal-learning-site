@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { SiteContainer } from '@/components/layout/SiteContainer';
 import { ContentHeader } from '@/components/logs/ContentHeader';
 import { RelatedContent } from '@/components/logs/RelatedContent';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -69,12 +70,12 @@ export default async function NoteDetailPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="surface-card p-5 md:p-6">
+              <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                 <div className="relative space-y-3">
                   <h3 className="text-sm font-semibold text-stone-100">分类</h3>
                   <p className="text-sm text-stone-400">{note.category}</p>
                 </div>
-              </div>
+              </InteractiveSurface>
               <RelatedContent logs={relatedLogs} />
             </aside>
           </div>
