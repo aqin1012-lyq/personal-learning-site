@@ -52,7 +52,7 @@ export default function HomePage() {
   ];
 
   const timelineItems = [
-    ...logs.slice(0, 3).map((item) => ({
+    ...logs.slice(0, 4).map((item) => ({
       id: `log-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -61,7 +61,7 @@ export default function HomePage() {
       kind: 'log' as const,
       meta: item.type,
     })),
-    ...notes.slice(0, 2).map((item) => ({
+    ...notes.slice(0, 3).map((item) => ({
       id: `note-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -70,11 +70,11 @@ export default function HomePage() {
       kind: 'note' as const,
       meta: item.category,
     })),
-    ...projects.slice(0, 1).map((item) => ({
+    ...projects.slice(0, 2).map((item, index) => ({
       id: `project-${item.id}`,
       title: item.title,
       summary: item.summary,
-      date: item.period?.split('—')[0]?.trim() || item.period || '2026-03-01',
+      date: item.period?.split('—')[0]?.trim() || item.period || `2026-03-0${index + 1}`,
       href: item.href || `/projects/${item.slug}`,
       kind: 'project' as const,
       meta: item.status,
@@ -82,7 +82,7 @@ export default function HomePage() {
   ]
     .filter((item) => item.date)
     .sort((a, b) => (a.date < b.date ? 1 : -1))
-    .slice(0, 5);
+    .slice(0, 8);
 
   return (
     <>
