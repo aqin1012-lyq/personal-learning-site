@@ -14,7 +14,9 @@ export function TypeFilter({
       <button
         className={cn(
           'rounded-full border px-3 py-1.5 text-sm transition',
-          !activeType ? 'border-[#6f5af7]/40 bg-[#6f5af7]/18 text-white' : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
+          !activeType
+            ? 'border-[rgba(186,149,110,0.28)] bg-[rgba(186,149,110,0.18)] text-stone-100'
+            : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
         )}
         onClick={() => onTypeChange?.('')}
       >
@@ -25,7 +27,9 @@ export function TypeFilter({
           key={type}
           className={cn(
             'rounded-full border px-3 py-1.5 text-sm capitalize transition',
-            activeType === type ? 'border-[#6f5af7]/40 bg-[#6f5af7]/18 text-white' : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
+            activeType === type
+              ? 'border-[rgba(186,149,110,0.28)] bg-[rgba(186,149,110,0.18)] text-stone-100'
+              : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
           )}
           onClick={() => onTypeChange?.(activeType === type ? '' : type)}
         >

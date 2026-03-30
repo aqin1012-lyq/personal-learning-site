@@ -27,10 +27,31 @@ export function NotesClient({ notes }: { notes: NoteItem[] }) {
 
   return (
     <>
-      <section className="space-y-4 rounded-2xl border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
-        <SearchBox placeholder="搜索知识条目" value={query} onChange={setQuery} />
-        <CategoryFilter categories={categories} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
-        <TagFilter tags={tags} activeTag={activeTag} onTagChange={setActiveTag} />
+      <section className="section-shell reveal-surface overflow-hidden">
+        <div className="relative space-y-5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="space-y-2">
+              <p className="section-label">Knowledge Navigator</p>
+              <h2 className="font-cjk text-[1.2rem] font-medium text-stone-100">按分类、标签和关键词组织你的知识卡片</h2>
+            </div>
+            <div className="text-sm text-stone-500">
+              当前结果 <span className="text-stone-300">{filteredNotes.length}</span> / {notes.length}
+            </div>
+          </div>
+
+          <SearchBox placeholder="搜索知识条目" value={query} onChange={setQuery} />
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Category</p>
+              <CategoryFilter categories={categories} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+            </div>
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Tags</p>
+              <TagFilter tags={tags} activeTag={activeTag} onTagChange={setActiveTag} />
+            </div>
+          </div>
+        </div>
       </section>
 
       <section>

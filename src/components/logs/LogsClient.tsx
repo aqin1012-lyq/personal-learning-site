@@ -27,10 +27,31 @@ export function LogsClient({ logs }: { logs: LogItem[] }) {
 
   return (
     <>
-      <section className="space-y-4 rounded-2xl border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
-        <SearchBox placeholder="搜索日志标题或摘要" value={query} onChange={setQuery} />
-        <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} />
-        <TypeFilter types={allTypes} activeType={activeType} onTypeChange={setActiveType} />
+      <section className="section-shell reveal-surface overflow-hidden">
+        <div className="relative space-y-5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="space-y-2">
+              <p className="section-label">Browse & Filter</p>
+              <h2 className="font-cjk text-[1.2rem] font-medium text-stone-100">按主题、类型和关键词快速定位学习过程</h2>
+            </div>
+            <div className="text-sm text-stone-500">
+              当前结果 <span className="text-stone-300">{filteredLogs.length}</span> / {logs.length}
+            </div>
+          </div>
+
+          <SearchBox placeholder="搜索日志标题或摘要" value={query} onChange={setQuery} />
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Type</p>
+              <TypeFilter types={allTypes} activeType={activeType} onTypeChange={setActiveType} />
+            </div>
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Tags</p>
+              <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} />
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="space-y-4">
