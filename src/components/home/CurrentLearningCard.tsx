@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import type { CurrentLearningItem } from '@/types/home';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
   return (
-    <Link href={item.href || '/'} className="surface-card surface-card-hover reveal-surface block p-6">
-      <div className="relative space-y-4">
+    <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px]">
+      <Link href={item.href || '/'} className="block p-6">
+        <div className="relative space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">
             {item.progressText ? <p className="section-label text-amber-200/75">{item.progressText}</p> : null}
@@ -20,7 +22,8 @@ export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
             </span>
           ))}
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </InteractiveSurface>
   );
 }

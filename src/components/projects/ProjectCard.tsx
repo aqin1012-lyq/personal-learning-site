@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ProjectItem } from '@/types/project';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 const statusMap: Record<string, string> = {
   'in-progress': '进行中',
@@ -10,8 +11,9 @@ const statusMap: Record<string, string> = {
 
 export function ProjectCard({ item }: { item: ProjectItem }) {
   return (
-    <Link href={item.href || '/projects'} className="surface-card surface-card-hover block p-6 md:p-7">
-      <div className="relative space-y-4">
+    <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px]">
+      <Link href={item.href || '/projects'} className="block p-6 md:p-7">
+        <div className="relative space-y-4">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-lg font-medium text-stone-100">{item.title}</h3>
           <span className="pill-tag shrink-0">{statusMap[item.status] || item.status}</span>
@@ -25,7 +27,8 @@ export function ProjectCard({ item }: { item: ProjectItem }) {
             </span>
           ))}
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </InteractiveSurface>
   );
 }

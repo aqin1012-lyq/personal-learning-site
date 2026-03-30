@@ -9,6 +9,7 @@ import { Hero } from '@/components/home/Hero';
 import { HomeMotion } from '@/components/home/HomeMotion';
 import { CurrentLearningCard } from '@/components/home/CurrentLearningCard';
 import { SectionHeader } from '@/components/common/SectionHeader';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 import { LogCard } from '@/components/logs/LogCard';
 import { NoteCard } from '@/components/notes/NoteCard';
 import { ProjectCard } from '@/components/projects/ProjectCard';
@@ -70,18 +71,20 @@ export default function HomePage() {
             />
             <div className="grid gap-4 md:grid-cols-3">
               {quickMap.map((item) => (
-                <Link key={item.href} href={item.href} className="surface-card surface-card-hover group block p-5 md:p-6">
-                  <div className="relative space-y-4">
-                    <span className="pill-tag inline-flex">{item.badge}</span>
-                    <div className="space-y-2">
-                      <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
-                      <p className="text-sm leading-8 text-stone-400">{item.description}</p>
+                <InteractiveSurface key={item.href} className="surface-card surface-card-hover block rounded-[24px]">
+                  <Link href={item.href} className="group block p-5 md:p-6">
+                    <div className="relative space-y-4">
+                      <span className="pill-tag inline-flex">{item.badge}</span>
+                      <div className="space-y-2">
+                        <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
+                        <p className="text-sm leading-8 text-stone-400">{item.description}</p>
+                      </div>
+                      <div className="border-t border-white/[0.06] pt-3">
+                        <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
+                      </div>
                     </div>
-                    <div className="border-t border-white/[0.06] pt-3">
-                      <p className="text-sm text-stone-500 transition group-hover:text-stone-300">进入看看 →</p>
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </InteractiveSurface>
               ))}
             </div>
           </section>
@@ -112,24 +115,26 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="grid gap-4">
-                <div className="surface-card p-5 md:p-6">
-                  <div className="relative space-y-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">快速复习入口</h3>
-                      <span className="pill-tag">Review</span>
-                    </div>
-                    <p className="text-sm leading-8 text-stone-400">
-                      如果不想从长文开始，可以先看最近整理出来的知识卡片，再决定是否回到完整日志查看上下文。
-                    </p>
-                    <div className="border-t border-white/[0.06] pt-4">
-                      <div className="grid gap-3">
-                      {featuredNotes.slice(0, 2).map((item) => (
-                        <NoteCard key={item.id} item={item} compact />
-                      ))}
+                <InteractiveSurface className="surface-card block rounded-[24px]">
+                  <div className="relative p-5 md:p-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">快速复习入口</h3>
+                        <span className="pill-tag">Review</span>
+                      </div>
+                      <p className="text-sm leading-8 text-stone-400">
+                        如果不想从长文开始，可以先看最近整理出来的知识卡片，再决定是否回到完整日志查看上下文。
+                      </p>
+                      <div className="border-t border-white/[0.06] pt-4">
+                        <div className="grid gap-3">
+                        {featuredNotes.slice(0, 2).map((item) => (
+                          <NoteCard key={item.id} item={item} compact />
+                        ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </InteractiveSurface>
               </div>
             </div>
           </section>

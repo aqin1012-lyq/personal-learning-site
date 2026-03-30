@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 type HeroStat = {
   label: string;
@@ -21,13 +22,14 @@ export function Hero({
   secondaryAction?: { label: string; href: string };
   stats: HeroStat[];
 }) {
+  const manualBreak = '沉淀成可复用的认知结构';
   const titleParts = title.split('，');
-  const hasAccentLine = titleParts.length > 1;
-  const titleLead = hasAccentLine ? titleParts[0] : title;
-  const titleAccent = hasAccentLine ? titleParts.slice(1).join('，') : '';
+  const hasAccentLine = titleParts.length > 1 || title.includes(manualBreak);
+  const titleLead = titleParts.length > 1 ? titleParts[0] : title.replace(manualBreak, '').trim();
+  const titleAccent = titleParts.length > 1 ? titleParts.slice(1).join('，') : manualBreak;
 
   return (
-    <section className="hero-shell surface-card overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
+    <InteractiveSurface as="section" className="hero-shell surface-card interactive-surface-strong overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="ambient-orb pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-amber-100/10 bg-[radial-gradient(circle,rgba(193,160,124,0.12),transparent_68%)] opacity-80 blur-2xl" />
 
@@ -91,6 +93,6 @@ export function Hero({
           ))}
         </div>
       </div>
-    </section>
+    </InteractiveSurface>
   );
 }

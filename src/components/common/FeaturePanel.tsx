@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 export function FeaturePanel({
   eyebrow,
@@ -12,8 +13,9 @@ export function FeaturePanel({
   href: string;
 }) {
   return (
-    <Link href={href} className="surface-card surface-card-hover reveal-surface block p-6 md:p-7">
-      <div className="relative flex h-full flex-col justify-between gap-6">
+    <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px]">
+      <Link href={href} className="block p-6 md:p-7">
+        <div className="relative flex h-full flex-col justify-between gap-6">
         <div className="space-y-3">
           <p className="section-label">{eyebrow}</p>
           <h3 className="font-cjk text-[1.2rem] font-medium leading-8 text-stone-100">{title}</h3>
@@ -23,7 +25,8 @@ export function FeaturePanel({
           <span className="text-sm text-stone-300">继续阅读</span>
           <span className="pill-tag">About</span>
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </InteractiveSurface>
   );
 }
