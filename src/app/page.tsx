@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SiteContainer } from '@/components/layout/SiteContainer';
 import { Hero } from '@/components/home/Hero';
+import { HomeMotion } from '@/components/home/HomeMotion';
 import { CurrentLearningCard } from '@/components/home/CurrentLearningCard';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { LogCard } from '@/components/logs/LogCard';
@@ -52,16 +53,17 @@ export default function HomePage() {
     <>
       <Navbar nav={siteConfig.nav} />
       <main>
-        <SiteContainer className="space-y-10 py-8 md:space-y-12 md:py-12">
-          <Hero
-            title={siteConfig.tagline}
-            subtitle={siteConfig.description}
-            primaryAction={{ label: '查看学习日志', href: '/logs' }}
-            secondaryAction={{ label: '进入知识库', href: '/notes' }}
-            stats={stats}
-          />
+        <HomeMotion>
+          <SiteContainer className="space-y-10 py-8 md:space-y-12 md:py-12">
+            <Hero
+              title={siteConfig.tagline}
+              subtitle={siteConfig.description}
+              primaryAction={{ label: '查看学习日志', href: '/logs' }}
+              secondaryAction={{ label: '进入知识库', href: '/notes' }}
+              stats={stats}
+            />
 
-          <section className="section-shell">
+            <section className="section-shell stagger-surface">
             <SectionHeader
               title="这个站点怎么用"
               description="它更像一个持续生长的学习工作台：前面记录过程，中间沉淀结构，后面通过项目检验理解。"
@@ -84,7 +86,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="section-shell">
+          <section className="section-shell stagger-surface">
             <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
             <div className="grid gap-4 xl:grid-cols-[1.55fr_0.95fr]">
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -101,7 +103,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="section-shell overflow-hidden">
+          <section className="section-shell stagger-surface overflow-hidden">
             <SectionHeader title="最近留下的内容" description="最新更新的学习日志，保留过程而不是只展示结论。" actionLabel="查看全部" actionHref="/logs" />
             <div className="grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
               <div className="grid gap-4">
@@ -132,7 +134,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="section-shell">
+          <section className="section-shell stagger-surface">
             <SectionHeader title="精选知识卡片" description="这些内容更偏“结构化沉淀”，适合回顾概念、方法和框架。" actionLabel="进入知识库" actionHref="/notes" />
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {featuredNotes.map((item) => (
@@ -141,7 +143,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="section-shell">
+          <section className="section-shell stagger-surface">
             <SectionHeader title="项目 / 实践" description="学习不是收藏信息，而是用真实产出来检验理解。" actionLabel="查看项目" actionHref="/projects" />
             <div className="grid gap-4 md:grid-cols-2">
               {featuredProjects.map((item) => (
@@ -150,7 +152,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="surface-card p-7 md:p-9">
+          <section className="surface-card stagger-surface p-7 md:p-9">
             <div className="relative grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-end">
               <div className="space-y-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500">About this site</p>
@@ -166,7 +168,8 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-        </SiteContainer>
+          </SiteContainer>
+        </HomeMotion>
       </main>
       <Footer />
     </>

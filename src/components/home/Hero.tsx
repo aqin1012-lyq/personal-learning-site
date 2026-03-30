@@ -27,7 +27,7 @@ export function Hero({
   const titleAccent = hasAccentLine ? titleParts.slice(1).join('，') : '';
 
   return (
-    <section className="surface-card overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
+    <section className="hero-shell surface-card overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="ambient-orb pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-amber-100/10 bg-[radial-gradient(circle,rgba(193,160,124,0.12),transparent_68%)] opacity-80 blur-2xl" />
 

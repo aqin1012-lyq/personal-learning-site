@@ -3,7 +3,7 @@ import type { CurrentLearningItem } from '@/types/home';
 
 export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
   return (
-    <Link href={item.href || '/'} className="surface-card surface-card-hover block p-6">
+    <Link href={item.href || '/'} className="surface-card surface-card-hover reveal-surface block p-6">
       <div className="relative space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">

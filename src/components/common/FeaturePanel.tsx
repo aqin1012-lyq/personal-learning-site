@@ -12,7 +12,7 @@ export function FeaturePanel({
   href: string;
 }) {
   return (
-    <Link href={href} className="surface-card surface-card-hover block p-6 md:p-7">
+    <Link href={href} className="surface-card surface-card-hover reveal-surface block p-6 md:p-7">
       <div className="relative flex h-full flex-col justify-between gap-6">
         <div className="space-y-3">
           <p className="section-label">{eyebrow}</p>
