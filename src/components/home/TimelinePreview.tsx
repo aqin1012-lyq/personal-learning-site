@@ -11,112 +11,156 @@ type TimelineEntry = {
   meta?: string;
 };
 
-const kindMap: Record<TimelineEntry['kind'], string> = {
-  log: '学习日志',
-  note: '知识卡片',
-  project: '项目实践',
+type RailLane = {
+  id: string;
+  label: string;
+  hint: string;
+  accent: string;
+  glow: string;
+  items: TimelineEntry[];
 };
 
-function formatTimelineDate(date: string) {
+const laneMeta = {
+  input: {
+    label: '输入 / 学习',
+    hint: '阅读、精读、系统吸收',
+    accent: 'rgba(178, 150, 112, 0.95)',
+    glow: 'rgba(178, 150, 112, 0.2)',
+  },
+  structure: {
+    label: '整理 / 沉淀',
+    hint: '知识卡片、结构归档',
+    accent: 'rgba(142, 144, 200, 0.95)',
+    glow: 'rgba(142, 144, 200, 0.18)',
+  },
+  practice: {
+    label: '实践 / 推进',
+    hint: '项目、练习、复盘推进',
+    accent: 'rgba(102, 152, 167, 0.95)',
+    glow: 'rgba(102, 152, 167, 0.18)',
+  },
+} as const;
+
+function formatDayLabel(date: string) {
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) return date;
-  return new Intl.DateTimeFormat('zh-CN', {
-    month: 'short',
-    day: 'numeric',
-  }).format(parsed);
+  return new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit' }).format(parsed);
 }
 
-function formatTimelineMonth(date: string) {
+function formatWeekLabel(date: string) {
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) return '';
-  return new Intl.DateTimeFormat('en', {
-    month: 'short',
-  }).format(parsed);
+  return new Intl.DateTimeFormat('zh-CN', { weekday: 'short' }).format(parsed);
 }
 
-function formatTimelineMonthGroup(date: string) {
-  const parsed = new Date(date);
-  if (Number.isNaN(parsed.getTime())) return '';
-  return `${parsed.getFullYear()} / ${String(parsed.getMonth() + 1).padStart(2, '0')}`;
+function getLaneId(item: TimelineEntry): keyof typeof laneMeta {
+  if (item.kind === 'note') return 'structure';
+  if (item.kind === 'project') return 'practice';
+  if (item.meta === 'review' || item.meta === 'practice' || item.meta === 'project') return 'practice';
+  if (item.meta === 'writing') return 'structure';
+  return 'input';
 }
 
 export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
-  const groups = items.reduce<Array<{ label: string; items: TimelineEntry[] }>>((acc, item) => {
-    const label = formatTimelineMonthGroup(item.date);
-    const existing = acc.find((group) => group.label === label);
-    if (existing) {
-      existing.items.push(item);
-    } else {
-      acc.push({ label, items: [item] });
-    }
-    return acc;
-  }, []);
+  const sortedItems = [...items].sort((a, b) => (a.date > b.date ? 1 : -1));
+
+  const uniqueDays = Array.from(new Set(sortedItems.map((item) => item.date))).slice(-7);
+
+  const lanes: RailLane[] = Object.entries(laneMeta).map(([id, meta]) => ({
+    id,
+    label: meta.label,
+    hint: meta.hint,
+    accent: meta.accent,
+    glow: meta.glow,
+    items: sortedItems.filter((item) => getLaneId(item) === id),
+  }));
 
   return (
     <section className="section-shell stagger-surface overflow-hidden">
       <div className="relative space-y-7">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="space-y-3">
-            <p className="section-label">Recent Timeline</p>
+            <p className="section-label">Activity Rail</p>
             <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem]">
-              最近的学习轨迹
+              最近 7 天学习轨道
             </h2>
             <p className="max-w-2xl text-sm leading-8 text-stone-400">
-              改成横向展开后，可以看到更长一段时间里做了什么、整理了什么，以及不同类型内容是如何并行推进的。
+              先做一版可看的 activity rail：上面是时间维度，左边是学习类别，中间用横向轨道展示最近几天都在推进什么。
             </p>
           </div>
           <Link href="/logs" className="refined-link">
-            <span>查看更多记录</span>
+            <span>查看全部记录</span>
             <span aria-hidden>→</span>
           </Link>
         </div>
 
-        <div className="relative overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="inline-flex min-w-max gap-8 pr-4 pt-6">
-            {groups.map((group) => (
-              <div key={group.label} className="w-[min(86vw,980px)] min-w-[860px] space-y-5">
-                <div className="flex items-center gap-4">
-                  <span className="text-xs uppercase tracking-[0.24em] text-stone-500">{group.label}</span>
-                  <span className="h-px flex-1 bg-[linear-gradient(90deg,rgba(186,149,110,0.4),rgba(186,149,110,0.06))]" />
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="min-w-[980px] space-y-4">
+            <div className="grid grid-cols-[220px_repeat(7,minmax(0,1fr))] gap-3">
+              <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.02] px-4 py-4 text-sm text-stone-400">
+                用时间维度看最近一周的输入、整理与实践分布。
+              </div>
+              {uniqueDays.map((day) => (
+                <div key={day} className="rounded-[20px] border border-white/[0.06] bg-white/[0.02] px-3 py-4 text-center">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">{formatWeekLabel(day)}</p>
+                  <p className="mt-2 text-sm text-stone-200">{formatDayLabel(day)}</p>
                 </div>
+              ))}
+            </div>
 
-                <div className="relative pt-14">
-                  <div className="pointer-events-none absolute left-0 right-0 top-[2.35rem] h-px bg-[linear-gradient(90deg,rgba(186,149,110,0.18),rgba(186,149,110,0.55),rgba(186,149,110,0.18))]" />
-                  <div className="grid grid-flow-col auto-cols-[minmax(240px,1fr)] gap-4 xl:auto-cols-[minmax(260px,1fr)]">
-                    {group.items.map((item, index) => (
-                      <div key={item.id} className="relative">
-                        <div className="relative mb-5 h-16">
-                          <span className="absolute left-0 top-0 text-[11px] uppercase tracking-[0.2em] text-stone-500">
-                            {formatTimelineMonth(item.date)}
-                          </span>
-                          <span className="absolute left-0 top-6 text-sm text-stone-300">{formatTimelineDate(item.date)}</span>
-                          <span className="absolute left-0 top-[3.25rem] z-10 h-2.5 w-2.5 rounded-full border border-[rgba(214,186,152,0.42)] bg-[rgba(193,160,124,0.92)] shadow-[0_0_0_6px_rgba(186,149,110,0.08)]" />
-                          {index < group.items.length - 1 ? (
-                            <span className="pointer-events-none absolute left-[10px] top-[3.55rem] h-px w-[calc(100%+0.75rem)] bg-[linear-gradient(90deg,rgba(186,149,110,0.42),rgba(186,149,110,0.1))]" />
-                          ) : null}
-                        </div>
-
-                        <InteractiveSurface className="surface-card surface-card-hover block min-h-[220px] rounded-[24px]">
-                          <Link href={item.href} className="block h-full p-5 md:p-6">
-                            <div className="relative flex h-full flex-col justify-between gap-5">
-                              <div className="space-y-4">
-                                <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500">
-                                  <span className="pill-tag">{kindMap[item.kind]}</span>
-                                  {item.meta ? <span>{item.meta}</span> : null}
-                                </div>
-                                <div className="space-y-2">
-                                  <h3 className="font-cjk text-[1.08rem] font-medium text-stone-100 md:text-[1.14rem]">{item.title}</h3>
-                                  <p className="text-sm leading-8 text-stone-400">{item.summary}</p>
-                                </div>
-                              </div>
-                              <p className="text-sm text-stone-500">继续查看 →</p>
-                            </div>
-                          </Link>
-                        </InteractiveSurface>
-                      </div>
-                    ))}
+            {lanes.map((lane) => (
+              <div key={lane.id} className="grid grid-cols-[220px_repeat(7,minmax(0,1fr))] gap-3">
+                <InteractiveSurface className="surface-card block rounded-[24px] p-4">
+                  <div className="relative space-y-2">
+                    <p className="font-cjk text-[1.02rem] font-medium text-stone-100">{lane.label}</p>
+                    <p className="text-xs leading-6 text-stone-500">{lane.hint}</p>
                   </div>
-                </div>
+                </InteractiveSurface>
+
+                {uniqueDays.map((day) => {
+                  const dayItems = lane.items.filter((item) => item.date === day);
+
+                  return (
+                    <InteractiveSurface key={`${lane.id}-${day}`} className="surface-card surface-card-hover block rounded-[24px] p-3">
+                      <div className="relative min-h-[132px] space-y-2 overflow-hidden rounded-[18px]">
+                        <div className="absolute inset-x-0 top-7 h-px bg-white/[0.05]" />
+                        <div className="absolute inset-x-0 top-[3.4rem] h-px bg-white/[0.04]" />
+                        <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/[0.035]" />
+
+                        {dayItems.length > 0 ? (
+                          dayItems.slice(0, 2).map((item, index) => (
+                            <Link
+                              key={item.id}
+                              href={item.href}
+                              className="relative block rounded-[16px] border px-3 py-3 transition hover:-translate-y-0.5"
+                              style={{
+                                borderColor: lane.glow,
+                                background: `linear-gradient(180deg, ${lane.glow}, rgba(255,255,255,0.02))`,
+                                marginTop: index === 0 ? 0 : '0.55rem',
+                                boxShadow: `inset 0 1px 0 rgba(255,255,255,0.02), 0 10px 24px rgba(0,0,0,0.12)`,
+                              }}
+                            >
+                              <div className="space-y-1.5">
+                                <div className="flex items-center gap-2 text-[11px] text-stone-500">
+                                  <span
+                                    className="inline-block h-2 w-2 rounded-full"
+                                    style={{ backgroundColor: lane.accent, boxShadow: `0 0 0 4px ${lane.glow}` }}
+                                  />
+                                  <span>{item.kind === 'log' ? '日志' : item.kind === 'note' ? '笔记' : '项目'}</span>
+                                </div>
+                                <p className="line-clamp-2 text-sm leading-6 text-stone-200">{item.title}</p>
+                              </div>
+                            </Link>
+                          ))
+                        ) : (
+                          <div className="flex min-h-[108px] items-center justify-center rounded-[16px] border border-dashed border-white/[0.05] bg-white/[0.015] text-xs text-stone-600">
+                            暂无记录
+                          </div>
+                        )}
+                      </div>
+                    </InteractiveSurface>
+                  );
+                })}
               </div>
             ))}
           </div>
