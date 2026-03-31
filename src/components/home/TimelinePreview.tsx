@@ -142,7 +142,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
   const allTopics = Array.from(new Set(daySlots.flatMap((day) => day.topicSummary))).slice(0, 5);
 
   return (
-    <section className="section-shell stagger-surface overflow-hidden">
+    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.02),rgba(255,248,240,0.008))] p-4 md:rounded-[30px] md:p-5">
       <div className="relative space-y-7">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div className="space-y-3">
@@ -163,8 +163,8 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
           </div>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[0.92fr_2.08fr]">
-          <InteractiveSurface className="surface-card rounded-[26px] p-5 md:p-6">
+        <div className="grid gap-4 xl:grid-cols-[0.84fr_2.16fr] xl:items-stretch">
+          <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6">
             <div className="relative space-y-5">
               <div className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Weekly Reading</p>
@@ -208,7 +208,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
           </InteractiveSurface>
 
           <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="min-w-[980px] rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.025),rgba(255,248,240,0.01))] p-4 md:p-5">
+            <div className="min-w-[1040px] rounded-[30px] border border-white/[0.07] bg-[linear-gradient(180deg,rgba(255,248,240,0.03),rgba(255,248,240,0.012))] p-4 shadow-[inset_0_1px_0_rgba(255,248,240,0.03)] md:p-5">
               <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-3">
                 {daySlots.map((day) => {
                   const dominantLane = day.dominantLane ? laneMeta[day.dominantLane] : null;
@@ -218,7 +218,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                       key={day.key}
                       className="surface-card surface-card-hover rounded-[24px] border-white/[0.05] p-4"
                     >
-                      <div className="relative flex h-full min-h-[360px] flex-col gap-4">
+                      <div className="relative flex h-full min-h-[388px] flex-col gap-4">
                         <div className="space-y-3 border-b border-white/[0.06] pb-3">
                           <div className="flex items-start justify-between gap-3">
                             <div>
@@ -298,7 +298,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                           })}
                         </div>
 
-                        <div className="mt-auto rounded-[18px] border border-white/[0.05] bg-black/10 p-3.5">
+                        <div className="mt-auto rounded-[18px] border border-white/[0.05] bg-black/10 p-3.5 shadow-[inset_0_1px_0_rgba(255,248,240,0.02)]">
                           <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Topic Cluster</p>
                           <div className="mt-2 flex flex-wrap gap-2">
                             {day.topicSummary.length > 0 ? (
