@@ -195,10 +195,10 @@ export default function HomePage() {
                       <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
                         最近三周，不展开，
                         <br className="hidden md:block" />
-                        只留一条横向更新带。
+                        只把更新压成一条安静的横向注记。
                       </h2>
                       <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
-                        先看时间痕迹，再决定要不要进入日志、笔记或项目细读。
+                        先看时间痕迹与节奏，再决定要不要进入日志、笔记或项目细读。
                       </p>
                     </div>
 
