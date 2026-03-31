@@ -52,7 +52,7 @@ export default function HomePage() {
   ];
 
   const timelineItems = [
-    ...logs.slice(0, 4).map((item) => ({
+    ...logs.slice(0, 5).map((item) => ({
       id: `log-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -60,8 +60,9 @@ export default function HomePage() {
       href: `/logs/${item.slug}`,
       kind: 'log' as const,
       meta: item.type,
+      tags: item.tags,
     })),
-    ...notes.slice(0, 3).map((item) => ({
+    ...notes.slice(0, 4).map((item) => ({
       id: `note-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -69,6 +70,7 @@ export default function HomePage() {
       href: `/notes/${item.slug}`,
       kind: 'note' as const,
       meta: item.category,
+      tags: item.tags,
     })),
     ...projects.slice(0, 2).map((item, index) => ({
       id: `project-${item.id}`,
@@ -78,11 +80,12 @@ export default function HomePage() {
       href: item.href || `/projects/${item.slug}`,
       kind: 'project' as const,
       meta: item.status,
+      tags: item.tags,
     })),
   ]
     .filter((item) => item.date)
     .sort((a, b) => (a.date < b.date ? 1 : -1))
-    .slice(0, 8);
+    .slice(0, 11);
 
   return (
     <>
