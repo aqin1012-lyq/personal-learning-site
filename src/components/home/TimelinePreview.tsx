@@ -151,22 +151,25 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
               最近 7 天学习轨道
             </h2>
             <p className="max-w-3xl text-sm leading-8 text-stone-400">
-              不再把最近更新排成一条普通时间轴，而是把这一周的输入、沉淀与推进压缩成一条横向分布带：看节奏、看密度，也看主题是怎样在几天之间慢慢聚起来的。
+              把首页主舞台留给最近一周：先看节奏，再看密度，最后再沿着日志、笔记和项目进入具体内容。
             </p>
           </div>
-          <Link href="/logs" className="refined-link">
-            <span>查看全部记录</span>
-            <span aria-hidden>→</span>
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="pill-tag">Input / Structure / Practice</span>
+            <Link href="/logs" className="refined-link">
+              <span>查看全部记录</span>
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1.05fr_2fr]">
+        <div className="grid gap-4 xl:grid-cols-[0.92fr_2.08fr]">
           <InteractiveSurface className="surface-card rounded-[26px] p-5 md:p-6">
             <div className="relative space-y-5">
               <div className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Weekly Reading</p>
                 <p className="max-w-md text-sm leading-8 text-stone-300">
-                  最近一周有 {activeDays} 天留下了实际学习痕迹，共 {totalEntries} 条内容进入轨道。比起精确时刻，这里更关心哪几天更热、哪些主题在反复出现、理解有没有继续往前走。
+                  最近一周有 {activeDays} 天留下了实际学习痕迹，共 {totalEntries} 条内容进入轨道。这里不强调精确时刻，而是把一周当成一张学习板：看哪几天更热，哪些主题开始反复出现。
                 </p>
               </div>
 
@@ -179,7 +182,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                 <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Peak Day</p>
                   <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{peakDay?.label ?? '--'}</p>
-                  <p className="mt-2 text-xs leading-6 text-stone-500">活动最密的一天，通常也是主题最容易交汇的时候。</p>
+                  <p className="mt-2 text-xs leading-6 text-stone-500">活动最密的一天，往往也是不同主题开始互相碰撞的时候。</p>
                 </div>
                 <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Theme Cluster</p>
