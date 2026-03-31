@@ -108,6 +108,9 @@ function getPreferredDayKey(month?: TimelineMonth) {
 
 export function TimelinePreview({ years }: { years: TimelineYear[] }) {
   const [selectedYear, setSelectedYear] = useState<string>(() => years.find((year) => year.itemCount > 0)?.key ?? years[years.length - 1]?.key ?? '');
+  const [hoveredYear, setHoveredYear] = useState<string | null>(null);
+  const [hoveredMonth, setHoveredMonth] = useState<string | null>(null);
+  const [hoveredDay, setHoveredDay] = useState<string | null>(null);
 
   const activeYear = useMemo(
     () => years.find((year) => year.key === selectedYear) ?? years[years.length - 1],
@@ -136,6 +139,9 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
   const latestYearWithContent = [...years].reverse().find((year) => year.itemCount > 0);
   const calendarCells = activeMonth ? buildCalendarCells(activeMonth) : [];
   const activeTrail = activeMonth && activeDay ? `${activeYear?.year} / ${activeMonth.shortLabel} / ${String(activeDay.day).padStart(2, '0')}日` : activeMonth ? `${activeYear?.year} / ${activeMonth.shortLabel}` : activeYear ? `${activeYear.year}` : 'Timeline';
+  const hoveredYearIndex = hoveredYear ? years.findIndex((year) => year.key === hoveredYear) : -1;
+  const selectedMonthKey = hoveredMonth ?? activeMonth?.key ?? null;
+  const selectedCalendarDayKey = hoveredDay ?? activeDay?.key ?? null;
 
   return (
     <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.01))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
@@ -171,9 +177,10 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
           <div className="relative min-w-[880px] px-2 pb-1 pt-7 md:min-w-[980px]">
             <div className="pointer-events-none absolute left-4 right-4 top-[2.15rem] h-px bg-[linear-gradient(90deg,rgba(255,255,255,0.04),rgba(136,117,216,0.2),rgba(255,255,255,0.04))]" />
             <div className="grid grid-cols-10 gap-3 md:gap-4">
-              {years.map((year) => {
+              {years.map((year, yearIndex) => {
                 const isActive = activeYear?.key === year.key;
                 const hasContent = year.itemCount > 0;
+                const proximity = hoveredYearIndex === -1 ? 0 : Math.max(0, 1 - Math.abs(yearIndex - hoveredYearIndex) / 3);
 
                 return (
                   <button
@@ -185,8 +192,14 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                       setSelectedMonth(nextMonthKey);
                       setSelectedDay(getPreferredDayKey(year.months.find((month) => month.key === nextMonthKey) ?? year.months[0]));
                     }}
+                    onMouseEnter={() => setHoveredYear(year.key)}
+                    onMouseLeave={() => setHoveredYear((current) => (current === year.key ? null : current))}
+                    style={{
+                      opacity: proximity > 0 ? 0.8 + proximity * 0.18 : 1,
+                      filter: proximity > 0 && !isActive ? `brightness(${(1 + proximity * 0.035).toFixed(3)})` : undefined,
+                    }}
                     className={cn(
-                      'group relative flex min-h-[8.4rem] flex-col items-center rounded-[24px] border px-2 pb-4 pt-1 text-center transition duration-200',
+                      'timeline-year-node group relative flex min-h-[8.4rem] flex-col items-center rounded-[24px] border px-2 pb-4 pt-1 text-center transition duration-200',
                       isActive
                         ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.08))] shadow-[0_16px_36px_rgba(0,0,0,0.16)]'
                         : 'border-transparent hover:border-white/[0.05] hover:bg-white/[0.02]',
@@ -270,6 +283,8 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                   {activeYear.months.map((month) => {
                     const isActive = activeMonth?.key === month.key;
                     const withContent = hasItems(month);
+                    const isHovered = hoveredMonth === month.key;
+                    const isRelated = selectedMonthKey === month.key;
                     return (
                       <button
                         key={month.key}
@@ -278,11 +293,16 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                           setSelectedMonth(month.key);
                           setSelectedDay(getPreferredDayKey(month));
                         }}
+                        onMouseEnter={() => setHoveredMonth(month.key)}
+                        onMouseLeave={() => setHoveredMonth((current) => (current === month.key ? null : current))}
+                        data-related={isRelated ? 'true' : undefined}
                         className={cn(
-                          'group relative flex items-start gap-3 rounded-[18px] border px-4 py-3 text-left transition',
+                          'timeline-month-node group relative flex items-start gap-3 rounded-[18px] border px-4 py-3 text-left transition',
                           isActive
                             ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.06))] shadow-[0_14px_34px_rgba(0,0,0,0.14)]'
-                            : 'border-white/[0.04] bg-white/[0.018] hover:border-white/[0.07] hover:bg-white/[0.028]',
+                            : isHovered
+                              ? 'border-white/[0.07] bg-[linear-gradient(180deg,rgba(255,255,255,0.042),rgba(136,117,216,0.04))]'
+                              : 'border-white/[0.04] bg-white/[0.018] hover:border-white/[0.07] hover:bg-white/[0.028]',
                         )}
                       >
                         <span
@@ -317,7 +337,10 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
               </div>
 
               {activeMonth ? (
-                <div className="relative space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.012))] p-4 md:p-5">
+                <div
+                  className="timeline-calendar-panel relative space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.012))] p-4 md:p-5"
+                  data-month-linked={selectedMonthKey ? 'true' : undefined}
+                >
                   <div className="pointer-events-none absolute -left-3 top-8 hidden h-px w-3 bg-[linear-gradient(90deg,rgba(157,139,242,0.7),rgba(157,139,242,0))] lg:block" />
                   <div className="pointer-events-none absolute -left-3 top-8 hidden h-10 w-px bg-[linear-gradient(180deg,rgba(157,139,242,0),rgba(157,139,242,0.65),rgba(157,139,242,0))] lg:block" />
                   <div className="flex flex-col gap-2 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
@@ -348,19 +371,28 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                       const preview = day.items[0];
                       const extraCount = day.items.length - 1;
                       const isFocused = activeDay?.key === day.key;
+                      const isHovered = hoveredDay === day.key;
+                      const isRelated = selectedCalendarDayKey === day.key;
+                      const shouldRetreat = Boolean(hoveredDay && hoveredDay !== day.key && hasContent);
 
                       return (
                         <button
                           key={day.key}
                           type="button"
                           onClick={() => setSelectedDay(day.key)}
+                          onMouseEnter={() => setHoveredDay(day.key)}
+                          onMouseLeave={() => setHoveredDay((current) => (current === day.key ? null : current))}
+                          data-related={isRelated ? 'true' : undefined}
+                          data-retreat={shouldRetreat ? 'true' : undefined}
                           className={cn(
-                            'group min-h-[7.5rem] rounded-[18px] border px-2.5 py-2.5 text-left transition sm:min-h-[8.5rem] sm:px-3 sm:py-3',
+                            'timeline-day-cell group min-h-[7.5rem] rounded-[18px] border px-2.5 py-2.5 text-left transition sm:min-h-[8.5rem] sm:px-3 sm:py-3',
                             isFocused
                               ? 'border-violet-200/34 bg-[linear-gradient(180deg,rgba(136,117,216,0.18),rgba(255,255,255,0.03))] shadow-[0_16px_34px_rgba(0,0,0,0.16),inset_0_0_0_1px_rgba(157,139,242,0.12)]'
-                              : hasContent
-                                ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] hover:border-violet-200/18 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.04))]'
-                                : 'border-white/[0.04] bg-white/[0.012] hover:border-white/[0.07] hover:bg-white/[0.025]',
+                              : isHovered && hasContent
+                                ? 'border-violet-200/22 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.07))]'
+                                : hasContent
+                                  ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] hover:border-violet-200/18 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.04))]'
+                                  : 'border-white/[0.04] bg-white/[0.012] hover:border-white/[0.07] hover:bg-white/[0.025]',
                           )}
                         >
                           <div className="flex items-start justify-between gap-2">

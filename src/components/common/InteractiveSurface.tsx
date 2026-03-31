@@ -16,10 +16,17 @@ export function InteractiveSurface({ children, className, as = 'div' }: Interact
     const y = event.clientY - rect.top;
     const px = rect.width ? x / rect.width : 0.5;
     const py = rect.height ? y / rect.height : 0.5;
+    const dx = px - 0.5;
+    const dy = py - 0.5;
+    const distance = Math.min(1, Math.sqrt(dx * dx + dy * dy) * 1.9);
+    const sweep = (dx * 0.78 - dy * 0.42 + 0.5).toFixed(4);
+
     event.currentTarget.style.setProperty('--pointer-x', `${x}px`);
     event.currentTarget.style.setProperty('--pointer-y', `${y}px`);
     event.currentTarget.style.setProperty('--pointer-px', px.toFixed(4));
     event.currentTarget.style.setProperty('--pointer-py', py.toFixed(4));
+    event.currentTarget.style.setProperty('--pointer-distance', distance.toFixed(4));
+    event.currentTarget.style.setProperty('--pointer-sweep', sweep);
   }, []);
 
   const handleLeave = useCallback((event: React.MouseEvent<HTMLElement>) => {
@@ -27,6 +34,8 @@ export function InteractiveSurface({ children, className, as = 'div' }: Interact
     event.currentTarget.style.setProperty('--pointer-y', `-999px`);
     event.currentTarget.style.setProperty('--pointer-px', `0.5`);
     event.currentTarget.style.setProperty('--pointer-py', `0.5`);
+    event.currentTarget.style.setProperty('--pointer-distance', `0`);
+    event.currentTarget.style.setProperty('--pointer-sweep', `0.5`);
   }, []);
 
   const Component = as;
