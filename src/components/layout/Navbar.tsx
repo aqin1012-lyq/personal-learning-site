@@ -47,7 +47,7 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'rounded-full border px-4 py-2 text-sm transition-all duration-300',
+                  'interactive-pill rounded-full border px-4 py-2 text-sm transition-all duration-300',
                   active
                     ? 'border-[rgba(157,139,242,0.24)] bg-[rgba(136,117,216,0.13)] text-stone-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]'
                     : 'border-transparent text-stone-400 hover:border-white/[0.06] hover:bg-white/[0.03] hover:text-stone-200',
@@ -60,7 +60,7 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
         </nav>
 
         <button
-          className="rounded-xl border border-white/10 bg-white/[0.025] px-3 py-2 text-sm text-stone-300 md:hidden"
+          className="interactive-pill rounded-xl border border-white/10 bg-white/[0.025] px-3 py-2 text-sm text-stone-300 md:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           菜单
@@ -74,7 +74,7 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-xl border border-transparent px-3 py-2 text-sm text-stone-300 hover:border-white/[0.05] hover:bg-white/[0.03] hover:text-stone-100"
+                className="interactive-pill rounded-xl border border-transparent px-3 py-2 text-sm text-stone-300 hover:border-white/[0.05] hover:bg-white/[0.03] hover:text-stone-100"
                 onClick={() => setOpen(false)}
               >
                 {item.label}

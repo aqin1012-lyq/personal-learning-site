@@ -153,7 +153,7 @@ export default function HomePage() {
 
             <div className="grid gap-5 2xl:grid-cols-[minmax(248px,15.5vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-8">
               <aside className="space-y-4 2xl:sticky 2xl:top-24">
-                <section className="section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-5 xl:py-6 2xl:space-y-4">
+                <InteractiveSurface as="section" className="section-shell interactive-section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-5 xl:py-6 2xl:space-y-4">
                   <div className="space-y-3 border-b border-white/[0.05] pb-5">
                     <p className="section-label">Study Deck</p>
                     <h2 className="font-cjk text-[1.14rem] font-medium leading-[1.6] tracking-tight text-stone-100 2xl:text-[1.18rem]">
@@ -176,7 +176,7 @@ export default function HomePage() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/12 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1] 2xl:px-3.5"
+                          className="interactive-card-link group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/12 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1] 2xl:px-3.5"
                         >
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-white/[0.05] bg-white/[0.02] text-[11px] tracking-[0.16em] text-stone-400">
                             0{index + 1}
@@ -228,11 +228,11 @@ export default function HomePage() {
                       </div>
                     </div>
                   </InteractiveSurface>
-                </section>
+                </InteractiveSurface>
               </aside>
 
               <div className="space-y-6 2xl:space-y-7">
-                <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-10">
+                <InteractiveSurface as="section" className="section-shell interactive-section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-10">
                   <div className="space-y-5 2xl:space-y-6">
                     <div className="space-y-2 border-b border-white/[0.05] pb-5 2xl:pb-6">
                       <p className="section-label">Main Board</p>
@@ -248,9 +248,9 @@ export default function HomePage() {
 
                     <TimelinePreview years={timelineYears} />
                   </div>
-                </section>
+                </InteractiveSurface>
 
-                <section className="section-shell stagger-surface rounded-[32px] 2xl:px-10 2xl:py-9">
+                <InteractiveSurface as="section" className="section-shell interactive-section-shell stagger-surface rounded-[32px] 2xl:px-10 2xl:py-9">
                   <div className="grid gap-6 xl:grid-cols-[minmax(0,1.38fr)_minmax(300px,0.8fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.52fr)_minmax(320px,0.74fr)]">
                     <div className="space-y-5">
                       <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
@@ -262,7 +262,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="grid gap-4 content-start">
-                      <section className="rounded-[24px] border border-white/[0.05] bg-white/[0.018] p-5">
+                      <section className="interactive-card-link rounded-[24px] border border-white/[0.05] bg-white/[0.018] p-5">
                         <div className="space-y-3">
                           <div className="flex items-center justify-between gap-3">
                             <p className="section-label">Focus Note</p>
@@ -276,7 +276,7 @@ export default function HomePage() {
                       </section>
 
                       {latestProject ? (
-                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(136,117,216,0.16),rgba(255,255,255,0.022))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.1]">
+                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="interactive-card-link group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(136,117,216,0.16),rgba(255,255,255,0.022))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.1]">
                           <div className="space-y-3">
                             <div className="flex items-center justify-between gap-3">
                               <p className="section-label text-stone-400">Practice Pulse</p>
@@ -289,7 +289,7 @@ export default function HomePage() {
                       ) : null}
                     </div>
                   </div>
-                </section>
+                </InteractiveSurface>
 
                 <section className="grid gap-5 xl:grid-cols-[minmax(0,1.56fr)_minmax(330px,0.84fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.7fr)_minmax(360px,0.8fr)] 2xl:gap-6">
                   <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-9">

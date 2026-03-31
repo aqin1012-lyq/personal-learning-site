@@ -10,7 +10,7 @@ export function SectionHeader({ title, description, actionLabel, actionHref }: S
         {description ? <p className="max-w-2xl text-sm leading-8 text-stone-400">{description}</p> : null}
       </div>
       {actionLabel && actionHref ? (
-        <Link href={actionHref} className="refined-link">
+        <Link href={actionHref} className="refined-link interactive-link">
           <span>{actionLabel}</span>
           <span aria-hidden>→</span>
         </Link>

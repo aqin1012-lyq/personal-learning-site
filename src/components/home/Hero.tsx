@@ -31,7 +31,10 @@ export function Hero({
   return (
     <InteractiveSurface as="section" className="hero-shell surface-card interactive-surface-strong overflow-hidden rounded-[30px] px-6 py-8 md:px-9 md:py-11 lg:px-12 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(136,117,216,0.18)] to-transparent" />
-      <div className="ambient-orb pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-violet-200/10 bg-[radial-gradient(circle,rgba(136,117,216,0.16),transparent_72%)] opacity-70 blur-2xl" />
+      <div className="hero-atmosphere hero-atmosphere-a pointer-events-none absolute -left-10 top-10 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(136,117,216,0.12),transparent_72%)] blur-3xl" />
+      <div className="hero-atmosphere hero-atmosphere-b pointer-events-none absolute right-8 top-8 h-24 w-24 rounded-full border border-violet-200/10 bg-[radial-gradient(circle,rgba(136,117,216,0.16),transparent_72%)] opacity-70 blur-2xl" />
+      <div className="hero-atmosphere hero-atmosphere-c pointer-events-none absolute bottom-6 right-[18%] h-28 w-40 rounded-full bg-[radial-gradient(circle,rgba(108,96,180,0.14),transparent_74%)] blur-[42px]" />
+      <div className="hero-grid-haze pointer-events-none absolute inset-y-[18%] right-[10%] w-[24rem] rounded-full border border-white/[0.03] bg-[linear-gradient(180deg,rgba(255,255,255,0.032),rgba(255,255,255,0.004))] opacity-50 blur-3xl" />
 
       <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:items-end lg:gap-12">
         <div className="max-w-4xl space-y-8 md:space-y-9">
@@ -79,7 +82,7 @@ export function Hero({
           </div>
         </div>
 
-        <div className="grid gap-3 self-stretch md:grid-cols-3 lg:grid-cols-1">
+        <div className="hero-stat-stack grid gap-3 self-stretch md:grid-cols-3 lg:grid-cols-1">
           {stats.map((stat) => (
             <div key={stat.label} className="hero-stat-card">
               <div className="space-y-2.5">
