@@ -21,7 +21,7 @@ export function FeaturePanel({
           <h3 className="font-cjk text-[1.2rem] font-medium leading-8 text-stone-100">{title}</h3>
           <p className="text-sm leading-8 text-stone-400">{description}</p>
         </div>
-        <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
+        <div className="flex items-center justify-between border-t border-white/[0.05] pt-4">
           <span className="text-sm text-stone-300">继续阅读</span>
           <span className="pill-tag">About</span>
         </div>

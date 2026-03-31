@@ -7,9 +7,9 @@ export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
     <InteractiveSurface className="surface-card surface-card-hover reveal-surface block h-full rounded-[24px]">
       <Link href={item.href || '/'} className="block h-full p-6 2xl:p-6">
         <div className="relative space-y-4">
-          <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] pb-4">
+          <div className="flex items-start justify-between gap-4 border-b border-white/[0.05] pb-4">
             <div className="space-y-2">
-              {item.progressText ? <p className="section-label text-violet-200/80">{item.progressText}</p> : null}
+              {item.progressText ? <p className="section-label text-violet-200/85">{item.progressText}</p> : null}
               <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">{item.title}</h3>
             </div>
             <span className="pill-tag shrink-0">{item.status}</span>

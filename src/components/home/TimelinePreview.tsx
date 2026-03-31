@@ -53,6 +53,18 @@ function getKindLabel(kind: TimelineSourceKind) {
   return '项目';
 }
 
+function getKindTone(kind: TimelineSourceKind) {
+  if (kind === 'log') return 'text-violet-200/85';
+  if (kind === 'note') return 'text-cyan-200/80';
+  return 'text-amber-200/80';
+}
+
+function getKindDot(kind: TimelineSourceKind) {
+  if (kind === 'log') return 'bg-violet-300/80';
+  if (kind === 'note') return 'bg-cyan-300/75';
+  return 'bg-amber-300/75';
+}
+
 function hasItems(month: TimelineMonth) {
   return month.itemCount > 0;
 }
@@ -106,7 +118,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
   const calendarCells = activeMonth ? buildCalendarCells(activeMonth) : [];
 
   return (
-    <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(244,239,255,0.028),rgba(244,239,255,0.008))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
+    <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.01))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
       <div className="flex flex-col gap-4 border-b border-white/[0.05] pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="text-[11px] uppercase tracking-[0.2em] text-stone-500">Nested Timeline Explorer</p>
@@ -133,7 +145,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
       <div className="pt-5">
         <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="relative min-w-[880px] px-2 pb-1 pt-7 md:min-w-[980px]">
-            <div className="pointer-events-none absolute left-4 right-4 top-[2.15rem] h-px bg-[linear-gradient(90deg,rgba(244,239,255,0.04),rgba(196,185,226,0.16),rgba(244,239,255,0.04))]" />
+            <div className="pointer-events-none absolute left-4 right-4 top-[2.15rem] h-px bg-[linear-gradient(90deg,rgba(255,255,255,0.04),rgba(136,117,216,0.2),rgba(255,255,255,0.04))]" />
             <div className="grid grid-cols-10 gap-3 md:gap-4">
               {years.map((year) => {
                 const isActive = activeYear?.key === year.key;
@@ -148,8 +160,10 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                       setSelectedMonth(year.months.find((month) => month.itemCount > 0)?.key ?? year.months[new Date().getMonth()]?.key ?? year.months[0]?.key ?? '');
                     }}
                     className={cn(
-                      'group relative flex min-h-[8rem] flex-col items-center rounded-[24px] px-2 pb-4 pt-1 text-center transition duration-200',
-                      isActive ? 'bg-white/[0.045]' : 'hover:bg-white/[0.02]',
+                      'group relative flex min-h-[8rem] flex-col items-center rounded-[24px] border px-2 pb-4 pt-1 text-center transition duration-200',
+                      isActive
+                        ? 'border-white/[0.08] bg-white/[0.04]'
+                        : 'border-transparent hover:border-white/[0.05] hover:bg-white/[0.02]',
                     )}
                   >
                     <div className="relative z-10 flex flex-col items-center gap-3">
@@ -157,13 +171,13 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                         className={cn(
                           'flex h-4 w-4 items-center justify-center rounded-full border transition',
                           isActive
-                            ? 'border-violet-100/55 bg-violet-100/80 shadow-[0_0_0_6px_rgba(196,185,226,0.05)]'
+                            ? 'border-violet-200/55 bg-violet-300/80 shadow-[0_0_0_6px_rgba(136,117,216,0.08)]'
                             : hasContent
-                              ? 'border-violet-100/25 bg-violet-100/35'
-                              : 'border-white/[0.08] bg-white/[0.08]',
+                              ? 'border-violet-200/30 bg-violet-300/35'
+                              : 'border-white/[0.08] bg-white/[0.06]',
                         )}
                       >
-                        <span className={cn('h-1.5 w-1.5 rounded-full', isActive ? 'bg-stone-950/70' : hasContent ? 'bg-violet-50/80' : 'bg-white/[0.3]')} />
+                        <span className={cn('h-1.5 w-1.5 rounded-full', isActive ? 'bg-[#13161b]' : hasContent ? 'bg-violet-50/85' : 'bg-white/[0.3]')} />
                       </span>
                       <div className="space-y-1">
                         <p className={cn('font-cjk text-[1rem] tracking-[0.03em]', isActive ? 'text-stone-100' : 'text-stone-300')}>
@@ -182,7 +196,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
         </div>
 
         {activeYear ? (
-          <div className="mt-6 rounded-[26px] border border-white/[0.05] bg-black/10 p-4 md:p-5">
+          <div className="mt-6 rounded-[26px] border border-white/[0.05] bg-black/14 p-4 md:p-5">
             <div className="flex flex-col gap-3 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
               <div className="space-y-1">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Year {activeYear.year}</p>
@@ -193,7 +207,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
 
             <div className="mt-5 grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
               <div className="relative pl-6">
-                <div className="pointer-events-none absolute bottom-3 left-[0.95rem] top-2 w-px bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.14),rgba(255,255,255,0.03))]" />
+                <div className="pointer-events-none absolute bottom-3 left-[0.95rem] top-2 w-px bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.14),rgba(255,255,255,0.02))]" />
                 <div className="grid gap-3">
                   {activeYear.months.map((month) => {
                     const isActive = activeMonth?.key === month.key;
@@ -206,18 +220,18 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                         className={cn(
                           'group relative flex items-start gap-3 rounded-[18px] border px-4 py-3 text-left transition',
                           isActive
-                            ? 'border-white/[0.1] bg-white/[0.045]'
-                            : 'border-white/[0.04] bg-white/[0.02] hover:border-white/[0.08] hover:bg-white/[0.03]',
+                            ? 'border-white/[0.08] bg-white/[0.04]'
+                            : 'border-white/[0.04] bg-white/[0.018] hover:border-white/[0.07] hover:bg-white/[0.028]',
                         )}
                       >
                         <span
                           className={cn(
                             'absolute left-[-1.03rem] top-5 h-3.5 w-3.5 rounded-full border',
                             isActive
-                              ? 'border-violet-100/45 bg-violet-100/70 shadow-[0_0_0_6px_rgba(196,185,226,0.04)]'
+                              ? 'border-violet-200/48 bg-violet-300/75 shadow-[0_0_0_6px_rgba(136,117,216,0.07)]'
                               : withContent
-                                ? 'border-violet-100/20 bg-violet-100/35'
-                                : 'border-white/[0.08] bg-[#141311]',
+                                ? 'border-violet-200/20 bg-violet-300/32'
+                                : 'border-white/[0.08] bg-[#14181d]',
                           )}
                         />
                         <div className="min-w-0 flex-1 space-y-1">
@@ -234,7 +248,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
               </div>
 
               {activeMonth ? (
-                <div className="space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] p-4 md:p-5">
+                <div className="space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.012))] p-4 md:p-5">
                   <div className="flex flex-col gap-2 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
                     <div className="space-y-1">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Month · {activeMonth.shortLabel}</p>
@@ -268,8 +282,8 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                           className={cn(
                             'group min-h-[7.5rem] rounded-[18px] border px-2.5 py-2.5 transition sm:min-h-[8.5rem] sm:px-3 sm:py-3',
                             hasContent
-                              ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.028))]'
-                              : 'border-white/[0.04] bg-white/[0.015]',
+                              ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))]'
+                              : 'border-white/[0.04] bg-white/[0.012]',
                           )}
                         >
                           <div className="flex items-start justify-between gap-2">
@@ -282,7 +296,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                             <span
                               className={cn(
                                 'mt-0.5 h-2 w-2 rounded-full',
-                                hasContent ? 'bg-violet-200/70 shadow-[0_0_0_4px_rgba(196,185,226,0.08)]' : 'bg-white/[0.08]',
+                                hasContent ? 'bg-violet-300/75 shadow-[0_0_0_4px_rgba(136,117,216,0.08)]' : 'bg-white/[0.08]',
                               )}
                             />
                           </div>
@@ -290,13 +304,13 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                           <div className="mt-4 space-y-2">
                             {hasContent ? (
                               <>
-                                <p className="text-[10px] uppercase tracking-[0.16em] text-stone-500">{getKindLabel(preview.kind)}</p>
+                                <p className={cn('text-[10px] uppercase tracking-[0.16em]', getKindTone(preview.kind))}>{getKindLabel(preview.kind)}</p>
                                 <Link href={preview.href} className="block text-[12px] leading-5 text-stone-300 transition hover:text-stone-100">
                                   <span className="line-clamp-2">{preview.title}</span>
                                 </Link>
                                 <div className="flex items-center gap-1.5 pt-1">
                                   {day.items.slice(0, 3).map((item) => (
-                                    <span key={item.id} className="h-1.5 w-1.5 rounded-full bg-violet-100/75" />
+                                    <span key={item.id} className={cn('h-1.5 w-1.5 rounded-full', getKindDot(item.kind))} />
                                   ))}
                                   {extraCount > 0 ? <span className="text-[10px] text-stone-500">+{extraCount}</span> : null}
                                 </div>
@@ -310,7 +324,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                     })}
                   </div>
 
-                  <div className="rounded-[18px] border border-dashed border-white/[0.06] bg-black/10 px-4 py-3 text-sm leading-7 text-stone-400">
+                  <div className="rounded-[18px] border border-dashed border-white/[0.06] bg-black/12 px-4 py-3 text-sm leading-7 text-stone-400">
                     {activeMonth.itemCount > 0 ? (
                       <p>第三层现在改成完整月历：所有日期都在网格里出现，有内容的日期只做轻量强调，用短标题、数量和点状标记提示密度。</p>
                     ) : (

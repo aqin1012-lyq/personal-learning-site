@@ -13,7 +13,7 @@ export function LogCard({ item }: { item: LogItem }) {
             <span>·</span>
             <span>{formatDuration(item.durationMinutes)}</span>
             <span>·</span>
-            <span className="capitalize text-violet-200/80">{item.type}</span>
+            <span className="capitalize text-violet-200/85">{item.type}</span>
           </div>
           <div className="space-y-2">
             <h3 className="font-cjk text-[1.22rem] font-medium tracking-tight text-stone-100">{item.title}</h3>

@@ -154,7 +154,7 @@ export default function HomePage() {
             <div className="grid gap-5 2xl:grid-cols-[minmax(248px,15.5vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-8">
               <aside className="space-y-4 2xl:sticky 2xl:top-24">
                 <section className="section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-5 xl:py-6 2xl:space-y-4">
-                  <div className="space-y-3 border-b border-white/[0.06] pb-5">
+                  <div className="space-y-3 border-b border-white/[0.05] pb-5">
                     <p className="section-label">Study Deck</p>
                     <h2 className="font-cjk text-[1.14rem] font-medium leading-[1.6] tracking-tight text-stone-100 2xl:text-[1.18rem]">
                       这里先给索引，
@@ -166,7 +166,7 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-white/[0.02] p-4 2xl:p-3.5">
+                  <div className="space-y-3 rounded-[24px] border border-white/[0.05] bg-white/[0.018] p-4 2xl:p-3.5">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Desk Index</p>
                       <span className="pill-tag">Stable Nav</span>
@@ -176,9 +176,9 @@ export default function HomePage() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/10 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1] 2xl:px-3.5"
+                          className="group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/12 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1] 2xl:px-3.5"
                         >
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-white/[0.05] bg-white/[0.03] text-[11px] tracking-[0.16em] text-stone-400">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-white/[0.05] bg-white/[0.02] text-[11px] tracking-[0.16em] text-stone-400">
                             0{index + 1}
                           </div>
                           <div className="min-w-0 flex-1 space-y-1.5">
@@ -194,17 +194,17 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-black/10 p-4 2xl:p-3.5">
+                  <div className="space-y-3 rounded-[24px] border border-white/[0.05] bg-black/12 p-4 2xl:p-3.5">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Reading Order</p>
                       <span className="pill-tag">Flow</span>
                     </div>
                     <div className="grid gap-2.5">
                       {deckSections.map((section, index) => (
-                        <div key={section.label} className="rounded-[18px] border border-white/[0.05] bg-white/[0.025] px-4 py-3">
+                        <div key={section.label} className="rounded-[18px] border border-white/[0.05] bg-white/[0.018] px-4 py-3">
                           <div className="flex items-center justify-between gap-3">
                             <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">0{index + 1} · {section.label}</p>
-                            <span className="h-1.5 w-1.5 rounded-full bg-violet-200/60" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-violet-300/70" />
                           </div>
                           <p className="mt-2 font-cjk text-[0.98rem] text-stone-100">{section.title}</p>
                           <p className="mt-1 text-xs leading-6 text-stone-500">{section.note}</p>
@@ -234,7 +234,7 @@ export default function HomePage() {
               <div className="space-y-6 2xl:space-y-7">
                 <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-10">
                   <div className="space-y-5 2xl:space-y-6">
-                    <div className="space-y-2 border-b border-white/[0.06] pb-5 2xl:pb-6">
+                    <div className="space-y-2 border-b border-white/[0.05] pb-5 2xl:pb-6">
                       <p className="section-label">Main Board</p>
                       <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
                         时间不只是一条线，
@@ -262,7 +262,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="grid gap-4 content-start">
-                      <section className="rounded-[24px] border border-white/[0.06] bg-white/[0.025] p-5">
+                      <section className="rounded-[24px] border border-white/[0.05] bg-white/[0.018] p-5">
                         <div className="space-y-3">
                           <div className="flex items-center justify-between gap-3">
                             <p className="section-label">Focus Note</p>
@@ -276,7 +276,7 @@ export default function HomePage() {
                       </section>
 
                       {latestProject ? (
-                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(155,145,198,0.16),rgba(244,239,255,0.028))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.12]">
+                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(136,117,216,0.16),rgba(255,255,255,0.022))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.1]">
                           <div className="space-y-3">
                             <div className="flex items-center justify-between gap-3">
                               <p className="section-label text-stone-400">Practice Pulse</p>

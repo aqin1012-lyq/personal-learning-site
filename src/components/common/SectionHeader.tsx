@@ -5,7 +5,7 @@ export function SectionHeader({ title, description, actionLabel, actionHref }: S
   return (
     <div className="reveal-surface flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="space-y-3">
-        <div className="h-px w-14 bg-gradient-to-r from-[rgba(172,158,208,0.74)] to-transparent" />
+        <div className="h-px w-14 bg-gradient-to-r from-[rgba(136,117,216,0.82)] to-transparent" />
         <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem]">{title}</h2>
         {description ? <p className="max-w-2xl text-sm leading-8 text-stone-400">{description}</p> : null}
       </div>
