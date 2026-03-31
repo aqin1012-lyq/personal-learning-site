@@ -1,28 +1,6 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_SC, Noto_Serif_SC, Source_Serif_4 } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/data/site';
-
-const notoSansSc = Noto_Sans_SC({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  weight: ['400', '500', '600'],
-  display: 'swap',
-});
-
-const sourceSerif = Source_Serif_4({
-  subsets: ['latin'],
-  variable: '--font-display-latin',
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
-
-const notoSerifSc = Noto_Serif_SC({
-  subsets: ['latin'],
-  variable: '--font-display-cjk',
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -60,7 +38,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN" className={`${notoSansSc.variable} ${sourceSerif.variable} ${notoSerifSc.variable}`}>
+    <html lang="zh-CN">
       <body>{children}</body>
     </html>
   );

@@ -110,8 +110,8 @@ export default function HomePage() {
               stats={stats}
             />
 
-            <div className="grid gap-5 xl:grid-cols-[248px_minmax(0,1fr)] xl:items-start xl:gap-6">
-              <aside className="space-y-4 xl:sticky xl:top-24">
+            <div className="grid gap-5 2xl:grid-cols-[minmax(280px,18vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-7">
+              <aside className="space-y-4 2xl:sticky 2xl:top-24">
                 <section className="section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-6 xl:py-7">
                   <div className="space-y-3 border-b border-white/[0.06] pb-5">
                     <p className="section-label">Study Deck</p>
@@ -192,7 +192,7 @@ export default function HomePage() {
 
               <div className="space-y-5">
                 <section className="section-shell stagger-surface overflow-hidden rounded-[32px]">
-                  <div className="grid gap-5 xl:grid-cols-[1.34fr_0.86fr] xl:items-stretch">
+                  <div className="grid gap-5 2xl:grid-cols-[minmax(0,1.5fr)_minmax(360px,0.9fr)] 2xl:items-stretch">
                     <div className="space-y-5">
                       <div className="flex flex-col gap-3 border-b border-white/[0.06] pb-5 md:flex-row md:items-end md:justify-between">
                         <div className="space-y-2">
@@ -270,7 +270,7 @@ export default function HomePage() {
                 </section>
 
                 <section className="section-shell stagger-surface rounded-[32px]">
-                  <div className="grid gap-5 xl:grid-cols-[1.22fr_0.78fr] xl:items-start">
+                  <div className="grid gap-5 xl:grid-cols-[minmax(0,1.32fr)_minmax(300px,0.88fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.42fr)_minmax(340px,0.82fr)]">
                     <div className="space-y-5">
                       <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
                       <div className="grid gap-4 md:grid-cols-2">
@@ -310,7 +310,7 @@ export default function HomePage() {
                   </div>
                 </section>
 
-                <section className="grid gap-5 xl:grid-cols-[1.32fr_0.92fr] xl:items-start">
+                <section className="grid gap-5 xl:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.9fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.5fr)_minmax(390px,0.86fr)]">
                   <section className="section-shell stagger-surface overflow-hidden rounded-[32px]">
                     <SectionHeader title="最近留下的内容" description="最新更新的学习日志，保留过程而不是只展示结论。" actionLabel="查看全部" actionHref="/logs" />
                     <div className="grid gap-4">

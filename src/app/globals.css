@@ -4,6 +4,9 @@
 
 :root {
   color-scheme: dark;
+  --font-sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-display-latin: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --font-display-cjk: 'Songti SC', 'STSong', 'Noto Serif CJK SC', serif;
   --bg-top: #14110f;
   --bg-bottom: #0f0d0c;
   --paper: rgba(32, 27, 24, 0.78);
