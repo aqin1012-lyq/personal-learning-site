@@ -7,18 +7,19 @@
   --font-sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
   --font-display-latin: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
   --font-display-cjk: 'Songti SC', 'STSong', 'Noto Serif CJK SC', serif;
-  --bg-top: #14110f;
-  --bg-bottom: #0f0d0c;
-  --paper: rgba(32, 27, 24, 0.78);
-  --paper-soft: rgba(42, 35, 31, 0.5);
-  --line-soft: rgba(255, 248, 240, 0.08);
-  --line-strong: rgba(255, 248, 240, 0.14);
-  --line-accent: rgba(177, 143, 104, 0.24);
-  --text-primary: rgba(242, 235, 228, 0.94);
-  --text-secondary: rgba(214, 204, 194, 0.78);
-  --text-muted: rgba(171, 157, 145, 0.76);
-  --accent-soft: rgba(191, 160, 123, 0.16);
-  --accent-warm: rgba(157, 123, 87, 0.78);
+  --bg-top: #111019;
+  --bg-bottom: #0b0b12;
+  --paper: rgba(27, 25, 38, 0.8);
+  --paper-soft: rgba(40, 36, 54, 0.54);
+  --line-soft: rgba(240, 235, 255, 0.08);
+  --line-strong: rgba(240, 235, 255, 0.14);
+  --line-accent: rgba(160, 144, 190, 0.26);
+  --text-primary: rgba(240, 236, 245, 0.95);
+  --text-secondary: rgba(207, 202, 219, 0.8);
+  --text-muted: rgba(156, 150, 174, 0.8);
+  --accent-soft: rgba(150, 138, 184, 0.16);
+  --accent-warm: rgba(132, 120, 166, 0.8);
+  --accent-bright: rgba(196, 185, 226, 0.74);
 }
 
 html {
@@ -26,11 +27,12 @@ html {
 }
 
 body {
-  @apply min-h-screen bg-[#0f0d0c] font-sans text-stone-100 antialiased;
+  @apply min-h-screen bg-[#0b0b12] font-sans text-stone-100 antialiased;
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(141, 116, 84, 0.12), transparent 30%),
-    radial-gradient(circle at 18% 16%, rgba(165, 132, 95, 0.06), transparent 18%),
-    linear-gradient(180deg, var(--bg-top) 0%, #110e0d 36%, var(--bg-bottom) 100%);
+    radial-gradient(circle at 50% 0%, rgba(126, 112, 168, 0.14), transparent 32%),
+    radial-gradient(circle at 18% 16%, rgba(150, 134, 186, 0.08), transparent 18%),
+    radial-gradient(circle at 82% 12%, rgba(103, 92, 142, 0.09), transparent 22%),
+    linear-gradient(180deg, var(--bg-top) 0%, #0f0e17 36%, var(--bg-bottom) 100%);
   letter-spacing: 0.01em;
 }
 
@@ -39,7 +41,7 @@ body::before {
   position: fixed;
   inset: 18px;
   border-radius: 28px;
-  border: 1px solid rgba(255, 248, 240, 0.05);
+  border: 1px solid rgba(240, 235, 255, 0.05);
   pointer-events: none;
 }
 
@@ -48,9 +50,9 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(rgba(255, 248, 240, 0.06) 0.55px, transparent 0.55px);
+  background-image: radial-gradient(rgba(240, 235, 255, 0.06) 0.55px, transparent 0.55px);
   background-size: 6px 6px;
-  opacity: 0.05;
+  opacity: 0.045;
 }
 
 a {
@@ -93,17 +95,17 @@ a {
 }
 
 ::selection {
-  background: rgba(162, 124, 81, 0.3);
+  background: rgba(145, 128, 190, 0.32);
   color: white;
 }
 
 @layer components {
   .surface-card {
-    @apply relative overflow-hidden rounded-[24px] border shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition duration-300;
+    @apply relative overflow-hidden rounded-[24px] border shadow-[0_18px_48px_rgba(0,0,0,0.22)] transition duration-300;
     border-color: var(--line-soft);
     background:
-      linear-gradient(180deg, rgba(255, 248, 240, 0.02), transparent 24%),
-      linear-gradient(180deg, rgba(37, 30, 27, 0.94), rgba(24, 20, 18, 0.9));
+      linear-gradient(180deg, rgba(244, 239, 255, 0.028), transparent 24%),
+      linear-gradient(180deg, rgba(31, 28, 43, 0.95), rgba(17, 16, 26, 0.92));
   }
 
   .surface-card::before {
@@ -111,8 +113,9 @@ a {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at top right, rgba(214, 186, 152, 0.08), transparent 28%),
-      linear-gradient(180deg, rgba(255, 248, 240, 0.03), transparent 34%);
+      radial-gradient(circle at top right, rgba(171, 158, 206, 0.1), transparent 30%),
+      radial-gradient(circle at left 8% bottom 14%, rgba(107, 96, 142, 0.07), transparent 24%),
+      linear-gradient(180deg, rgba(244, 239, 255, 0.03), transparent 34%);
     pointer-events: none;
   }
 
@@ -124,25 +127,25 @@ a {
 
   .interactive-surface::before {
     background:
-      radial-gradient(220px circle at var(--pointer-x) var(--pointer-y), rgba(219, 188, 146, 0.1), transparent 38%),
-      radial-gradient(circle at top right, rgba(214, 186, 152, 0.065), transparent 28%),
-      linear-gradient(180deg, rgba(255, 248, 240, 0.024), transparent 34%);
+      radial-gradient(220px circle at var(--pointer-x) var(--pointer-y), rgba(178, 165, 215, 0.11), transparent 38%),
+      radial-gradient(circle at top right, rgba(160, 147, 196, 0.075), transparent 28%),
+      linear-gradient(180deg, rgba(244, 239, 255, 0.024), transparent 34%);
     transition: background 220ms ease, opacity 260ms ease, filter 260ms ease;
-    filter: saturate(0.92);
+    filter: saturate(0.9);
   }
 
   .interactive-surface::after {
     box-shadow:
-      inset 0 1px 0 rgba(255, 248, 240, 0.025),
-      inset 0 0 0 1px rgba(97, 74, 51, 0.075),
-      inset 0 0 0 1px rgba(255, 248, 240, 0.015);
+      inset 0 1px 0 rgba(244, 239, 255, 0.03),
+      inset 0 0 0 1px rgba(93, 82, 128, 0.09),
+      inset 0 0 0 1px rgba(244, 239, 255, 0.016);
   }
 
   .interactive-surface-strong::before {
     background:
-      radial-gradient(280px circle at var(--pointer-x) var(--pointer-y), rgba(219, 188, 146, 0.125), transparent 38%),
-      radial-gradient(circle at top right, rgba(214, 186, 152, 0.082), transparent 28%),
-      linear-gradient(180deg, rgba(255, 248, 240, 0.028), transparent 34%);
+      radial-gradient(280px circle at var(--pointer-x) var(--pointer-y), rgba(183, 170, 220, 0.13), transparent 38%),
+      radial-gradient(circle at top right, rgba(173, 160, 211, 0.09), transparent 28%),
+      linear-gradient(180deg, rgba(244, 239, 255, 0.03), transparent 34%);
   }
 
   .surface-card::after {
@@ -150,20 +153,20 @@ a {
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.03), inset 0 0 0 1px rgba(97, 74, 51, 0.08);
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.034), inset 0 0 0 1px rgba(88, 77, 121, 0.1);
     pointer-events: none;
   }
 
   .surface-card-hover {
-    @apply hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(0,0,0,0.22)];
-    border-color: rgba(255, 248, 240, 0.11);
+    @apply hover:-translate-y-0.5 hover:shadow-[0_22px_52px_rgba(0,0,0,0.24)];
+    border-color: rgba(240, 235, 255, 0.11);
   }
 
   .surface-card-hover:hover::before {
     background:
-      radial-gradient(240px circle at var(--pointer-x) var(--pointer-y), rgba(226, 196, 154, 0.125), transparent 40%),
-      radial-gradient(circle at top right, rgba(214, 186, 152, 0.095), transparent 30%),
-      linear-gradient(180deg, rgba(255, 248, 240, 0.032), transparent 38%);
+      radial-gradient(240px circle at var(--pointer-x) var(--pointer-y), rgba(192, 180, 227, 0.13), transparent 40%),
+      radial-gradient(circle at top right, rgba(176, 162, 214, 0.1), transparent 30%),
+      linear-gradient(180deg, rgba(244, 239, 255, 0.034), transparent 38%);
   }
 
   .surface-card-hover:hover {
@@ -172,9 +175,9 @@ a {
 
   .section-shell {
     @apply relative space-y-7 rounded-[28px] border p-7 md:p-9;
-    border-color: rgba(255, 248, 240, 0.06);
-    background: linear-gradient(180deg, rgba(27, 23, 20, 0.88), rgba(20, 17, 15, 0.82));
-    box-shadow: 0 16px 56px rgba(0, 0, 0, 0.12);
+    border-color: rgba(240, 235, 255, 0.06);
+    background: linear-gradient(180deg, rgba(25, 22, 36, 0.9), rgba(17, 16, 26, 0.84));
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16);
   }
 
   .section-shell::before {
@@ -183,8 +186,8 @@ a {
     inset: 0;
     border-radius: inherit;
     background:
-      linear-gradient(180deg, rgba(255, 248, 240, 0.015), transparent 30%),
-      radial-gradient(circle at top right, rgba(165, 132, 95, 0.06), transparent 26%);
+      linear-gradient(180deg, rgba(244, 239, 255, 0.016), transparent 30%),
+      radial-gradient(circle at top right, rgba(143, 129, 183, 0.07), transparent 28%);
     pointer-events: none;
   }
 
@@ -195,26 +198,26 @@ a {
     right: 28px;
     top: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(214, 186, 152, 0.22), transparent);
+    background: linear-gradient(90deg, transparent, rgba(182, 170, 218, 0.24), transparent);
     pointer-events: none;
   }
 
   .pill-tag {
     @apply rounded-full border px-3 py-1 text-[11px];
-    border-color: rgba(255, 248, 240, 0.09);
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.045), rgba(255, 248, 240, 0.025));
+    border-color: rgba(240, 235, 255, 0.1);
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.05), rgba(244, 239, 255, 0.026));
     color: var(--text-muted);
     letter-spacing: 0.08em;
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.03);
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.03);
   }
 
   .hero-kicker {
     @apply inline-flex items-center gap-3 rounded-full border px-4 py-2 text-[11px] uppercase;
-    border-color: rgba(255, 248, 240, 0.08);
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.04), rgba(255, 248, 240, 0.025));
-    color: rgba(219, 207, 194, 0.86);
+    border-color: rgba(240, 235, 255, 0.09);
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.045), rgba(244, 239, 255, 0.026));
+    color: rgba(213, 206, 230, 0.88);
     letter-spacing: 0.22em;
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.04);
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.04);
   }
 
   .hero-title {
@@ -230,7 +233,7 @@ a {
 
   .hero-title-accent {
     @apply mt-2 block;
-    color: rgba(225, 214, 204, 0.9);
+    color: rgba(223, 216, 236, 0.92);
   }
 
   .hero-title-accent::before {
@@ -239,7 +242,7 @@ a {
     width: 3.5rem;
     height: 1px;
     margin-bottom: 0.9rem;
-    background: linear-gradient(90deg, rgba(186, 149, 110, 0.78), transparent);
+    background: linear-gradient(90deg, rgba(170, 156, 205, 0.8), transparent);
   }
 
   .hero-subtitle {
@@ -250,15 +253,15 @@ a {
 
   .hero-quote-shell {
     @apply relative max-w-3xl overflow-hidden rounded-[22px] border px-5 py-5 md:px-6 md:py-6;
-    border-color: rgba(255, 248, 240, 0.07);
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.03), rgba(255, 248, 240, 0.018));
+    border-color: rgba(240, 235, 255, 0.08);
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.034), rgba(244, 239, 255, 0.018));
   }
 
   .hero-quote-shell::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(166, 127, 80, 0.09), transparent 28%);
+    background: linear-gradient(90deg, rgba(144, 129, 186, 0.1), transparent 32%);
     pointer-events: none;
   }
 
@@ -269,18 +272,18 @@ a {
     top: 16px;
     bottom: 16px;
     width: 1px;
-    background: linear-gradient(180deg, rgba(186, 149, 110, 0.5), rgba(186, 149, 110, 0.04));
+    background: linear-gradient(180deg, rgba(170, 156, 205, 0.5), rgba(170, 156, 205, 0.05));
     pointer-events: none;
   }
 
   .hero-quote-mark {
     @apply font-display text-[2.3rem] leading-none md:text-[2.9rem];
-    color: rgba(191, 171, 147, 0.38);
+    color: rgba(190, 178, 217, 0.38);
   }
 
   .hero-quote-text {
     @apply font-display text-[1.05rem] font-medium leading-8 md:text-[1.2rem] md:leading-9;
-    color: rgba(237, 229, 221, 0.9);
+    color: rgba(236, 232, 244, 0.9);
     letter-spacing: 0.01em;
     text-wrap: pretty;
   }
@@ -299,41 +302,41 @@ a {
     display: inline-block;
     width: 1.4rem;
     height: 1px;
-    background: linear-gradient(90deg, rgba(186, 149, 110, 0.68), rgba(186, 149, 110, 0.1));
+    background: linear-gradient(90deg, rgba(168, 154, 205, 0.7), rgba(168, 154, 205, 0.12));
   }
 
   .section-label {
     @apply text-[11px] uppercase tracking-[0.24em] text-stone-500;
-    color: rgba(176, 160, 145, 0.82);
+    color: rgba(167, 159, 188, 0.84);
   }
 
   .hero-stat-card {
     @apply rounded-[20px] border p-4;
-    border-color: rgba(255, 248, 240, 0.08);
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.035), rgba(0, 0, 0, 0.08));
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.03);
+    border-color: rgba(240, 235, 255, 0.08);
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.04), rgba(0, 0, 0, 0.09));
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.03);
   }
 
   .hero-button-primary {
     @apply inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium text-stone-50 hover:-translate-y-0.5;
-    border-color: rgba(205, 179, 145, 0.22);
-    background: linear-gradient(180deg, #8f6d4c, #7f5f42);
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.12);
+    border-color: rgba(185, 173, 218, 0.24);
+    background: linear-gradient(180deg, #6d648d, #595275);
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.14);
   }
 
   .hero-button-primary:hover {
-    background: linear-gradient(180deg, #9b7754, #896548);
+    background: linear-gradient(180deg, #786e9a, #625a81);
   }
 
   .hero-button-secondary {
     @apply inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium text-stone-200 hover:-translate-y-0.5;
-    border-color: rgba(255, 248, 240, 0.1);
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.045), rgba(255, 248, 240, 0.025));
-    box-shadow: inset 0 1px 0 rgba(255, 248, 240, 0.04);
+    border-color: rgba(240, 235, 255, 0.1);
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.048), rgba(244, 239, 255, 0.026));
+    box-shadow: inset 0 1px 0 rgba(244, 239, 255, 0.04);
   }
 
   .hero-button-secondary:hover {
-    background: linear-gradient(180deg, rgba(255, 248, 240, 0.06), rgba(255, 248, 240, 0.03));
+    background: linear-gradient(180deg, rgba(244, 239, 255, 0.065), rgba(244, 239, 255, 0.03));
   }
 
   .ambient-orb {
@@ -352,7 +355,7 @@ a {
     top: 16%;
     width: 180px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(214, 186, 152, 0.22), transparent);
+    background: linear-gradient(90deg, transparent, rgba(182, 170, 218, 0.24), transparent);
     animation: shimmerSlide 7.5s ease-in-out infinite;
     pointer-events: none;
   }

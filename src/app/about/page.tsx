@@ -33,7 +33,7 @@ export default function AboutPage() {
                       <ul className="space-y-3 text-sm leading-8 text-stone-400">
                         {aboutData.focus.map((item) => (
                           <li key={item} className="flex gap-3">
-                            <span className="mt-[0.72rem] h-1.5 w-1.5 shrink-0 rounded-full bg-amber-200/70" />
+                            <span className="mt-[0.72rem] h-1.5 w-1.5 shrink-0 rounded-full bg-violet-200/70" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -48,7 +48,7 @@ export default function AboutPage() {
                       <ul className="space-y-3 text-sm leading-8 text-stone-400">
                         {aboutData.principles.map((item) => (
                           <li key={item} className="flex gap-3">
-                            <span className="mt-[0.72rem] h-1.5 w-1.5 shrink-0 rounded-full bg-amber-200/70" />
+                            <span className="mt-[0.72rem] h-1.5 w-1.5 shrink-0 rounded-full bg-violet-200/70" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -81,7 +81,7 @@ export default function AboutPage() {
                     '把重复出现的理解沉淀成可复用结构',
                     '让内容之间能互相指向，而不是各写各的',
                   ].map((item) => (
-                    <InteractiveSurface key={item} className="rounded-[20px] border border-white/[0.08] bg-white/[0.03] px-4 py-4 text-sm leading-7 text-stone-300">
+                    <InteractiveSurface key={item} className="rounded-[20px] border border-white/[0.08] bg-[rgba(244,239,255,0.035)] px-4 py-4 text-sm leading-7 text-stone-300">
                       {item}
                     </InteractiveSurface>
                   ))}

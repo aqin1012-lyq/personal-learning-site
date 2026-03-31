@@ -3,8 +3,8 @@ import type { PageHeaderProps } from '@/types/common';
 export function PageHeader({ title, description }: PageHeaderProps) {
   return (
     <section className="section-shell overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(214,186,152,0.22)] to-transparent" />
-      <div className="pointer-events-none absolute -right-12 top-0 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(186,149,110,0.16),transparent_68%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(182,170,218,0.22)] to-transparent" />
+      <div className="pointer-events-none absolute -right-12 top-0 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(161,147,199,0.16),transparent_68%)] blur-3xl" />
 
       <div className="relative max-w-4xl space-y-5">
         <p className="section-label">Content Archive</p>

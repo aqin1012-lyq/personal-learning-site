@@ -204,7 +204,7 @@ export default function HomePage() {
                         <div key={section.label} className="rounded-[18px] border border-white/[0.05] bg-white/[0.025] px-4 py-3">
                           <div className="flex items-center justify-between gap-3">
                             <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">0{index + 1} · {section.label}</p>
-                            <span className="h-1.5 w-1.5 rounded-full bg-amber-200/55" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-violet-200/60" />
                           </div>
                           <p className="mt-2 font-cjk text-[0.98rem] text-stone-100">{section.title}</p>
                           <p className="mt-1 text-xs leading-6 text-stone-500">{section.note}</p>
@@ -276,7 +276,7 @@ export default function HomePage() {
                       </section>
 
                       {latestProject ? (
-                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(131,140,194,0.12),rgba(255,255,255,0.02))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.12]">
+                        <Link href={latestProject.href || `/projects/${latestProject.slug}`} className="group block rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(155,145,198,0.16),rgba(244,239,255,0.028))] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.12]">
                           <div className="space-y-3">
                             <div className="flex items-center justify-between gap-3">
                               <p className="section-label text-stone-400">Practice Pulse</p>

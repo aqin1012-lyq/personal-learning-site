@@ -106,7 +106,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
   const calendarCells = activeMonth ? buildCalendarCells(activeMonth) : [];
 
   return (
-    <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,248,240,0.02),rgba(255,248,240,0.005))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
+    <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(244,239,255,0.028),rgba(244,239,255,0.008))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
       <div className="flex flex-col gap-4 border-b border-white/[0.05] pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="text-[11px] uppercase tracking-[0.2em] text-stone-500">Nested Timeline Explorer</p>
@@ -133,7 +133,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
       <div className="pt-5">
         <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="relative min-w-[880px] px-2 pb-1 pt-7 md:min-w-[980px]">
-            <div className="pointer-events-none absolute left-4 right-4 top-[2.15rem] h-px bg-[linear-gradient(90deg,rgba(255,248,240,0.035),rgba(255,248,240,0.16),rgba(255,248,240,0.035))]" />
+            <div className="pointer-events-none absolute left-4 right-4 top-[2.15rem] h-px bg-[linear-gradient(90deg,rgba(244,239,255,0.04),rgba(196,185,226,0.16),rgba(244,239,255,0.04))]" />
             <div className="grid grid-cols-10 gap-3 md:gap-4">
               {years.map((year) => {
                 const isActive = activeYear?.key === year.key;
@@ -157,13 +157,13 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                         className={cn(
                           'flex h-4 w-4 items-center justify-center rounded-full border transition',
                           isActive
-                            ? 'border-amber-100/55 bg-amber-50/80 shadow-[0_0_0_6px_rgba(255,248,220,0.04)]'
+                            ? 'border-violet-100/55 bg-violet-100/80 shadow-[0_0_0_6px_rgba(196,185,226,0.05)]'
                             : hasContent
-                              ? 'border-amber-100/25 bg-amber-100/35'
+                              ? 'border-violet-100/25 bg-violet-100/35'
                               : 'border-white/[0.08] bg-white/[0.08]',
                         )}
                       >
-                        <span className={cn('h-1.5 w-1.5 rounded-full', isActive ? 'bg-stone-950/70' : hasContent ? 'bg-amber-50/80' : 'bg-white/[0.3]')} />
+                        <span className={cn('h-1.5 w-1.5 rounded-full', isActive ? 'bg-stone-950/70' : hasContent ? 'bg-violet-50/80' : 'bg-white/[0.3]')} />
                       </span>
                       <div className="space-y-1">
                         <p className={cn('font-cjk text-[1rem] tracking-[0.03em]', isActive ? 'text-stone-100' : 'text-stone-300')}>
@@ -214,9 +214,9 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                           className={cn(
                             'absolute left-[-1.03rem] top-5 h-3.5 w-3.5 rounded-full border',
                             isActive
-                              ? 'border-amber-100/45 bg-amber-50/70 shadow-[0_0_0_6px_rgba(255,248,220,0.03)]'
+                              ? 'border-violet-100/45 bg-violet-100/70 shadow-[0_0_0_6px_rgba(196,185,226,0.04)]'
                               : withContent
-                                ? 'border-amber-100/20 bg-amber-100/35'
+                                ? 'border-violet-100/20 bg-violet-100/35'
                                 : 'border-white/[0.08] bg-[#141311]',
                           )}
                         />
@@ -282,7 +282,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                             <span
                               className={cn(
                                 'mt-0.5 h-2 w-2 rounded-full',
-                                hasContent ? 'bg-amber-200/70 shadow-[0_0_0_4px_rgba(251,191,36,0.08)]' : 'bg-white/[0.08]',
+                                hasContent ? 'bg-violet-200/70 shadow-[0_0_0_4px_rgba(196,185,226,0.08)]' : 'bg-white/[0.08]',
                               )}
                             />
                           </div>
@@ -296,7 +296,7 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                                 </Link>
                                 <div className="flex items-center gap-1.5 pt-1">
                                   {day.items.slice(0, 3).map((item) => (
-                                    <span key={item.id} className="h-1.5 w-1.5 rounded-full bg-amber-100/75" />
+                                    <span key={item.id} className="h-1.5 w-1.5 rounded-full bg-violet-100/75" />
                                   ))}
                                   {extraCount > 0 ? <span className="text-[10px] text-stone-500">+{extraCount}</span> : null}
                                 </div>

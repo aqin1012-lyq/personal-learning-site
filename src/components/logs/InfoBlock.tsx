@@ -8,7 +8,7 @@ export function InfoBlock({ title, items }: { title: string; items: string[] }) 
         <ul className="space-y-3 text-[0.98rem] leading-8 text-stone-300">
           {items.map((item) => (
             <li key={item} className="flex gap-3">
-              <span className="mt-[0.78rem] h-1.5 w-1.5 shrink-0 rounded-full bg-amber-200/70" />
+              <span className="mt-[0.78rem] h-1.5 w-1.5 shrink-0 rounded-full bg-violet-200/70" />
               <span>{item}</span>
             </li>
           ))}

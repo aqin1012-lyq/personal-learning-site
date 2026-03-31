@@ -8,7 +8,7 @@ export function CategoryFilter({ categories, activeCategory, onCategoryChange }:
         className={cn(
           'rounded-full border px-3 py-1.5 text-sm transition',
           !activeCategory
-            ? 'border-[rgba(186,149,110,0.28)] bg-[rgba(186,149,110,0.18)] text-stone-100'
+            ? 'border-[rgba(168,154,205,0.3)] bg-[rgba(168,154,205,0.16)] text-stone-100'
             : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
         )}
         onClick={() => onCategoryChange?.('')}
@@ -21,7 +21,7 @@ export function CategoryFilter({ categories, activeCategory, onCategoryChange }:
           className={cn(
             'rounded-full border px-3 py-1.5 text-sm transition',
             activeCategory === category
-              ? 'border-[rgba(186,149,110,0.28)] bg-[rgba(186,149,110,0.18)] text-stone-100'
+              ? 'border-[rgba(168,154,205,0.3)] bg-[rgba(168,154,205,0.16)] text-stone-100'
               : 'border-white/[0.08] bg-white/5 text-stone-400 hover:bg-white/[0.08]'
           )}
           onClick={() => onCategoryChange?.(activeCategory === category ? '' : category)}

@@ -24,13 +24,13 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
       className={cn(
         'sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-300',
         scrolled
-          ? 'border-white/[0.08] bg-[#120f0d]/92 shadow-[0_16px_40px_rgba(0,0,0,0.22)]'
-          : 'border-white/[0.06] bg-[#120f0d]/82'
+          ? 'border-white/[0.08] bg-[#100f18]/92 shadow-[0_16px_40px_rgba(0,0,0,0.24)]'
+          : 'border-white/[0.06] bg-[#100f18]/84',
       )}
     >
       <SiteContainer className="flex h-18 items-center justify-between gap-4 py-3">
         <Link href="/" className="flex items-center gap-3 text-stone-100">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-stone-300">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-violet-100/85">
             ✦
           </span>
           <span>
@@ -49,8 +49,8 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
                 className={cn(
                   'rounded-full px-4 py-2 text-sm transition-all duration-300',
                   active
-                    ? 'border border-white/10 bg-white/[0.06] text-stone-100'
-                    : 'text-stone-400 hover:bg-white/[0.04] hover:text-stone-200'
+                    ? 'border border-white/10 bg-[rgba(196,185,226,0.08)] text-stone-100'
+                    : 'text-stone-400 hover:bg-white/[0.04] hover:text-stone-200',
                 )}
               >
                 {item.label}
@@ -68,7 +68,7 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
       </SiteContainer>
 
       {open ? (
-        <div className="border-t border-white/[0.08] bg-[#151210]/98 md:hidden">
+        <div className="border-t border-white/[0.08] bg-[#12111b]/98 md:hidden">
           <SiteContainer className="flex flex-col gap-1 py-3">
             {nav.map((item) => (
               <Link

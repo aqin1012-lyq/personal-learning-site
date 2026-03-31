@@ -15,8 +15,8 @@ export function ContentHeader({
 }) {
   return (
     <section className="section-shell overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(214,186,152,0.22)] to-transparent" />
-      <div className="pointer-events-none absolute right-8 top-6 h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(193,160,124,0.14),transparent_68%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(182,170,218,0.22)] to-transparent" />
+      <div className="pointer-events-none absolute right-8 top-6 h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(161,147,199,0.14),transparent_68%)] blur-3xl" />
 
       <div className="relative max-w-4xl space-y-6">
         <div className="flex flex-wrap items-center gap-3 text-sm text-stone-500">
