@@ -55,7 +55,7 @@ export default function HomePage() {
   ];
 
   const deckSections = [
-    { label: 'Now', title: '7-day activity rail', note: '先判断最近一周的节奏与重心' },
+    { label: 'Now', title: '3-week activity rail', note: '先判断近三周的节奏与重心' },
     { label: 'Focus', title: '当前在学', note: '看正在持续推进的主题，而不是一次性热点' },
     { label: 'Output', title: '最新内容与项目', note: '沿着日志、知识卡片、实践继续深入' },
   ];
@@ -121,7 +121,7 @@ export default function HomePage() {
                       再把主舞台留给最近的学习现场。
                     </h2>
                     <p className="text-[13px] leading-7 text-stone-400 2xl:text-sm">
-                      左列像目录、路标和阅读说明；右侧才是本周轨道、当前重点与最近输出的工作台。
+                      左列像目录、路标和阅读说明；右侧才是近三周轨道、当前重点与最近输出的工作台。
                     </p>
                   </div>
 
@@ -182,7 +182,7 @@ export default function HomePage() {
                         <span className="pill-tag">Guide</span>
                       </div>
                       <div className="space-y-3 text-sm leading-7 text-stone-400">
-                        <p>先看右侧这 7 天的轨道，判断最近的输入、沉淀与推进落在哪几天。</p>
+                        <p>先看右侧这三周的轨道，判断最近的输入、沉淀与推进落在哪些时段。</p>
                         <p>如果想快速进入，日志看过程，知识卡片看结构，项目页看理解是否真的落地。</p>
                       </div>
                     </div>
@@ -198,12 +198,12 @@ export default function HomePage() {
                         <div className="space-y-2">
                           <p className="section-label">Main Board</p>
                           <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
-                            把最近 7 天收成一条安静的轨道，
+                            把最近三周收成一条安静的轨道，
                             <br className="hidden md:block" />
                             先看更新落点，再进入细节。
                           </h2>
                           <p className="max-w-[48rem] text-sm leading-8 text-stone-400 2xl:text-[15px] 2xl:leading-8">
-                            这一段不再承担“展开全部信息”的任务，只用更轻的方式给出最近一周的时间分布和更新信号，让首页呼吸感更强。
+                            这一段不再承担“展开全部信息”的任务，只用更轻的方式给出近三周的时间分布和更新信号，让首页呼吸感更强。
                           </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2.5">
@@ -220,7 +220,7 @@ export default function HomePage() {
                       <FeaturePanel
                         eyebrow="Workbench Note"
                         title="主工作台负责呈现最近节奏，右侧只补充判断框架"
-                        description="轨道现在只做一件事：把最近一周的更新落点标出来。旁边的说明模块只负责补足阅读方式，不再和主区域争夺信息密度。"
+                        description="轨道现在只做一件事：把近三周的更新落点标出来。旁边的说明模块只负责补足阅读方式，不再和主区域争夺信息密度。"
                         href="/about"
                       />
 
@@ -289,7 +289,7 @@ export default function HomePage() {
                           </div>
                           <h3 className="font-cjk text-[1.08rem] font-medium text-stone-100">让“在学什么”成为主舞台周边的次级模块</h3>
                           <p className="text-sm leading-8 text-stone-400">
-                            这里不和 7-day rail 抢中心，而是作为右侧主板下方的延伸：说明近期正在持续投入哪些方向，以及它们和日志、笔记、项目怎样互相支撑。
+                            这里不和 3-week rail 抢中心，而是作为右侧主板下方的延伸：说明近期正在持续投入哪些方向，以及它们和日志、笔记、项目怎样互相支撑。
                           </p>
                         </div>
                       </section>
