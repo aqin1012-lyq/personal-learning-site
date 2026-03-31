@@ -198,12 +198,12 @@ export default function HomePage() {
                         <div className="space-y-2">
                           <p className="section-label">Main Board</p>
                           <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
-                            把最近 7 天放到首页正中央，
+                            把最近 7 天收成一条安静的轨道，
                             <br className="hidden md:block" />
-                            让节奏与重心先被看见。
+                            先看更新落点，再进入细节。
                           </h2>
                           <p className="max-w-[48rem] text-sm leading-8 text-stone-400 2xl:text-[15px] 2xl:leading-8">
-                            先读 top band，再进入 centerpiece。这样首页更像一张被持续使用的桌面：右侧是一块完整工作板，rail 成为视觉核心，周边模块只做支撑与补充。
+                            这一段不再承担“展开全部信息”的任务，只用更轻的方式给出最近一周的时间分布和更新信号，让首页呼吸感更强。
                           </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2.5">
@@ -220,7 +220,7 @@ export default function HomePage() {
                       <FeaturePanel
                         eyebrow="Workbench Note"
                         title="主工作台负责呈现最近节奏，右侧只补充判断框架"
-                        description="当前更在意结构之间怎么互相支撑：rail 先显示一周的密度与重心，旁边的说明模块只负责补足阅读方式与近期判断。"
+                        description="轨道现在只做一件事：把最近一周的更新落点标出来。旁边的说明模块只负责补足阅读方式，不再和主区域争夺信息密度。"
                         href="/about"
                       />
 

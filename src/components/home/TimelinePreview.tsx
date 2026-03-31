@@ -12,49 +12,14 @@ type TimelineEntry = {
   tags?: string[];
 };
 
-type LaneId = 'input' | 'structure' | 'practice';
-
-type RailLane = {
-  id: LaneId;
-  label: string;
-  hint: string;
-  accent: string;
-  glow: string;
-};
-
 type DaySlot = {
   key: string;
   date: Date;
   label: string;
   weekLabel: string;
+  shortLabel: string;
   items: TimelineEntry[];
-  topicSummary: string[];
-  dominantLane: LaneId | null;
-  intensity: number;
-};
-
-const laneMeta: Record<LaneId, RailLane> = {
-  input: {
-    id: 'input',
-    label: '输入',
-    hint: '阅读、精读、吸收',
-    accent: 'rgba(178, 150, 112, 0.96)',
-    glow: 'rgba(178, 150, 112, 0.2)',
-  },
-  structure: {
-    id: 'structure',
-    label: '沉淀',
-    hint: '知识卡片、结构整理',
-    accent: 'rgba(145, 144, 199, 0.96)',
-    glow: 'rgba(145, 144, 199, 0.18)',
-  },
-  practice: {
-    id: 'practice',
-    label: '推进',
-    hint: '项目、练习、复盘',
-    accent: 'rgba(99, 154, 169, 0.96)',
-    glow: 'rgba(99, 154, 169, 0.18)',
-  },
+  leadItem: TimelineEntry | null;
 };
 
 function normalizeDateKey(date: string) {
@@ -67,16 +32,12 @@ function formatDayLabel(date: Date) {
   return new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit' }).format(date);
 }
 
-function formatWeekLabel(date: Date) {
-  return new Intl.DateTimeFormat('zh-CN', { weekday: 'short' }).format(date);
+function formatShortLabel(date: Date) {
+  return new Intl.DateTimeFormat('zh-CN', { day: '2-digit' }).format(date);
 }
 
-function getLaneId(item: TimelineEntry): LaneId {
-  if (item.kind === 'note') return 'structure';
-  if (item.kind === 'project') return 'practice';
-  if (item.meta === 'review' || item.meta === 'practice' || item.meta === 'project') return 'practice';
-  if (item.meta === 'writing') return 'structure';
-  return 'input';
+function formatWeekLabel(date: Date) {
+  return new Intl.DateTimeFormat('zh-CN', { weekday: 'short' }).format(date);
 }
 
 function buildDaySlots(items: TimelineEntry[]) {
@@ -85,46 +46,22 @@ function buildDaySlots(items: TimelineEntry[]) {
   const end = Number.isNaN(latestDate.getTime()) ? new Date() : latestDate;
   end.setHours(0, 0, 0, 0);
 
-  const days: DaySlot[] = Array.from({ length: 7 }, (_, index) => {
+  return Array.from({ length: 7 }, (_, index) => {
     const date = new Date(end);
     date.setDate(end.getDate() - (6 - index));
     const key = date.toISOString().slice(0, 10);
     const dayItems = sorted.filter((item) => normalizeDateKey(item.date) === key);
-
-    const laneCounts = dayItems.reduce<Record<LaneId, number>>(
-      (acc, item) => {
-        const laneId = getLaneId(item);
-        acc[laneId] += 1;
-        return acc;
-      },
-      { input: 0, structure: 0, practice: 0 }
-    );
-
-    const dominantLane = (Object.entries(laneCounts).sort((a, b) => b[1] - a[1])[0]?.[1] ?? 0) > 0
-      ? (Object.entries(laneCounts).sort((a, b) => b[1] - a[1])[0][0] as LaneId)
-      : null;
-
-    const topicSummary = Array.from(
-      new Set(
-        dayItems
-          .flatMap((item) => item.tags ?? [])
-          .filter(Boolean)
-      )
-    ).slice(0, 3);
 
     return {
       key,
       date,
       label: formatDayLabel(date),
       weekLabel: formatWeekLabel(date),
+      shortLabel: formatShortLabel(date),
       items: dayItems,
-      topicSummary,
-      dominantLane,
-      intensity: Math.min(dayItems.length, 4),
-    };
+      leadItem: dayItems[0] ?? null,
+    } satisfies DaySlot;
   });
-
-  return days;
 }
 
 function getKindLabel(kind: TimelineEntry['kind']) {
@@ -134,29 +71,27 @@ function getKindLabel(kind: TimelineEntry['kind']) {
 }
 
 export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
-  const lanes = Object.values(laneMeta);
   const daySlots = buildDaySlots(items);
-  const totalEntries = daySlots.reduce((sum, day) => sum + day.items.length, 0);
   const activeDays = daySlots.filter((day) => day.items.length > 0).length;
-  const peakDay = [...daySlots].sort((a, b) => b.items.length - a.items.length)[0];
-  const allTopics = Array.from(new Set(daySlots.flatMap((day) => day.topicSummary))).slice(0, 5);
-  const averageEntries = totalEntries > 0 ? (totalEntries / 7).toFixed(1) : '0.0';
+  const totalEntries = daySlots.reduce((sum, day) => sum + day.items.length, 0);
+  const latestActiveDay = [...daySlots].reverse().find((day) => day.items.length > 0);
 
   return (
-    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.028),rgba(255,248,240,0.01))] p-4 md:rounded-[30px] md:p-5 2xl:p-6">
-      <div className="relative space-y-6 2xl:space-y-7">
-        <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-5 xl:flex-row xl:items-end xl:justify-between 2xl:pb-6">
+    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.026),rgba(255,248,240,0.01))] p-4 md:rounded-[30px] md:p-5 2xl:p-6">
+      <div className="space-y-5 2xl:space-y-6">
+        <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-5 md:flex-row md:items-end md:justify-between">
           <div className="space-y-3">
             <p className="section-label">Recent 7 Days</p>
-            <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem] 2xl:text-[2rem]">
-              最近 7 天学习轨道
+            <h2 className="font-cjk text-[1.4rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.72rem] 2xl:text-[1.82rem]">
+              最近 7 天更新轨道
             </h2>
-            <p className="max-w-[52rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
-              把首页主舞台留给最近一周：先看节奏，再看密度，最后再沿着日志、笔记和项目进入具体内容。它更像一块被持续使用的学习工作板，而不是放大的时间线组件。
+            <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
+              不再把每一天展开成板块，只保留一条横向基线，让更新发生的日期被轻轻标出，再用简短标题提示最近在学什么、做什么。
             </p>
           </div>
+
           <div className="flex flex-wrap items-center gap-3">
-            <span className="pill-tag">Input / Structure / Practice</span>
+            <span className="pill-tag">{activeDays}/7 active days</span>
             <Link href="/logs" className="refined-link">
               <span>查看全部记录</span>
               <span aria-hidden>→</span>
@@ -164,188 +99,86 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
           </div>
         </div>
 
-        <div className="grid gap-4 2xl:grid-cols-[minmax(280px,0.78fr)_minmax(0,2.22fr)] 2xl:items-stretch 2xl:gap-5">
-          <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6 2xl:p-6">
-            <div className="relative space-y-5">
+        <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6 2xl:p-7">
+          <div className="relative space-y-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Weekly Reading</p>
-                <p className="max-w-md text-sm leading-8 text-stone-300">
-                  最近一周有 {activeDays} 天留下了实际学习痕迹，共 {totalEntries} 条内容进入轨道。这里不强调精确时刻，而是把一周当成一张学习板：看哪几天更热，哪些主题开始反复出现。
+                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Activity Rail</p>
+                <p className="max-w-[34rem] text-sm leading-7 text-stone-400">
+                  一周内共有 {totalEntries} 次更新，分布在 {activeDays} 天。主视觉只回答一件事：最近的学习/项目推进落在什么时候。
                 </p>
               </div>
-
-              <div className="grid gap-3 2xl:grid-cols-1">
-                <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Active Days</p>
-                  <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{String(activeDays).padStart(2, '0')}</p>
-                  <p className="mt-2 text-xs leading-6 text-stone-500">不是天天都满，但保持可见的推进。</p>
-                </div>
-                <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Peak Day</p>
-                  <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{peakDay?.label ?? '--'}</p>
-                  <p className="mt-2 text-xs leading-6 text-stone-500">活动最密的一天，往往也是不同主题开始互相碰撞的时候。</p>
-                </div>
-                <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Daily Average</p>
-                  <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{averageEntries}</p>
-                  <p className="mt-2 text-xs leading-6 text-stone-500">用平均密度判断这一周是平稳推进，还是阶段性集中发力。</p>
-                </div>
-              </div>
-
-              <div className="rounded-[22px] border border-white/[0.06] bg-black/10 p-4">
-                <div className="flex flex-wrap gap-2">
-                  {lanes.map((lane) => (
-                    <span
-                      key={lane.id}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.07] bg-white/[0.025] px-3 py-1.5 text-[11px] tracking-[0.16em] text-stone-400"
-                    >
-                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: lane.accent, boxShadow: `0 0 0 5px ${lane.glow}` }} />
-                      {lane.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[22px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.028),rgba(255,255,255,0.015))] p-4">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Theme Cluster</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {(allTopics.length > 0 ? allTopics : ['持续积累中']).map((topic) => (
-                    <span key={topic} className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-stone-300">
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              {latestActiveDay?.leadItem ? (
+                <p className="text-xs leading-6 text-stone-500">
+                  最新更新 · {latestActiveDay.label} · {latestActiveDay.leadItem.title}
+                </p>
+              ) : null}
             </div>
-          </InteractiveSurface>
 
-          <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="min-w-[1120px] rounded-[30px] border border-white/[0.07] bg-[linear-gradient(180deg,rgba(255,248,240,0.04),rgba(255,248,240,0.012))] p-4 shadow-[inset_0_1px_0_rgba(255,248,240,0.03)] md:p-5 2xl:p-6">
-              <div className="mb-4 flex items-center justify-between gap-4 border-b border-white/[0.05] pb-4">
-                <div>
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">7-Day Board</p>
-                  <p className="mt-1 text-sm leading-7 text-stone-400">按天看最近一周的输入、沉淀与推进，让主舞台先给出整体判断。</p>
-                </div>
-                <span className="pill-tag">7 columns · 3 lanes</span>
-              </div>
+            <div className="overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="min-w-[760px] px-2 py-10 md:px-4">
+                <div className="relative grid grid-cols-7 gap-3 md:gap-4">
+                  <div className="pointer-events-none absolute left-[calc(100%/14)] right-[calc(100%/14)] top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,rgba(255,248,240,0.08),rgba(255,248,240,0.26),rgba(255,248,240,0.08))]" />
 
-              <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-3.5 2xl:gap-4">
-                {daySlots.map((day) => {
-                  const dominantLane = day.dominantLane ? laneMeta[day.dominantLane] : null;
+                  {daySlots.map((day, index) => {
+                    const isActive = day.items.length > 0;
+                    const alignTop = index % 2 === 0;
 
-                  return (
-                    <InteractiveSurface
-                      key={day.key}
-                      className="surface-card surface-card-hover rounded-[24px] border-white/[0.05] p-4 2xl:p-[1.125rem]"
-                    >
-                      <div className="relative flex h-full min-h-[430px] flex-col gap-4 2xl:min-h-[454px]">
-                        <div className="space-y-3 border-b border-white/[0.06] pb-3.5">
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">{day.weekLabel}</p>
-                              <p className="mt-1 text-[1.02rem] text-stone-100">{day.label}</p>
-                            </div>
-                            <span className="pill-tag">{day.items.length === 0 ? 'Quiet' : `${day.items.length} 条`}</span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            {Array.from({ length: 4 }).map((_, index) => (
-                              <span
-                                key={index}
-                                className="h-1.5 flex-1 rounded-full"
-                                style={{
-                                  background:
-                                    index < day.intensity
-                                      ? dominantLane
-                                        ? `linear-gradient(90deg, ${dominantLane.accent}, rgba(255,248,240,0.72))`
-                                        : 'rgba(255,248,240,0.18)'
-                                      : 'rgba(255,248,240,0.06)',
-                                  boxShadow: index < day.intensity && dominantLane ? `0 0 14px ${dominantLane.glow}` : 'none',
-                                }}
-                              />
-                            ))}
-                          </div>
+                    return (
+                      <div key={day.key} className="relative flex min-h-[15rem] flex-col items-center justify-center text-center">
+                        <div className={`absolute ${alignTop ? 'bottom-[calc(50%+2rem)]' : 'top-[calc(50%+2rem)]'} left-1/2 flex w-[10rem] -translate-x-1/2 flex-col items-center gap-2`}>
+                          {isActive && day.leadItem ? (
+                            <Link
+                              href={day.leadItem.href}
+                              className="group inline-flex max-w-full flex-col items-center gap-1.5 rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015))] px-3 py-2.5 transition hover:-translate-y-0.5 hover:border-white/[0.12]"
+                            >
+                              <span className="text-[10px] uppercase tracking-[0.16em] text-stone-500">
+                                {getKindLabel(day.leadItem.kind)}{day.items.length > 1 ? ` · +${day.items.length - 1}` : ''}
+                              </span>
+                              <span className="line-clamp-2 text-sm leading-6 text-stone-200 group-hover:text-white">
+                                {day.leadItem.title}
+                              </span>
+                            </Link>
+                          ) : (
+                            <div className="h-[3.25rem]" aria-hidden />
+                          )}
                         </div>
 
-                        <div className="space-y-3">
-                          {lanes.map((lane) => {
-                            const laneItems = day.items.filter((item) => getLaneId(item) === lane.id);
-                            const primary = laneItems[0];
-
-                            return (
-                              <div key={`${day.key}-${lane.id}`} className="rounded-[18px] border border-white/[0.05] bg-white/[0.018] p-3.5">
-                                <div className="flex items-center justify-between gap-3">
-                                  <div className="flex items-center gap-2 text-[11px] tracking-[0.14em] text-stone-400">
-                                    <span
-                                      className="h-2.5 w-2.5 rounded-full"
-                                      style={{ backgroundColor: lane.accent, boxShadow: `0 0 0 5px ${lane.glow}` }}
-                                    />
-                                    <span>{lane.label}</span>
-                                  </div>
-                                  <span className="text-[11px] text-stone-600">{laneItems.length || '—'}</span>
-                                </div>
-
-                                <div className="mt-3 flex gap-1.5">
-                                  {Array.from({ length: 5 }).map((_, index) => (
-                                    <span
-                                      key={index}
-                                      className="h-8 flex-1 rounded-[10px]"
-                                      style={{
-                                        background:
-                                          index < Math.min(laneItems.length, 5)
-                                            ? `linear-gradient(180deg, ${lane.glow}, rgba(255,255,255,0.05))`
-                                            : 'rgba(255,255,255,0.03)',
-                                        border: `1px solid ${index < laneItems.length ? lane.glow : 'rgba(255,255,255,0.04)'}`,
-                                      }}
-                                    />
-                                  ))}
-                                </div>
-
-                                <div className="mt-3 min-h-[54px]">
-                                  {primary ? (
-                                    <Link href={primary.href} className="block rounded-[14px] border px-3 py-2.5 text-xs leading-6 text-stone-300 transition hover:-translate-y-0.5" style={{ borderColor: lane.glow, background: `linear-gradient(180deg, ${lane.glow}, rgba(255,255,255,0.02))` }}>
-                                      <span className="mr-2 text-stone-500">{getKindLabel(primary.kind)}</span>
-                                      <span className="line-clamp-2 font-medium text-stone-200">{primary.title}</span>
-                                    </Link>
-                                  ) : (
-                                    <div className="rounded-[14px] border border-dashed border-white/[0.05] px-3 py-2.5 text-xs text-stone-600">
-                                      这一段相对安静
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        <div className="mt-auto rounded-[18px] border border-white/[0.05] bg-black/10 p-3.5 shadow-[inset_0_1px_0_rgba(255,248,240,0.02)]">
-                          <div className="flex items-center justify-between gap-3">
-                            <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Topic Cluster</p>
-                            {dominantLane ? <span className="text-[11px] text-stone-500">主轴：{dominantLane.label}</span> : null}
+                        <div className="relative z-10 flex flex-col items-center gap-3">
+                          <div className="flex flex-col items-center gap-1.5 text-[11px] tracking-[0.14em] text-stone-500">
+                            <span>{day.weekLabel}</span>
+                            <span className="text-stone-600">{day.shortLabel}</span>
                           </div>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {day.topicSummary.length > 0 ? (
-                              day.topicSummary.map((topic) => (
-                                <span key={topic} className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-stone-300">
-                                  {topic}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="text-xs text-stone-600">把空白也留在轨道里，给下一次推进预留空间。</span>
-                            )}
+
+                          <div className="relative flex h-5 w-5 items-center justify-center">
+                            <span className="absolute h-2 w-px bg-white/[0.12]" />
+                            <span
+                              className={`relative rounded-full border ${
+                                isActive
+                                  ? 'h-3.5 w-3.5 border-amber-100/50 bg-amber-100/80 shadow-[0_0_0_6px_rgba(214,188,150,0.08)]'
+                                  : 'h-2.5 w-2.5 border-white/[0.08] bg-white/[0.08]'
+                              }`}
+                            />
                           </div>
-                          {day.items[0] ? (
-                            <p className="mt-3 line-clamp-3 text-xs leading-6 text-stone-500">{day.items[0].summary}</p>
-                          ) : null}
+
+                          <p className="text-[11px] tracking-[0.16em] text-stone-500">{day.label}</p>
                         </div>
                       </div>
-                    </InteractiveSurface>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
+
+            <div className="flex flex-wrap items-center gap-3 border-t border-white/[0.06] pt-4 text-xs leading-6 text-stone-500">
+              <span className="inline-flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-100/80 shadow-[0_0_0_5px_rgba(214,188,150,0.08)]" />
+                有更新的日期
+              </span>
+              <span>标题只保留代表性学习 / 项目主题；同一天多条内容以 +n 收拢。</span>
+            </div>
           </div>
-        </div>
+        </InteractiveSurface>
       </div>
     </section>
   );
