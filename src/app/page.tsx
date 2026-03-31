@@ -14,7 +14,6 @@ import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 import { LogCard } from '@/components/logs/LogCard';
 import { NoteCard } from '@/components/notes/NoteCard';
 import { ProjectCard } from '@/components/projects/ProjectCard';
-import { FeaturePanel } from '@/components/common/FeaturePanel';
 
 export default function HomePage() {
   const logs = getAllLogs();
@@ -23,8 +22,6 @@ export default function HomePage() {
   const featuredLogs = logs.slice(0, 3);
   const featuredNotes = notes.filter((item) => item.featured).slice(0, 3);
   const featuredProjects = projects.slice(0, 2);
-  const latestLog = featuredLogs[0];
-  const latestNote = featuredNotes[0];
   const latestProject = featuredProjects[0];
 
   const stats = [
@@ -192,80 +189,20 @@ export default function HomePage() {
 
               <div className="space-y-6 2xl:space-y-7">
                 <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-10">
-                  <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.72fr)_minmax(340px,0.82fr)] 2xl:items-stretch">
-                    <div className="space-y-6">
-                      <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-6 md:flex-row md:items-end md:justify-between 2xl:pb-7">
-                        <div className="space-y-2">
-                          <p className="section-label">Main Board</p>
-                          <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
-                            把最近三周收成一条安静的轨道，
-                            <br className="hidden md:block" />
-                            先看更新落点，再进入细节。
-                          </h2>
-                          <p className="max-w-[48rem] text-sm leading-8 text-stone-400 2xl:text-[15px] 2xl:leading-8">
-                            这一段不再承担“展开全部信息”的任务，只用更轻的方式给出近三周的时间分布和更新信号，让首页呼吸感更强。
-                          </p>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2.5">
-                          <span className="pill-tag">Top Band</span>
-                          <span className="pill-tag">Centerpiece</span>
-                          <span className="pill-tag">Lower Modules</span>
-                        </div>
-                      </div>
-
-                      <TimelinePreview items={timelineItems} />
+                  <div className="space-y-5 2xl:space-y-6">
+                    <div className="space-y-2 border-b border-white/[0.06] pb-5 2xl:pb-6">
+                      <p className="section-label">Main Board</p>
+                      <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
+                        最近三周，不展开，
+                        <br className="hidden md:block" />
+                        只留一条横向更新带。
+                      </h2>
+                      <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
+                        先看时间痕迹，再决定要不要进入日志、笔记或项目细读。
+                      </p>
                     </div>
 
-                    <div className="grid gap-4 content-start 2xl:grid-rows-[1.08fr_auto_1fr] 2xl:gap-5">
-                      <FeaturePanel
-                        eyebrow="Workbench Note"
-                        title="主工作台负责呈现最近节奏，右侧只补充判断框架"
-                        description="轨道现在只做一件事：把近三周的更新落点标出来。旁边的说明模块只负责补足阅读方式，不再和主区域争夺信息密度。"
-                        href="/about"
-                      />
-
-                      <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
-                        <div className="relative space-y-4">
-                          <div className="flex items-center justify-between gap-3">
-                            <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">工作台摘要</h3>
-                            <span className="pill-tag">Live</span>
-                          </div>
-                          <div className="grid gap-3">
-                            {latestLog ? (
-                              <Link href={`/logs/${latestLog.slug}`} className="rounded-[18px] border border-white/[0.06] bg-white/[0.03] px-4 py-3 transition hover:-translate-y-0.5 hover:border-white/[0.12]">
-                                <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">Latest log</p>
-                                <p className="mt-2 font-cjk text-[1rem] text-stone-100">{latestLog.title}</p>
-                                <p className="mt-1 line-clamp-2 text-xs leading-6 text-stone-500">{latestLog.summary}</p>
-                              </Link>
-                            ) : null}
-                            {latestNote ? (
-                              <Link href={`/notes/${latestNote.slug}`} className="rounded-[18px] border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition hover:-translate-y-0.5 hover:border-white/[0.12]">
-                                <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">Latest note</p>
-                                <p className="mt-2 font-cjk text-[1rem] text-stone-100">{latestNote.title}</p>
-                                <p className="mt-1 line-clamp-2 text-xs leading-6 text-stone-500">{latestNote.summary}</p>
-                              </Link>
-                            ) : null}
-                          </div>
-                        </div>
-                      </InteractiveSurface>
-
-                      <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
-                        <div className="relative space-y-4">
-                          <div className="flex items-center justify-between gap-3">
-                            <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">这个站点怎么用</h3>
-                            <span className="pill-tag">Method</span>
-                          </div>
-                          <p className="text-sm leading-8 text-stone-400">
-                            它不是把内容平铺出来给人“逛”，而是按学习流动来组织：前面记录过程，中间沉淀结构，后面用项目检验理解。
-                          </p>
-                          <div className="grid gap-2 border-t border-white/[0.06] pt-4 text-sm text-stone-500">
-                            <p>01. 最近发生了什么 → 看日志与轨道</p>
-                            <p>02. 其中哪些值得留下 → 看知识卡片</p>
-                            <p>03. 理解是否站得住 → 看项目实践</p>
-                          </div>
-                        </div>
-                      </InteractiveSurface>
-                    </div>
+                    <TimelinePreview items={timelineItems} />
                   </div>
                 </section>
 

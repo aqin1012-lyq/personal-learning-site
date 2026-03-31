@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 type TimelineEntry = {
   id: string;
@@ -77,135 +76,89 @@ function getKindLabel(kind: TimelineEntry['kind']) {
 export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
   const daySlots = buildDaySlots(items);
   const activeDays = daySlots.filter((day) => day.items.length > 0).length;
-  const totalEntries = daySlots.reduce((sum, day) => sum + day.items.length, 0);
   const latestActiveDay = [...daySlots].reverse().find((day) => day.items.length > 0);
   const weekLabels = ['三周前', '两周前', '本周'];
 
   return (
-    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.026),rgba(255,248,240,0.01))] p-4 md:rounded-[30px] md:p-5 2xl:p-6">
-      <div className="space-y-5 2xl:space-y-6">
-        <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-5 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-3">
-            <p className="section-label">Recent 3 Weeks</p>
-            <h2 className="font-cjk text-[1.4rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.72rem] 2xl:text-[1.82rem]">
-              最近三周更新轨道
-            </h2>
-            <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
-              把时间稍微拉长，但仍只保留一条横向基线：让近三周的学习与项目推进以稀疏节点出现，看见持续发生，而不是把页面重新堆满。
-            </p>
+    <section className="overflow-hidden rounded-[24px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,248,240,0.02),rgba(255,248,240,0.008))] px-3 py-5 md:px-4 md:py-6 2xl:px-5">
+      <div className="flex flex-col gap-3 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
+        <div className="space-y-1.5">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Recent 3 Weeks</p>
+          <p className="text-sm leading-7 text-stone-400">
+            {activeDays} 天有更新，只保留节点和短标题。
+          </p>
+        </div>
+        <div className="flex items-center gap-3 text-xs leading-6 text-stone-500">
+          {latestActiveDay?.leadItem ? <span>最新 · {latestActiveDay.label}</span> : null}
+          <Link href="/logs" className="refined-link">
+            <span>查看记录</span>
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto pt-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="min-w-[1080px] px-2 pb-2 pt-6 md:px-3">
+          <div className="mb-6 grid grid-cols-3 gap-3 text-[11px] uppercase tracking-[0.16em] text-stone-500">
+            {weekLabels.map((label, index) => (
+              <div key={label} className={`px-1 ${index === weekLabels.length - 1 ? 'text-stone-300' : ''}`}>
+                {label}
+              </div>
+            ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="pill-tag">{activeDays}/{RAIL_DAYS} active days</span>
-            <Link href="/logs" className="refined-link">
-              <span>查看全部记录</span>
-              <span aria-hidden>→</span>
-            </Link>
+          <div className="relative grid grid-cols-21 gap-2.5 md:gap-3">
+            <div className="pointer-events-none absolute left-[calc(100%/42)] right-[calc(100%/42)] top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,rgba(255,248,240,0.06),rgba(255,248,240,0.22),rgba(255,248,240,0.06))]" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 top-0 w-px -translate-x-1/2 bg-white/[0.04]" />
+            <div className="pointer-events-none absolute bottom-0 left-2/3 top-0 w-px -translate-x-1/2 bg-white/[0.04]" />
+
+            {daySlots.map((day, index) => {
+              const isActive = day.items.length > 0;
+              const alignTop = index % 2 === 0;
+              const showLabel = isActive || day.isWeekStart || index === daySlots.length - 1;
+
+              return (
+                <div key={day.key} className="relative flex min-h-[10.5rem] flex-col items-center justify-center text-center">
+                  <div className={`absolute ${alignTop ? 'bottom-[calc(50%+1.35rem)]' : 'top-[calc(50%+1.35rem)]'} left-1/2 flex w-[7.25rem] -translate-x-1/2 flex-col items-center gap-1.5`}>
+                    {isActive && day.leadItem ? (
+                      <Link href={day.leadItem.href} className="group inline-flex max-w-full flex-col items-center gap-1 rounded-[14px] px-2 py-1.5 transition hover:-translate-y-0.5">
+                        <span className="text-[10px] uppercase tracking-[0.16em] text-stone-500">
+                          {getKindLabel(day.leadItem.kind)}{day.items.length > 1 ? ` · +${day.items.length - 1}` : ''}
+                        </span>
+                        <span className="line-clamp-2 text-[12px] leading-5 text-stone-300 group-hover:text-stone-100">
+                          {day.leadItem.title}
+                        </span>
+                      </Link>
+                    ) : (
+                      <div className="h-8" aria-hidden />
+                    )}
+                  </div>
+
+                  <div className="relative z-10 flex flex-col items-center gap-2">
+                    <div className={`flex flex-col items-center gap-1 text-[10px] tracking-[0.14em] ${showLabel ? 'text-stone-500' : 'text-transparent'}`}>
+                      <span>{day.weekLabel}</span>
+                      <span className={showLabel ? 'text-stone-600' : ''}>{day.shortLabel}</span>
+                    </div>
+
+                    <div className="relative flex h-5 w-5 items-center justify-center">
+                      <span
+                        className={`relative rounded-full border ${
+                          isActive
+                            ? 'h-3 w-3 border-amber-100/45 bg-amber-100/75 shadow-[0_0_0_5px_rgba(214,188,150,0.08)]'
+                            : day.isWeekStart
+                              ? 'h-2.5 w-2.5 border-white/[0.1] bg-white/[0.12]'
+                              : 'h-2 w-2 border-white/[0.05] bg-white/[0.06]'
+                        }`}
+                      />
+                    </div>
+
+                    <p className={`text-[10px] tracking-[0.16em] ${showLabel ? 'text-stone-500' : 'text-transparent'}`}>{showLabel ? day.label : '00/00'}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-
-        <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6 2xl:p-7">
-          <div className="relative space-y-6">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Activity Rail</p>
-                <p className="max-w-[36rem] text-sm leading-7 text-stone-400">
-                  近三周共有 {totalEntries} 次更新，分布在 {activeDays} 天。时间拉长，但表达仍然克制：只用节点和短标题保留推进感。
-                </p>
-              </div>
-              {latestActiveDay?.leadItem ? (
-                <p className="text-xs leading-6 text-stone-500">
-                  最新更新 · {latestActiveDay.label} · {latestActiveDay.leadItem.title}
-                </p>
-              ) : null}
-            </div>
-
-            <div className="overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="min-w-[1120px] px-2 py-10 md:px-4">
-                <div className="mb-5 grid grid-cols-3 gap-3 text-[11px] uppercase tracking-[0.16em] text-stone-500">
-                  {weekLabels.map((label, index) => (
-                    <div
-                      key={label}
-                      className={`rounded-full border border-white/[0.05] px-3 py-2 ${
-                        index === weekLabels.length - 1 ? 'bg-white/[0.045] text-stone-300' : 'bg-white/[0.02]'
-                      }`}
-                    >
-                      {label}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="relative grid grid-cols-21 gap-2.5 md:gap-3">
-                  <div className="pointer-events-none absolute left-[calc(100%/42)] right-[calc(100%/42)] top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,rgba(255,248,240,0.08),rgba(255,248,240,0.26),rgba(255,248,240,0.08))]" />
-                  <div className="pointer-events-none absolute bottom-0 left-1/3 top-0 w-px -translate-x-1/2 bg-white/[0.06]" />
-                  <div className="pointer-events-none absolute bottom-0 left-2/3 top-0 w-px -translate-x-1/2 bg-white/[0.06]" />
-
-                  {daySlots.map((day, index) => {
-                    const isActive = day.items.length > 0;
-                    const alignTop = index % 2 === 0;
-                    const showLabel = isActive || day.isWeekStart || index === daySlots.length - 1;
-
-                    return (
-                      <div key={day.key} className="relative flex min-h-[14rem] flex-col items-center justify-center text-center">
-                        <div className={`absolute ${alignTop ? 'bottom-[calc(50%+1.8rem)]' : 'top-[calc(50%+1.8rem)]'} left-1/2 flex w-[8.25rem] -translate-x-1/2 flex-col items-center gap-2`}>
-                          {isActive && day.leadItem ? (
-                            <Link
-                              href={day.leadItem.href}
-                              className="group inline-flex max-w-full flex-col items-center gap-1.5 rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015))] px-2.5 py-2.5 transition hover:-translate-y-0.5 hover:border-white/[0.12]"
-                            >
-                              <span className="text-[10px] uppercase tracking-[0.16em] text-stone-500">
-                                {getKindLabel(day.leadItem.kind)}{day.items.length > 1 ? ` · +${day.items.length - 1}` : ''}
-                              </span>
-                              <span className="line-clamp-2 text-[13px] leading-5 text-stone-200 group-hover:text-white">
-                                {day.leadItem.title}
-                              </span>
-                            </Link>
-                          ) : (
-                            <div className="h-[2.5rem]" aria-hidden />
-                          )}
-                        </div>
-
-                        <div className="relative z-10 flex flex-col items-center gap-2.5">
-                          <div className={`flex flex-col items-center gap-1 text-[10px] tracking-[0.14em] ${showLabel ? 'text-stone-500' : 'text-transparent'}`}>
-                            <span>{day.weekLabel}</span>
-                            <span className={showLabel ? 'text-stone-600' : ''}>{day.shortLabel}</span>
-                          </div>
-
-                          <div className="relative flex h-5 w-5 items-center justify-center">
-                            <span className={`absolute w-px ${isActive ? 'h-3 bg-white/[0.16]' : 'h-2 bg-white/[0.1]'}`} />
-                            <span
-                              className={`relative rounded-full border ${
-                                isActive
-                                  ? 'h-3.5 w-3.5 border-amber-100/50 bg-amber-100/80 shadow-[0_0_0_6px_rgba(214,188,150,0.08)]'
-                                  : day.isWeekStart
-                                    ? 'h-2.5 w-2.5 border-white/[0.12] bg-white/[0.14]'
-                                    : 'h-2 w-2 border-white/[0.06] bg-white/[0.07]'
-                              }`}
-                            />
-                          </div>
-
-                          <p className={`text-[10px] tracking-[0.16em] ${showLabel ? 'text-stone-500' : 'text-transparent'}`}>{showLabel ? day.label : '00/00'}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 border-t border-white/[0.06] pt-4 text-xs leading-6 text-stone-500">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-100/80 shadow-[0_0_0_5px_rgba(214,188,150,0.08)]" />
-                有更新的日期
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full border border-white/[0.12] bg-white/[0.14]" />
-                周段刻度
-              </span>
-              <span>标题只保留代表性主题；日期标签只在节点与周起点出现，避免拉长后变拥挤。</span>
-            </div>
-          </div>
-        </InteractiveSurface>
       </div>
     </section>
   );
