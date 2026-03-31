@@ -53,7 +53,7 @@ export default function HomePage() {
 
   const deckSections = [
     { label: 'Now', title: '10-year timeline', note: '先在近十年里定位内容主要落在哪些年份' },
-    { label: 'Drill Down', title: '年 / 月 / 日展开', note: '从年份进入月份，再从月份进入具体日期' },
+    { label: 'Drill Down', title: '年 / 月 / 月历展开', note: '从年份进入月份，再用整张月历查看该月分布' },
     { label: 'Output', title: '最新内容与项目', note: '沿着日志、知识卡片、实践继续深入' },
   ];
 
@@ -107,18 +107,22 @@ export default function HomePage() {
         .filter((item) => item.date.startsWith(`${year}-${String(month).padStart(2, '0')}`))
         .sort((a, b) => (a.date < b.date ? 1 : -1));
 
+      const firstWeekday = (new Date(year, monthIndex, 1).getDay() + 6) % 7;
+
       return {
         key: `${year}-${String(month).padStart(2, '0')}`,
         month,
         label: new Intl.DateTimeFormat('zh-CN', { month: 'long' }).format(new Date(year, monthIndex, 1)),
         shortLabel: `${String(month).padStart(2, '0')}月`,
         itemCount: monthItems.length,
+        firstWeekday,
         days: Array.from({ length: daysInMonth }, (_, dayIndex) => {
           const day = dayIndex + 1;
           const key = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
           return {
             day,
             key,
+            weekday: (firstWeekday + dayIndex) % 7,
             items: monthItems.filter((item) => item.date === key),
           };
         }),
@@ -214,12 +218,12 @@ export default function HomePage() {
                       <div className="flex items-center justify-between gap-3">
                         <div className="space-y-2">
                           <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">How to Read</p>
-                          <h3 className="font-cjk text-[1.02rem] font-medium text-stone-100">先看年份，再沿月份与日期进入细节</h3>
+                          <h3 className="font-cjk text-[1.02rem] font-medium text-stone-100">先看年份，再沿月份进入该月的月历细节</h3>
                         </div>
                         <span className="pill-tag">Guide</span>
                       </div>
                       <div className="space-y-3 text-sm leading-7 text-stone-400">
-                        <p>先看右侧十年时间轴，判断内容主要落在哪些年份；再点进对应月份，看这个阶段究竟密不密。</p>
+                        <p>先看右侧十年时间轴，判断内容主要落在哪些年份；再点进对应月份，直接看该月月历里哪些日期真正留下了内容。</p>
                         <p>如果想快速进入，日志看过程，知识卡片看结构，项目页看理解是否真的落地。</p>
                       </div>
                     </div>
@@ -238,7 +242,7 @@ export default function HomePage() {
                         也可以是一层层被展开的学习现场。
                       </h2>
                       <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
-                        先看近十年的总览，再沿年份、月份、日期逐层进入；有内容的节点被强调，空白节点也仍然保留。
+                        先看近十年的总览，再沿年份、月份与该月月历逐层进入；有内容的节点被轻量强调，空白节点也仍然保留。
                       </p>
                     </div>
 
