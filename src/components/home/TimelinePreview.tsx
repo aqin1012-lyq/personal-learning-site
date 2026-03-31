@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 type TimelineSourceKind = 'log' | 'note' | 'project';
@@ -95,6 +95,17 @@ function buildCalendarCells(month: TimelineMonth): CalendarCell[] {
   return [...leadingEmpty, ...dayCells, ...trailingEmpty];
 }
 
+function getPreferredMonthKey(year?: TimelineYear) {
+  if (!year) return '';
+  return year.months.find((month) => month.itemCount > 0)?.key ?? year.months[new Date().getMonth()]?.key ?? year.months[0]?.key ?? '';
+}
+
+function getPreferredDayKey(month?: TimelineMonth) {
+  if (!month) return '';
+  const latestDayWithContent = [...month.days].reverse().find((day) => day.items.length > 0);
+  return latestDayWithContent?.key ?? month.days[new Date().getDate() - 1]?.key ?? month.days[0]?.key ?? '';
+}
+
 export function TimelinePreview({ years }: { years: TimelineYear[] }) {
   const [selectedYear, setSelectedYear] = useState<string>(() => years.find((year) => year.itemCount > 0)?.key ?? years[years.length - 1]?.key ?? '');
 
@@ -105,27 +116,40 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
 
   const [selectedMonth, setSelectedMonth] = useState<string>(() => {
     const year = years.find((entry) => entry.key === selectedYear) ?? years[years.length - 1];
-    return year?.months.find((month) => month.itemCount > 0)?.key ?? year?.months[new Date().getMonth()]?.key ?? year?.months[0]?.key ?? '';
+    return getPreferredMonthKey(year);
   });
 
-  const resolvedMonthKey = activeYear?.months.some((month) => month.key === selectedMonth)
-    ? selectedMonth
-    : activeYear?.months.find((month) => month.itemCount > 0)?.key ?? activeYear?.months[new Date().getMonth()]?.key ?? activeYear?.months[0]?.key ?? '';
-
+  const resolvedMonthKey = activeYear?.months.some((month) => month.key === selectedMonth) ? selectedMonth : getPreferredMonthKey(activeYear);
   const activeMonth = activeYear?.months.find((month) => month.key === resolvedMonthKey) ?? activeYear?.months[0];
+
+  const [selectedDay, setSelectedDay] = useState<string>(() => getPreferredDayKey(activeMonth));
+
+  useEffect(() => {
+    if (!activeMonth) return;
+    if (!activeMonth.days.some((day) => day.key === selectedDay)) {
+      setSelectedDay(getPreferredDayKey(activeMonth));
+    }
+  }, [activeMonth, selectedDay]);
+
+  const activeDay = activeMonth?.days.find((day) => day.key === selectedDay) ?? activeMonth?.days.find((day) => day.key === getPreferredDayKey(activeMonth)) ?? activeMonth?.days[0];
   const activeDayCount = activeMonth ? activeMonth.days.filter((day) => day.items.length > 0).length : 0;
   const latestYearWithContent = [...years].reverse().find((year) => year.itemCount > 0);
   const calendarCells = activeMonth ? buildCalendarCells(activeMonth) : [];
+  const activeTrail = activeMonth && activeDay ? `${activeYear?.year} / ${activeMonth.shortLabel} / ${String(activeDay.day).padStart(2, '0')}日` : activeMonth ? `${activeYear?.year} / ${activeMonth.shortLabel}` : activeYear ? `${activeYear.year}` : 'Timeline';
 
   return (
     <section className="overflow-hidden rounded-[28px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.01))] px-4 py-5 md:px-5 md:py-6 2xl:px-6 2xl:py-7">
       <div className="flex flex-col gap-4 border-b border-white/[0.05] pb-5 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-stone-500">Nested Timeline Explorer</p>
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-stone-500">
+            <span>Nested Timeline Explorer</span>
+            <span className="h-1 w-1 rounded-full bg-violet-300/55" />
+            <span>{activeTrail}</span>
+          </div>
           <div className="space-y-1">
             <h3 className="font-cjk text-[1.08rem] font-medium text-stone-100 md:text-[1.18rem]">先在十年里定位，再沿年份、月份，最后落到一个月的月历细部。</h3>
             <p className="max-w-[44rem] text-sm leading-7 text-stone-400">
-              上层看跨度，下层看密度。没有内容的时间节点也保留在那里，提醒这个系统仍有空白、也仍可继续生长。
+              现在会把当前浏览路径持续挂在界面里：年份是入口，月份是下钻层，月历则是当前观察面。展开不再像三个分离模块，而像同一条时间脉络被逐层打开。
             </p>
           </div>
         </div>
@@ -157,15 +181,29 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                     type="button"
                     onClick={() => {
                       setSelectedYear(year.key);
-                      setSelectedMonth(year.months.find((month) => month.itemCount > 0)?.key ?? year.months[new Date().getMonth()]?.key ?? year.months[0]?.key ?? '');
+                      const nextMonthKey = getPreferredMonthKey(year);
+                      setSelectedMonth(nextMonthKey);
+                      setSelectedDay(getPreferredDayKey(year.months.find((month) => month.key === nextMonthKey) ?? year.months[0]));
                     }}
                     className={cn(
-                      'group relative flex min-h-[8rem] flex-col items-center rounded-[24px] border px-2 pb-4 pt-1 text-center transition duration-200',
+                      'group relative flex min-h-[8.4rem] flex-col items-center rounded-[24px] border px-2 pb-4 pt-1 text-center transition duration-200',
                       isActive
-                        ? 'border-white/[0.08] bg-white/[0.04]'
+                        ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.08))] shadow-[0_16px_36px_rgba(0,0,0,0.16)]'
                         : 'border-transparent hover:border-white/[0.05] hover:bg-white/[0.02]',
                     )}
                   >
+                    <span
+                      className={cn(
+                        'pointer-events-none absolute inset-x-[32%] top-[1.1rem] h-[1px] transition',
+                        isActive ? 'bg-[linear-gradient(90deg,transparent,rgba(157,139,242,0.88),transparent)]' : 'bg-transparent',
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        'pointer-events-none absolute left-1/2 top-[calc(100%-1px)] h-6 w-px -translate-x-1/2 transition',
+                        isActive ? 'bg-[linear-gradient(180deg,rgba(157,139,242,0.55),rgba(157,139,242,0))]' : 'bg-transparent',
+                      )}
+                    />
                     <div className="relative z-10 flex flex-col items-center gap-3">
                       <span
                         className={cn(
@@ -197,17 +235,37 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
 
         {activeYear ? (
           <div className="mt-6 rounded-[26px] border border-white/[0.05] bg-black/14 p-4 md:p-5">
-            <div className="flex flex-col gap-3 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
-              <div className="space-y-1">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Year {activeYear.year}</p>
-                <h4 className="font-cjk text-[1.02rem] font-medium text-stone-100">从这一年往下看 12 个月，哪里真正留下了学习痕迹。</h4>
+            <div className="rounded-[20px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.026),rgba(255,255,255,0.012))] px-4 py-3.5 md:px-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="space-y-1.5">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Current Context</p>
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-stone-300">
+                    <span className="rounded-full border border-violet-300/24 bg-violet-300/10 px-3 py-1 text-stone-200">{activeYear.year} 年</span>
+                    <span className="text-stone-600">→</span>
+                    <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-stone-300">{activeMonth?.label ?? '未选月份'}</span>
+                    {activeDay ? (
+                      <>
+                        <span className="text-stone-600">→</span>
+                        <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-stone-400">{String(activeDay.day).padStart(2, '0')} 日</span>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+                <p className="max-w-[30rem] text-sm leading-7 text-stone-400">
+                  {activeMonth?.itemCount
+                    ? `当前正在查看 ${activeMonth.label}，这一层共有 ${activeMonth.itemCount} 条内容，分布在 ${activeDayCount} 个日期上。`
+                    : `当前停在 ${activeMonth?.label ?? '这个月份'}，月历仍完整保留，空白也被视为时间结构的一部分。`}
+                </p>
               </div>
-              <p className="text-sm leading-7 text-stone-400">{activeYear.itemCount > 0 ? `这一年共有 ${activeYear.itemCount} 条真实更新。` : '这一年暂时还是空白，但仍保留在时间线上。'}</p>
             </div>
 
-            <div className="mt-5 grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+            <div className="relative mt-5 grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start lg:gap-6">
               <div className="relative pl-6">
-                <div className="pointer-events-none absolute bottom-3 left-[0.95rem] top-2 w-px bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.14),rgba(255,255,255,0.02))]" />
+                <div className="pointer-events-none absolute bottom-3 left-[0.95rem] top-2 w-px bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(157,139,242,0.4),rgba(255,255,255,0.02))]" />
+                <div className="mb-3 rounded-[18px] border border-white/[0.05] bg-white/[0.02] px-4 py-3">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Year Stage</p>
+                  <p className="mt-1 font-cjk text-[1rem] text-stone-100">{activeYear.year} 年展开为 12 个时间切片</p>
+                </div>
                 <div className="grid gap-3">
                   {activeYear.months.map((month) => {
                     const isActive = activeMonth?.key === month.key;
@@ -216,17 +274,20 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                       <button
                         key={month.key}
                         type="button"
-                        onClick={() => setSelectedMonth(month.key)}
+                        onClick={() => {
+                          setSelectedMonth(month.key);
+                          setSelectedDay(getPreferredDayKey(month));
+                        }}
                         className={cn(
                           'group relative flex items-start gap-3 rounded-[18px] border px-4 py-3 text-left transition',
                           isActive
-                            ? 'border-white/[0.08] bg-white/[0.04]'
+                            ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.06))] shadow-[0_14px_34px_rgba(0,0,0,0.14)]'
                             : 'border-white/[0.04] bg-white/[0.018] hover:border-white/[0.07] hover:bg-white/[0.028]',
                         )}
                       >
                         <span
                           className={cn(
-                            'absolute left-[-1.03rem] top-5 h-3.5 w-3.5 rounded-full border',
+                            'absolute left-[-1.03rem] top-5 h-3.5 w-3.5 rounded-full border transition',
                             isActive
                               ? 'border-violet-200/48 bg-violet-300/75 shadow-[0_0_0_6px_rgba(136,117,216,0.07)]'
                               : withContent
@@ -234,10 +295,18 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                                 : 'border-white/[0.08] bg-[#14181d]',
                           )}
                         />
+                        <span
+                          className={cn(
+                            'pointer-events-none absolute inset-y-3 right-0 w-[2px] rounded-full transition',
+                            isActive ? 'bg-[linear-gradient(180deg,rgba(157,139,242,0),rgba(157,139,242,0.88),rgba(157,139,242,0))]' : 'bg-transparent',
+                          )}
+                        />
                         <div className="min-w-0 flex-1 space-y-1">
                           <div className="flex items-center justify-between gap-3">
                             <p className={cn('font-cjk text-[0.98rem]', isActive ? 'text-stone-100' : 'text-stone-300')}>{month.label}</p>
-                            <span className="text-[11px] uppercase tracking-[0.16em] text-stone-500">{month.itemCount || '—'}</span>
+                            <span className={cn('text-[11px] uppercase tracking-[0.16em]', isActive ? 'text-violet-200/82' : 'text-stone-500')}>
+                              {month.itemCount || '—'}
+                            </span>
                           </div>
                           <p className="text-xs leading-6 text-stone-500">{monthSummary(month)}</p>
                         </div>
@@ -248,11 +317,14 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
               </div>
 
               {activeMonth ? (
-                <div className="space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.012))] p-4 md:p-5">
+                <div className="relative space-y-4 rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.024),rgba(255,255,255,0.012))] p-4 md:p-5">
+                  <div className="pointer-events-none absolute -left-3 top-8 hidden h-px w-3 bg-[linear-gradient(90deg,rgba(157,139,242,0.7),rgba(157,139,242,0))] lg:block" />
+                  <div className="pointer-events-none absolute -left-3 top-8 hidden h-10 w-px bg-[linear-gradient(180deg,rgba(157,139,242,0),rgba(157,139,242,0.65),rgba(157,139,242,0))] lg:block" />
                   <div className="flex flex-col gap-2 border-b border-white/[0.05] pb-4 md:flex-row md:items-end md:justify-between">
-                    <div className="space-y-1">
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Month · {activeMonth.shortLabel}</p>
-                      <h5 className="font-cjk text-[1rem] font-medium text-stone-100">点开月份后，不再横向排日，而是直接看这个月的整张月历。</h5>
+                    <div className="space-y-1.5">
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Month Stage · {activeMonth.shortLabel}</p>
+                      <h5 className="font-cjk text-[1rem] font-medium text-stone-100">月份被点亮后，右侧直接接住它，展开成这一月的完整月历。</h5>
+                      <p className="text-xs leading-6 text-stone-500">{activeYear.year} 年 → {activeMonth.label} → 月历视图</p>
                     </div>
                     <p className="text-sm text-stone-400">{activeMonth.itemCount > 0 ? `${activeDayCount} 天有更新` : '这个月还没有挂任何内容'}</p>
                   </div>
@@ -275,28 +347,39 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                       const hasContent = day.items.length > 0;
                       const preview = day.items[0];
                       const extraCount = day.items.length - 1;
+                      const isFocused = activeDay?.key === day.key;
 
                       return (
-                        <div
+                        <button
                           key={day.key}
+                          type="button"
+                          onClick={() => setSelectedDay(day.key)}
                           className={cn(
-                            'group min-h-[7.5rem] rounded-[18px] border px-2.5 py-2.5 transition sm:min-h-[8.5rem] sm:px-3 sm:py-3',
-                            hasContent
-                              ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))]'
-                              : 'border-white/[0.04] bg-white/[0.012]',
+                            'group min-h-[7.5rem] rounded-[18px] border px-2.5 py-2.5 text-left transition sm:min-h-[8.5rem] sm:px-3 sm:py-3',
+                            isFocused
+                              ? 'border-violet-200/34 bg-[linear-gradient(180deg,rgba(136,117,216,0.18),rgba(255,255,255,0.03))] shadow-[0_16px_34px_rgba(0,0,0,0.16),inset_0_0_0_1px_rgba(157,139,242,0.12)]'
+                              : hasContent
+                                ? 'border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))] hover:border-violet-200/18 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(136,117,216,0.04))]'
+                                : 'border-white/[0.04] bg-white/[0.012] hover:border-white/[0.07] hover:bg-white/[0.025]',
                           )}
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div className="space-y-1">
-                              <p className={cn('text-[12px] tracking-[0.08em]', hasContent ? 'text-stone-100' : 'text-stone-500')}>
+                              <p className={cn('text-[12px] tracking-[0.08em]', isFocused ? 'text-stone-50' : hasContent ? 'text-stone-100' : 'text-stone-500')}>
                                 {String(day.day).padStart(2, '0')}
                               </p>
-                              <p className="text-[10px] uppercase tracking-[0.18em] text-stone-600">{WEEKDAY_LABELS[day.weekday]}</p>
+                              <p className={cn('text-[10px] uppercase tracking-[0.18em]', isFocused ? 'text-violet-100/75' : 'text-stone-600')}>
+                                {WEEKDAY_LABELS[day.weekday]}
+                              </p>
                             </div>
                             <span
                               className={cn(
-                                'mt-0.5 h-2 w-2 rounded-full',
-                                hasContent ? 'bg-violet-300/75 shadow-[0_0_0_4px_rgba(136,117,216,0.08)]' : 'bg-white/[0.08]',
+                                'mt-0.5 h-2.5 w-2.5 rounded-full transition',
+                                isFocused
+                                  ? 'bg-violet-200 shadow-[0_0_0_5px_rgba(136,117,216,0.12)]'
+                                  : hasContent
+                                    ? 'bg-violet-300/75 shadow-[0_0_0_4px_rgba(136,117,216,0.08)]'
+                                    : 'bg-white/[0.08]',
                               )}
                             />
                           </div>
@@ -304,10 +387,10 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                           <div className="mt-4 space-y-2">
                             {hasContent ? (
                               <>
-                                <p className={cn('text-[10px] uppercase tracking-[0.16em]', getKindTone(preview.kind))}>{getKindLabel(preview.kind)}</p>
-                                <Link href={preview.href} className="block text-[12px] leading-5 text-stone-300 transition hover:text-stone-100">
+                                <p className={cn('text-[10px] uppercase tracking-[0.16em]', isFocused ? 'text-violet-100/78' : getKindTone(preview.kind))}>{getKindLabel(preview.kind)}</p>
+                                <span className={cn('block text-[12px] leading-5 transition', isFocused ? 'text-stone-100' : 'text-stone-300 group-hover:text-stone-100')}>
                                   <span className="line-clamp-2">{preview.title}</span>
-                                </Link>
+                                </span>
                                 <div className="flex items-center gap-1.5 pt-1">
                                   {day.items.slice(0, 3).map((item) => (
                                     <span key={item.id} className={cn('h-1.5 w-1.5 rounded-full', getKindDot(item.kind))} />
@@ -316,21 +399,65 @@ export function TimelinePreview({ years }: { years: TimelineYear[] }) {
                                 </div>
                               </>
                             ) : (
-                              <div className="pt-6 text-[11px] leading-5 text-stone-600">留白</div>
+                              <div className={cn('pt-6 text-[11px] leading-5', isFocused ? 'text-stone-400' : 'text-stone-600')}>留白</div>
                             )}
                           </div>
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
 
-                  <div className="rounded-[18px] border border-dashed border-white/[0.06] bg-black/12 px-4 py-3 text-sm leading-7 text-stone-400">
-                    {activeMonth.itemCount > 0 ? (
-                      <p>第三层现在改成完整月历：所有日期都在网格里出现，有内容的日期只做轻量强调，用短标题、数量和点状标记提示密度。</p>
-                    ) : (
-                      <p>这个月目前没有对应内容，但整张月历仍完整保留，后续新增记录时可以自然挂回具体日期。</p>
-                    )}
+                  <div className="grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(220px,0.85fr)]">
+                    <div className="rounded-[18px] border border-dashed border-white/[0.06] bg-black/12 px-4 py-3 text-sm leading-7 text-stone-400">
+                      {activeDay?.items.length ? (
+                        <div className="space-y-2">
+                          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Focused Day</p>
+                          <p>
+                            当前聚焦在 <span className="text-stone-200">{String(activeDay.day).padStart(2, '0')} 日</span>，这一天挂了 {activeDay.items.length} 条内容；月历中的高亮不只表示“有内容”，也表示“你此刻正在看这里”。
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Focused Day</p>
+                          <p>当前聚焦日期是留白日。它仍保留在时间结构里，提醒这个月并不是被内容填满，而是在真实节奏里推进。</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="rounded-[18px] border border-white/[0.05] bg-white/[0.018] px-4 py-3">
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Explorer Note</p>
+                      <p className="mt-2 text-sm leading-7 text-stone-400">从年份落点、月份切片到单日聚焦，整个区域现在更像同一台时间探索器，而不是三块并列的信息卡。</p>
+                    </div>
                   </div>
+
+                  {activeDay?.items.length ? (
+                    <div className="rounded-[20px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.014))] p-4 md:p-4.5">
+                      <div className="flex flex-col gap-3 border-b border-white/[0.05] pb-3 md:flex-row md:items-end md:justify-between">
+                        <div className="space-y-1">
+                          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Day Panel · {String(activeDay.day).padStart(2, '0')} 日</p>
+                          <h6 className="font-cjk text-[0.98rem] text-stone-100">这一天是当前月历里的聚焦点。</h6>
+                        </div>
+                        <p className="text-sm text-stone-400">{activeDay.items.length} 条内容</p>
+                      </div>
+
+                      <div className="mt-3 grid gap-3">
+                        {activeDay.items.slice(0, 3).map((item) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            className="group rounded-[16px] border border-white/[0.05] bg-black/12 px-4 py-3 transition hover:border-white/[0.08] hover:bg-white/[0.028]"
+                          >
+                            <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em]">
+                              <span className={getKindTone(item.kind)}>{getKindLabel(item.kind)}</span>
+                              {item.meta ? <span className="text-stone-600">{item.meta}</span> : null}
+                            </div>
+                            <p className="mt-2 font-cjk text-[0.96rem] text-stone-100 group-hover:text-white">{item.title}</p>
+                            <p className="mt-1 text-sm leading-6 text-stone-400">{item.summary}</p>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
