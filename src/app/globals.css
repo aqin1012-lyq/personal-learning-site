@@ -131,24 +131,41 @@ a {
     --pointer-py: 0.5;
     --pointer-distance: 0;
     --pointer-sweep: 0.5;
-    --heart-lobe-offset: 18px;
-    --heart-lobe-lift: 14px;
-    --heart-tail-drop: 24px;
+    --heart-lobe-offset: 17px;
+    --heart-lobe-lift: 15px;
+    --heart-lobe-width: 146px;
+    --heart-lobe-height: 102px;
+    --heart-lobe-alpha: 0.024;
+    --heart-cleft-width: 72px;
+    --heart-cleft-height: 42px;
+    --heart-cleft-alpha: 0.014;
+    --heart-tail-drop: 28px;
+    --heart-tail-width: 176px;
+    --heart-tail-height: 144px;
+    --heart-tail-alpha: 0.05;
+    --heart-envelope-width: 296px;
+    --heart-envelope-height: 220px;
+    --heart-envelope-alpha: 0.028;
+    --heart-sheen-width: 228px;
+    --heart-sheen-height: 96px;
+    --heart-sheen-shift: 54px;
+    --heart-sheen-alpha: 0.022;
     isolation: isolate;
   }
 
   .interactive-surface::before {
     background:
-      radial-gradient(152px 108px at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, 0.026), transparent 66%),
-      radial-gradient(152px 108px at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, 0.026), transparent 66%),
-      radial-gradient(188px 142px at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(156, 138, 229, 0.054), transparent 68%),
-      linear-gradient(112deg, transparent 34%, rgba(255, 255, 255, 0.032) 47%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
-      radial-gradient(240px 108px at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * 68px)) calc(var(--pointer-y) - 6px), rgba(255, 255, 255, 0.024), transparent 72%),
-      radial-gradient(320px 240px at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, 0.03), transparent 74%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 8px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
+      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(156, 138, 229, var(--heart-tail-alpha)), transparent 66%),
+      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 72%),
+      linear-gradient(112deg, transparent 34%, rgba(255, 255, 255, 0.03) 47%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
+      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 5px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.05), transparent 24%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 34%);
-    transition: background 260ms ease, opacity 320ms ease, filter 320ms ease;
-    opacity: calc(0.68 + (var(--pointer-distance) * 0.14));
+    transition: background 280ms ease, opacity 320ms ease, filter 320ms ease;
+    opacity: calc(0.66 + (var(--pointer-distance) * 0.12));
     filter: saturate(0.74) brightness(1.015) blur(0px);
   }
 
@@ -161,14 +178,37 @@ a {
       inset calc((var(--pointer-px) - 0.5) * -28px) calc((var(--pointer-py) - 0.5) * -20px) 54px rgba(255, 255, 255, 0.018);
   }
 
+  .interactive-surface-strong {
+    --heart-lobe-offset: 21px;
+    --heart-lobe-lift: 18px;
+    --heart-lobe-width: 202px;
+    --heart-lobe-height: 126px;
+    --heart-lobe-alpha: 0.027;
+    --heart-cleft-width: 92px;
+    --heart-cleft-height: 50px;
+    --heart-cleft-alpha: 0.016;
+    --heart-tail-drop: 32px;
+    --heart-tail-width: 232px;
+    --heart-tail-height: 168px;
+    --heart-tail-alpha: 0.066;
+    --heart-envelope-width: 404px;
+    --heart-envelope-height: 286px;
+    --heart-envelope-alpha: 0.036;
+    --heart-sheen-width: 388px;
+    --heart-sheen-height: 128px;
+    --heart-sheen-shift: 74px;
+    --heart-sheen-alpha: 0.026;
+  }
+
   .interactive-surface-strong::before {
     background:
-      radial-gradient(212px 128px at calc(var(--pointer-x) - 22px) calc(var(--pointer-y) - 18px), rgba(248, 249, 255, 0.028), transparent 68%),
-      radial-gradient(212px 128px at calc(var(--pointer-x) + 22px) calc(var(--pointer-y) - 18px), rgba(248, 249, 255, 0.028), transparent 68%),
-      radial-gradient(248px 164px at var(--pointer-x) calc(var(--pointer-y) + 30px), rgba(154, 136, 228, 0.07), transparent 70%),
-      linear-gradient(108deg, transparent 32%, rgba(255, 255, 255, 0.038) 45%, rgba(255, 255, 255, 0.014) 58%, transparent 72%),
-      radial-gradient(420px 136px at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * 92px)) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, 0.028), transparent 74%),
-      radial-gradient(420px 290px at var(--pointer-x) calc(var(--pointer-y) + 16px), rgba(136, 117, 216, 0.038), transparent 75%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(248, 249, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(248, 249, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 10px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
+      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(154, 136, 228, var(--heart-tail-alpha)), transparent 67%),
+      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 14px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 74%),
+      linear-gradient(108deg, transparent 32%, rgba(255, 255, 255, 0.036) 45%, rgba(255, 255, 255, 0.014) 58%, transparent 72%),
+      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 74%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.07), transparent 25%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.024), transparent 34%);
   }
@@ -192,14 +232,37 @@ a {
       filter 240ms ease;
   }
 
+  .surface-card-hover:hover {
+    --heart-lobe-offset: 16px;
+    --heart-lobe-lift: 14px;
+    --heart-lobe-width: 132px;
+    --heart-lobe-height: 100px;
+    --heart-lobe-alpha: 0.038;
+    --heart-cleft-width: 64px;
+    --heart-cleft-height: 38px;
+    --heart-cleft-alpha: 0.017;
+    --heart-tail-drop: 24px;
+    --heart-tail-width: 164px;
+    --heart-tail-height: 132px;
+    --heart-tail-alpha: 0.068;
+    --heart-envelope-width: 252px;
+    --heart-envelope-height: 206px;
+    --heart-envelope-alpha: 0.031;
+    --heart-sheen-width: 210px;
+    --heart-sheen-height: 88px;
+    --heart-sheen-shift: 42px;
+    --heart-sheen-alpha: 0.028;
+  }
+
   .surface-card-hover:hover::before {
     background:
-      radial-gradient(136px 104px at calc(var(--pointer-x) - 18px) calc(var(--pointer-y) - 14px), rgba(188, 173, 239, 0.05), transparent 66%),
-      radial-gradient(136px 104px at calc(var(--pointer-x) + 18px) calc(var(--pointer-y) - 14px), rgba(188, 173, 239, 0.05), transparent 66%),
-      radial-gradient(172px 136px at var(--pointer-x) calc(var(--pointer-y) + 22px), rgba(136, 117, 216, 0.076), transparent 68%),
-      linear-gradient(112deg, transparent 36%, rgba(255, 255, 255, 0.038) 48%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
-      radial-gradient(224px 92px at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * 52px)) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, 0.03), transparent 72%),
-      radial-gradient(260px 212px at var(--pointer-x) calc(var(--pointer-y) + 8px), rgba(136, 117, 216, 0.03), transparent 74%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(188, 173, 239, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(188, 173, 239, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 7px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
+      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(136, 117, 216, var(--heart-tail-alpha)), transparent 66%),
+      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 9px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 73%),
+      linear-gradient(112deg, transparent 36%, rgba(255, 255, 255, 0.036) 48%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
+      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.08), transparent 28%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 38%);
   }
@@ -238,17 +301,40 @@ a {
     pointer-events: none;
   }
 
+  .interactive-section-shell {
+    --heart-lobe-offset: 20px;
+    --heart-lobe-lift: 17px;
+    --heart-lobe-width: 156px;
+    --heart-lobe-height: 112px;
+    --heart-lobe-alpha: 0.02;
+    --heart-cleft-width: 78px;
+    --heart-cleft-height: 44px;
+    --heart-cleft-alpha: 0.012;
+    --heart-tail-drop: 30px;
+    --heart-tail-width: 228px;
+    --heart-tail-height: 160px;
+    --heart-tail-alpha: 0.044;
+    --heart-envelope-width: 346px;
+    --heart-envelope-height: 268px;
+    --heart-envelope-alpha: 0.022;
+    --heart-sheen-width: 380px;
+    --heart-sheen-height: 124px;
+    --heart-sheen-shift: 68px;
+    --heart-sheen-alpha: 0.02;
+  }
+
   .interactive-section-shell::before {
     background:
-      radial-gradient(164px 116px at calc(var(--pointer-x) - 24px) calc(var(--pointer-y) - 16px), rgba(241, 243, 255, 0.022), transparent 66%),
-      radial-gradient(164px 116px at calc(var(--pointer-x) + 24px) calc(var(--pointer-y) - 16px), rgba(241, 243, 255, 0.022), transparent 66%),
-      radial-gradient(240px 168px at var(--pointer-x) calc(var(--pointer-y) + 32px), rgba(136, 117, 216, 0.046), transparent 68%),
-      linear-gradient(110deg, transparent 34%, rgba(255, 255, 255, 0.026) 46%, rgba(255, 255, 255, 0.008) 58%, transparent 72%),
-      radial-gradient(420px 132px at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * 88px)) calc(var(--pointer-y) - 4px), rgba(255, 255, 255, 0.022), transparent 74%),
-      radial-gradient(360px 280px at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, 0.024), transparent 74%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(241, 243, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(241, 243, 255, var(--heart-lobe-alpha)), transparent 64%),
+      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 9px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
+      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(136, 117, 216, var(--heart-tail-alpha)), transparent 67%),
+      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 74%),
+      linear-gradient(110deg, transparent 34%, rgba(255, 255, 255, 0.024) 46%, rgba(255, 255, 255, 0.008) 58%, transparent 72%),
+      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 4px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 74%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.06), transparent 24%);
-    transition: background 260ms ease, opacity 280ms ease;
+    transition: background 280ms ease, opacity 280ms ease;
   }
 
   .interactive-section-shell::after {

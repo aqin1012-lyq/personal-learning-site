@@ -19,7 +19,7 @@ export function InteractiveSurface({ children, className, as = 'div' }: Interact
     const dx = px - 0.5;
     const dy = py - 0.5;
     const distance = Math.min(1, Math.sqrt(dx * dx + dy * dy) * 1.9);
-    const sweep = (dx * 0.78 - dy * 0.42 + 0.5).toFixed(4);
+    const sweep = Math.min(0.86, Math.max(0.14, dx * 0.62 - dy * 0.24 + 0.5)).toFixed(4);
 
     event.currentTarget.style.setProperty('--pointer-x', `${x}px`);
     event.currentTarget.style.setProperty('--pointer-y', `${y}px`);
