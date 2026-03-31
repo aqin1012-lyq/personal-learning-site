@@ -131,42 +131,69 @@ a {
     --pointer-py: 0.5;
     --pointer-distance: 0;
     --pointer-sweep: 0.5;
-    --heart-lobe-offset: 17px;
-    --heart-lobe-lift: 15px;
-    --heart-lobe-width: 146px;
-    --heart-lobe-height: 102px;
-    --heart-lobe-alpha: 0.024;
-    --heart-cleft-width: 72px;
-    --heart-cleft-height: 42px;
-    --heart-cleft-alpha: 0.014;
-    --heart-tail-drop: 28px;
-    --heart-tail-width: 176px;
-    --heart-tail-height: 144px;
-    --heart-tail-alpha: 0.05;
-    --heart-envelope-width: 296px;
-    --heart-envelope-height: 220px;
-    --heart-envelope-alpha: 0.028;
-    --heart-sheen-width: 228px;
-    --heart-sheen-height: 96px;
-    --heart-sheen-shift: 54px;
-    --heart-sheen-alpha: 0.022;
+    --pointer-glint-pitch: 0;
+    --pointer-glint-yaw: 0;
+    --flare-core-size: 64px;
+    --flare-core-alpha: 0.075;
+    --flare-cross-width: 228px;
+    --flare-cross-height: 16px;
+    --flare-cross-alpha: 0.072;
+    --flare-vertical-width: 20px;
+    --flare-vertical-height: 252px;
+    --flare-vertical-alpha: 0.068;
+    --flare-diagonal-size: 174px;
+    --flare-diagonal-alpha: 0.026;
+    --flare-aura-width: 304px;
+    --flare-aura-height: 228px;
+    --flare-aura-alpha: 0.04;
+    --flare-sheen-width: 242px;
+    --flare-sheen-height: 82px;
+    --flare-sheen-shift: 58px;
+    --flare-sheen-alpha: 0.02;
     isolation: isolate;
   }
 
   .interactive-surface::before {
     background:
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(246, 247, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 8px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
-      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(156, 138, 229, var(--heart-tail-alpha)), transparent 66%),
-      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 72%),
-      linear-gradient(112deg, transparent 34%, rgba(255, 255, 255, 0.03) 47%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
-      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 5px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 72%),
+      radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(247, 249, 255, var(--flare-core-alpha)) 0%, rgba(219, 210, 255, calc(var(--flare-core-alpha) * 0.72)) 16%, transparent 56%),
+      radial-gradient(var(--flare-cross-width) var(--flare-cross-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 4px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * 2px)), rgba(248, 249, 255, var(--flare-cross-alpha)) 0%, rgba(214, 203, 255, calc(var(--flare-cross-alpha) * 0.72)) 34%, transparent 78%),
+      radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -4px)), rgba(247, 248, 255, var(--flare-vertical-alpha)) 0%, rgba(213, 204, 255, calc(var(--flare-vertical-alpha) * 0.68)) 34%, transparent 80%),
+      linear-gradient(45deg, transparent 45%, rgba(228, 220, 255, calc(var(--flare-diagonal-alpha) * 0.76)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.98)) 50%, rgba(228, 220, 255, calc(var(--flare-diagonal-alpha) * 0.76)) 51%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, rgba(228, 220, 255, calc(var(--flare-diagonal-alpha) * 0.62)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.82)) 50%, rgba(228, 220, 255, calc(var(--flare-diagonal-alpha) * 0.62)) 51%, transparent 55%),
+      radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(232, 224, 255, calc(var(--flare-diagonal-alpha) * 0.32)) 0%, transparent 68%),
+      radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 7px)) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 74%),
+      radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 4px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 74%),
+      linear-gradient(112deg, transparent 34%, rgba(255, 255, 255, 0.024) 48%, rgba(255, 255, 255, 0.008) 58%, transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.05), transparent 24%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 34%);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      auto,
+      auto,
+      auto,
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      auto,
+      auto,
+      auto,
+      auto,
+      auto,
+      auto;
+    background-repeat: no-repeat;
     transition: background 280ms ease, opacity 320ms ease, filter 320ms ease;
-    opacity: calc(0.66 + (var(--pointer-distance) * 0.12));
-    filter: saturate(0.74) brightness(1.015) blur(0px);
+    opacity: calc(0.68 + (var(--pointer-distance) * 0.14));
+    filter: saturate(0.8) brightness(1.022) blur(0px);
   }
 
   .interactive-surface::after {
@@ -179,38 +206,63 @@ a {
   }
 
   .interactive-surface-strong {
-    --heart-lobe-offset: 21px;
-    --heart-lobe-lift: 18px;
-    --heart-lobe-width: 202px;
-    --heart-lobe-height: 126px;
-    --heart-lobe-alpha: 0.027;
-    --heart-cleft-width: 92px;
-    --heart-cleft-height: 50px;
-    --heart-cleft-alpha: 0.016;
-    --heart-tail-drop: 32px;
-    --heart-tail-width: 232px;
-    --heart-tail-height: 168px;
-    --heart-tail-alpha: 0.066;
-    --heart-envelope-width: 404px;
-    --heart-envelope-height: 286px;
-    --heart-envelope-alpha: 0.036;
-    --heart-sheen-width: 388px;
-    --heart-sheen-height: 128px;
-    --heart-sheen-shift: 74px;
-    --heart-sheen-alpha: 0.026;
+    --flare-core-size: 84px;
+    --flare-core-alpha: 0.098;
+    --flare-cross-width: 364px;
+    --flare-cross-height: 20px;
+    --flare-cross-alpha: 0.094;
+    --flare-vertical-width: 24px;
+    --flare-vertical-height: 392px;
+    --flare-vertical-alpha: 0.088;
+    --flare-diagonal-size: 240px;
+    --flare-diagonal-alpha: 0.034;
+    --flare-aura-width: 438px;
+    --flare-aura-height: 314px;
+    --flare-aura-alpha: 0.05;
+    --flare-sheen-width: 408px;
+    --flare-sheen-height: 112px;
+    --flare-sheen-shift: 78px;
+    --flare-sheen-alpha: 0.026;
   }
 
   .interactive-surface-strong::before {
     background:
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(248, 249, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(248, 249, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 10px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
-      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(154, 136, 228, var(--heart-tail-alpha)), transparent 67%),
-      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 14px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 74%),
-      linear-gradient(108deg, transparent 32%, rgba(255, 255, 255, 0.036) 45%, rgba(255, 255, 255, 0.014) 58%, transparent 72%),
-      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 74%),
+      radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(250, 251, 255, var(--flare-core-alpha)) 0%, rgba(225, 217, 255, calc(var(--flare-core-alpha) * 0.74)) 18%, transparent 58%),
+      radial-gradient(var(--flare-cross-width) var(--flare-cross-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 5px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * 2px)), rgba(249, 250, 255, var(--flare-cross-alpha)) 0%, rgba(220, 210, 255, calc(var(--flare-cross-alpha) * 0.78)) 34%, transparent 80%),
+      radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -5px)), rgba(249, 250, 255, var(--flare-vertical-alpha)) 0%, rgba(220, 210, 255, calc(var(--flare-vertical-alpha) * 0.74)) 34%, transparent 82%),
+      linear-gradient(45deg, transparent 45%, rgba(236, 227, 255, calc(var(--flare-diagonal-alpha) * 0.8)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 1.02)) 50%, rgba(236, 227, 255, calc(var(--flare-diagonal-alpha) * 0.8)) 51%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, rgba(236, 227, 255, calc(var(--flare-diagonal-alpha) * 0.66)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.88)) 50%, rgba(236, 227, 255, calc(var(--flare-diagonal-alpha) * 0.66)) 51%, transparent 55%),
+      radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(238, 229, 255, calc(var(--flare-diagonal-alpha) * 0.34)) 0%, transparent 68%),
+      radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 8px)) calc(var(--pointer-y) + 14px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 74%),
+      radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 74%),
+      linear-gradient(108deg, transparent 32%, rgba(255, 255, 255, 0.032) 46%, rgba(255, 255, 255, 0.01) 58%, transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.07), transparent 25%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.024), transparent 34%);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      auto,
+      auto,
+      auto,
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      auto,
+      auto,
+      auto,
+      auto,
+      auto,
+      auto;
+    background-repeat: no-repeat;
   }
 
   .surface-card::after {
@@ -233,38 +285,62 @@ a {
   }
 
   .surface-card-hover:hover {
-    --heart-lobe-offset: 16px;
-    --heart-lobe-lift: 14px;
-    --heart-lobe-width: 132px;
-    --heart-lobe-height: 100px;
-    --heart-lobe-alpha: 0.038;
-    --heart-cleft-width: 64px;
-    --heart-cleft-height: 38px;
-    --heart-cleft-alpha: 0.017;
-    --heart-tail-drop: 24px;
-    --heart-tail-width: 164px;
-    --heart-tail-height: 132px;
-    --heart-tail-alpha: 0.068;
-    --heart-envelope-width: 252px;
-    --heart-envelope-height: 206px;
-    --heart-envelope-alpha: 0.031;
-    --heart-sheen-width: 210px;
-    --heart-sheen-height: 88px;
-    --heart-sheen-shift: 42px;
-    --heart-sheen-alpha: 0.028;
+    --flare-core-size: 58px;
+    --flare-core-alpha: 0.084;
+    --flare-cross-width: 248px;
+    --flare-cross-height: 18px;
+    --flare-cross-alpha: 0.086;
+    --flare-vertical-width: 18px;
+    --flare-vertical-height: 270px;
+    --flare-vertical-alpha: 0.082;
+    --flare-diagonal-size: 184px;
+    --flare-diagonal-alpha: 0.028;
+    --flare-aura-width: 268px;
+    --flare-aura-height: 214px;
+    --flare-aura-alpha: 0.046;
+    --flare-sheen-width: 214px;
+    --flare-sheen-height: 78px;
+    --flare-sheen-shift: 46px;
+    --flare-sheen-alpha: 0.024;
   }
 
   .surface-card-hover:hover::before {
     background:
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(188, 173, 239, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(188, 173, 239, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 7px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
-      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(136, 117, 216, var(--heart-tail-alpha)), transparent 66%),
-      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 9px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 73%),
-      linear-gradient(112deg, transparent 36%, rgba(255, 255, 255, 0.036) 48%, rgba(255, 255, 255, 0.012) 58%, transparent 72%),
-      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 72%),
+      radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(245, 240, 255, var(--flare-core-alpha)) 0%, rgba(210, 195, 255, calc(var(--flare-core-alpha) * 0.72)) 18%, transparent 58%),
+      radial-gradient(var(--flare-cross-width) var(--flare-cross-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 4px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * 2px)), rgba(241, 233, 255, var(--flare-cross-alpha)) 0%, rgba(200, 184, 247, calc(var(--flare-cross-alpha) * 0.78)) 34%, transparent 80%),
+      radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -4px)), rgba(242, 235, 255, var(--flare-vertical-alpha)) 0%, rgba(196, 178, 246, calc(var(--flare-vertical-alpha) * 0.74)) 34%, transparent 82%),
+      linear-gradient(45deg, transparent 45%, rgba(226, 212, 255, calc(var(--flare-diagonal-alpha) * 0.84)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 1.06)) 50%, rgba(226, 212, 255, calc(var(--flare-diagonal-alpha) * 0.84)) 51%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, rgba(226, 212, 255, calc(var(--flare-diagonal-alpha) * 0.68)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.9)) 50%, rgba(226, 212, 255, calc(var(--flare-diagonal-alpha) * 0.68)) 51%, transparent 55%),
+      radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(223, 207, 255, calc(var(--flare-diagonal-alpha) * 0.34)) 0%, transparent 68%),
+      radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 6px)) calc(var(--pointer-y) + 10px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 74%),
+      radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.08), transparent 28%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 38%);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      auto,
+      auto,
+      auto,
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      auto,
+      auto,
+      auto,
+      auto,
+      auto,
+      auto;
+    background-repeat: no-repeat;
   }
 
   .surface-card-hover:hover {
@@ -302,38 +378,60 @@ a {
   }
 
   .interactive-section-shell {
-    --heart-lobe-offset: 20px;
-    --heart-lobe-lift: 17px;
-    --heart-lobe-width: 156px;
-    --heart-lobe-height: 112px;
-    --heart-lobe-alpha: 0.02;
-    --heart-cleft-width: 78px;
-    --heart-cleft-height: 44px;
-    --heart-cleft-alpha: 0.012;
-    --heart-tail-drop: 30px;
-    --heart-tail-width: 228px;
-    --heart-tail-height: 160px;
-    --heart-tail-alpha: 0.044;
-    --heart-envelope-width: 346px;
-    --heart-envelope-height: 268px;
-    --heart-envelope-alpha: 0.022;
-    --heart-sheen-width: 380px;
-    --heart-sheen-height: 124px;
-    --heart-sheen-shift: 68px;
-    --heart-sheen-alpha: 0.02;
+    --flare-core-size: 56px;
+    --flare-core-alpha: 0.064;
+    --flare-cross-width: 286px;
+    --flare-cross-height: 16px;
+    --flare-cross-alpha: 0.062;
+    --flare-vertical-width: 18px;
+    --flare-vertical-height: 316px;
+    --flare-vertical-alpha: 0.058;
+    --flare-diagonal-size: 190px;
+    --flare-diagonal-alpha: 0.02;
+    --flare-aura-width: 360px;
+    --flare-aura-height: 278px;
+    --flare-aura-alpha: 0.03;
+    --flare-sheen-width: 386px;
+    --flare-sheen-height: 112px;
+    --flare-sheen-shift: 70px;
+    --flare-sheen-alpha: 0.016;
   }
 
   .interactive-section-shell::before {
     background:
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(241, 243, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-lobe-width) var(--heart-lobe-height) at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(241, 243, 255, var(--heart-lobe-alpha)), transparent 64%),
-      radial-gradient(var(--heart-cleft-width) var(--heart-cleft-height) at var(--pointer-x) calc(var(--pointer-y) - 9px), rgba(10, 12, 18, var(--heart-cleft-alpha)), transparent 72%),
-      radial-gradient(var(--heart-tail-width) var(--heart-tail-height) at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(136, 117, 216, var(--heart-tail-alpha)), transparent 67%),
-      radial-gradient(var(--heart-envelope-width) var(--heart-envelope-height) at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--heart-envelope-alpha)), transparent 74%),
-      linear-gradient(110deg, transparent 34%, rgba(255, 255, 255, 0.024) 46%, rgba(255, 255, 255, 0.008) 58%, transparent 72%),
-      radial-gradient(var(--heart-sheen-width) var(--heart-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--heart-sheen-shift))) calc(var(--pointer-y) - 4px), rgba(255, 255, 255, var(--heart-sheen-alpha)), transparent 74%),
+      radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(245, 247, 255, var(--flare-core-alpha)) 0%, rgba(217, 208, 255, calc(var(--flare-core-alpha) * 0.66)) 18%, transparent 58%),
+      radial-gradient(var(--flare-cross-width) var(--flare-cross-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 4px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * 2px)), rgba(243, 245, 255, var(--flare-cross-alpha)) 0%, rgba(210, 201, 246, calc(var(--flare-cross-alpha) * 0.7)) 34%, transparent 80%),
+      radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -4px)), rgba(243, 244, 255, var(--flare-vertical-alpha)) 0%, rgba(204, 194, 242, calc(var(--flare-vertical-alpha) * 0.68)) 34%, transparent 82%),
+      linear-gradient(45deg, transparent 46%, rgba(229, 220, 255, calc(var(--flare-diagonal-alpha) * 0.76)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.9)) 50%, rgba(229, 220, 255, calc(var(--flare-diagonal-alpha) * 0.76)) 51%, transparent 54%),
+      linear-gradient(-45deg, transparent 46%, rgba(229, 220, 255, calc(var(--flare-diagonal-alpha) * 0.58)) 49%, rgba(255, 255, 255, calc(var(--flare-diagonal-alpha) * 0.74)) 50%, rgba(229, 220, 255, calc(var(--flare-diagonal-alpha) * 0.58)) 51%, transparent 54%),
+      radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(232, 224, 255, calc(var(--flare-diagonal-alpha) * 0.28)) 0%, transparent 68%),
+      radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 7px)) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 74%),
+      radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 4px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 74%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.06), transparent 24%);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      calc(var(--pointer-x) - (var(--flare-diagonal-size) / 2)) calc(var(--pointer-y) - (var(--flare-diagonal-size) / 2)),
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    background-size:
+      auto,
+      auto,
+      auto,
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      var(--flare-diagonal-size) var(--flare-diagonal-size),
+      auto,
+      auto,
+      auto,
+      auto,
+      auto;
+    background-repeat: no-repeat;
     transition: background 280ms ease, opacity 280ms ease;
   }
 
