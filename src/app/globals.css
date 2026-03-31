@@ -129,18 +129,23 @@ a {
     --pointer-y: -999px;
     --pointer-px: 0.5;
     --pointer-py: 0.5;
+    --heart-lobe-offset: 26px;
+    --heart-lobe-lift: 18px;
+    --heart-tail-drop: 34px;
     isolation: isolate;
   }
 
   .interactive-surface::before {
     background:
-      radial-gradient(240px circle at var(--pointer-x) var(--pointer-y), rgba(236, 238, 255, 0.052), transparent 32%),
-      radial-gradient(360px circle at var(--pointer-x) var(--pointer-y), rgba(136, 117, 216, 0.075), transparent 44%),
+      radial-gradient(126px 118px at calc(var(--pointer-x) - var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(244, 246, 255, 0.042), transparent 62%),
+      radial-gradient(126px 118px at calc(var(--pointer-x) + var(--heart-lobe-offset)) calc(var(--pointer-y) - var(--heart-lobe-lift)), rgba(244, 246, 255, 0.042), transparent 62%),
+      radial-gradient(176px 156px at var(--pointer-x) calc(var(--pointer-y) + var(--heart-tail-drop)), rgba(164, 146, 232, 0.082), transparent 64%),
+      radial-gradient(248px 228px at var(--pointer-x) calc(var(--pointer-y) + 10px), rgba(136, 117, 216, 0.048), transparent 68%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.05), transparent 24%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 34%);
     transition: background 220ms ease, opacity 260ms ease, filter 260ms ease;
-    opacity: 0.88;
-    filter: saturate(0.84) brightness(1.02);
+    opacity: 0.8;
+    filter: saturate(0.8) brightness(1.015);
   }
 
   .interactive-surface::after {
@@ -153,8 +158,10 @@ a {
 
   .interactive-surface-strong::before {
     background:
-      radial-gradient(280px circle at var(--pointer-x) var(--pointer-y), rgba(244, 245, 255, 0.06), transparent 32%),
-      radial-gradient(380px circle at var(--pointer-x) var(--pointer-y), rgba(136, 117, 216, 0.11), transparent 42%),
+      radial-gradient(144px 132px at calc(var(--pointer-x) - 30px) calc(var(--pointer-y) - 20px), rgba(248, 249, 255, 0.05), transparent 62%),
+      radial-gradient(144px 132px at calc(var(--pointer-x) + 30px) calc(var(--pointer-y) - 20px), rgba(248, 249, 255, 0.05), transparent 62%),
+      radial-gradient(204px 176px at var(--pointer-x) calc(var(--pointer-y) + 38px), rgba(154, 136, 228, 0.118), transparent 62%),
+      radial-gradient(280px 250px at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, 0.07), transparent 70%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.07), transparent 25%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.024), transparent 34%);
   }
@@ -180,7 +187,10 @@ a {
 
   .surface-card-hover:hover::before {
     background:
-      radial-gradient(240px circle at var(--pointer-x) var(--pointer-y), rgba(136, 117, 216, 0.12), transparent 40%),
+      radial-gradient(132px 122px at calc(var(--pointer-x) - 26px) calc(var(--pointer-y) - 18px), rgba(180, 165, 236, 0.092), transparent 62%),
+      radial-gradient(132px 122px at calc(var(--pointer-x) + 26px) calc(var(--pointer-y) - 18px), rgba(180, 165, 236, 0.092), transparent 62%),
+      radial-gradient(186px 164px at var(--pointer-x) calc(var(--pointer-y) + 34px), rgba(136, 117, 216, 0.105), transparent 64%),
+      radial-gradient(260px 220px at var(--pointer-x) calc(var(--pointer-y) + 8px), rgba(136, 117, 216, 0.045), transparent 70%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.08), transparent 28%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 38%);
   }
@@ -221,8 +231,10 @@ a {
 
   .interactive-section-shell::before {
     background:
-      radial-gradient(320px circle at var(--pointer-x) var(--pointer-y), rgba(239, 241, 255, 0.038), transparent 34%),
-      radial-gradient(440px circle at var(--pointer-x) var(--pointer-y), rgba(136, 117, 216, 0.052), transparent 46%),
+      radial-gradient(148px 136px at calc(var(--pointer-x) - 30px) calc(var(--pointer-y) - 20px), rgba(241, 243, 255, 0.032), transparent 62%),
+      radial-gradient(148px 136px at calc(var(--pointer-x) + 30px) calc(var(--pointer-y) - 20px), rgba(241, 243, 255, 0.032), transparent 62%),
+      radial-gradient(224px 190px at var(--pointer-x) calc(var(--pointer-y) + 44px), rgba(136, 117, 216, 0.058), transparent 64%),
+      radial-gradient(360px 280px at var(--pointer-x) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, 0.032), transparent 72%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.06), transparent 24%);
     transition: background 220ms ease, opacity 240ms ease;
