@@ -8,7 +8,7 @@ import { SiteContainer } from '@/components/layout/SiteContainer';
 import { Hero } from '@/components/home/Hero';
 import { HomeMotion } from '@/components/home/HomeMotion';
 import { CurrentLearningCard } from '@/components/home/CurrentLearningCard';
-import { TimelinePreview } from '@/components/home/TimelinePreview';
+import { TimelinePreview, type TimelineItem, type TimelineMonth, type TimelineYear } from '@/components/home/TimelinePreview';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 import { LogCard } from '@/components/logs/LogCard';
@@ -52,13 +52,21 @@ export default function HomePage() {
   ];
 
   const deckSections = [
-    { label: 'Now', title: '3-week activity rail', note: '先判断近三周的节奏与重心' },
-    { label: 'Focus', title: '当前在学', note: '看正在持续推进的主题，而不是一次性热点' },
+    { label: 'Now', title: '10-year timeline', note: '先在近十年里定位内容主要落在哪些年份' },
+    { label: 'Drill Down', title: '年 / 月 / 日展开', note: '从年份进入月份，再从月份进入具体日期' },
     { label: 'Output', title: '最新内容与项目', note: '沿着日志、知识卡片、实践继续深入' },
   ];
 
-  const timelineItems = [
-    ...logs.slice(0, 5).map((item) => ({
+  const parseProjectDate = (period?: string) => {
+    if (!period) return '';
+    const matched = period.match(/(\d{4})\.(\d{1,2})/);
+    if (!matched) return '';
+    const [, year, month] = matched;
+    return `${year}-${String(month).padStart(2, '0')}-01`;
+  };
+
+  const timelineItems: TimelineItem[] = [
+    ...logs.map((item) => ({
       id: `log-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -68,7 +76,7 @@ export default function HomePage() {
       meta: item.type,
       tags: item.tags,
     })),
-    ...notes.slice(0, 4).map((item) => ({
+    ...notes.map((item) => ({
       id: `note-${item.id}`,
       title: item.title,
       summary: item.summary,
@@ -78,20 +86,52 @@ export default function HomePage() {
       meta: item.category,
       tags: item.tags,
     })),
-    ...projects.slice(0, 2).map((item, index) => ({
+    ...projects.map((item) => ({
       id: `project-${item.id}`,
       title: item.title,
       summary: item.summary,
-      date: item.period?.split('—')[0]?.trim() || item.period || `2026-03-0${index + 1}`,
+      date: parseProjectDate(item.period),
       href: item.href || `/projects/${item.slug}`,
       kind: 'project' as const,
       meta: item.status,
       tags: item.tags,
     })),
-  ]
-    .filter((item) => item.date)
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
-    .slice(0, 11);
+  ].filter((item) => item.date);
+
+  const currentYear = new Date().getFullYear();
+  const timelineYears: TimelineYear[] = Array.from({ length: 10 }, (_, index) => currentYear - 9 + index).map((year) => {
+    const months: TimelineMonth[] = Array.from({ length: 12 }, (_, monthIndex) => {
+      const month = monthIndex + 1;
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const monthItems = timelineItems
+        .filter((item) => item.date.startsWith(`${year}-${String(month).padStart(2, '0')}`))
+        .sort((a, b) => (a.date < b.date ? 1 : -1));
+
+      return {
+        key: `${year}-${String(month).padStart(2, '0')}`,
+        month,
+        label: new Intl.DateTimeFormat('zh-CN', { month: 'long' }).format(new Date(year, monthIndex, 1)),
+        shortLabel: `${String(month).padStart(2, '0')}月`,
+        itemCount: monthItems.length,
+        days: Array.from({ length: daysInMonth }, (_, dayIndex) => {
+          const day = dayIndex + 1;
+          const key = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          return {
+            day,
+            key,
+            items: monthItems.filter((item) => item.date === key),
+          };
+        }),
+      };
+    });
+
+    return {
+      year,
+      key: String(year),
+      itemCount: months.reduce((total, month) => total + month.itemCount, 0),
+      months,
+    };
+  });
 
   return (
     <>
@@ -118,7 +158,7 @@ export default function HomePage() {
                       再把主舞台留给最近的学习现场。
                     </h2>
                     <p className="text-[13px] leading-7 text-stone-400 2xl:text-sm">
-                      左列像目录、路标和阅读说明；右侧才是近三周轨道、当前重点与最近输出的工作台。
+                      左列像目录、路标和阅读说明；右侧先给出十年时间总览，再往下展开当前重点与最近输出。
                     </p>
                   </div>
 
@@ -174,12 +214,12 @@ export default function HomePage() {
                       <div className="flex items-center justify-between gap-3">
                         <div className="space-y-2">
                           <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">How to Read</p>
-                          <h3 className="font-cjk text-[1.02rem] font-medium text-stone-100">先看轨道，再沿分支进入细节</h3>
+                          <h3 className="font-cjk text-[1.02rem] font-medium text-stone-100">先看年份，再沿月份与日期进入细节</h3>
                         </div>
                         <span className="pill-tag">Guide</span>
                       </div>
                       <div className="space-y-3 text-sm leading-7 text-stone-400">
-                        <p>先看右侧这三周的轨道，判断最近的输入、沉淀与推进落在哪些时段。</p>
+                        <p>先看右侧十年时间轴，判断内容主要落在哪些年份；再点进对应月份，看这个阶段究竟密不密。</p>
                         <p>如果想快速进入，日志看过程，知识卡片看结构，项目页看理解是否真的落地。</p>
                       </div>
                     </div>
@@ -193,16 +233,16 @@ export default function HomePage() {
                     <div className="space-y-2 border-b border-white/[0.06] pb-5 2xl:pb-6">
                       <p className="section-label">Main Board</p>
                       <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
-                        最近三周，不展开，
+                        时间不只是一条线，
                         <br className="hidden md:block" />
-                        只把更新压成一条安静的横向注记。
+                        也可以是一层层被展开的学习现场。
                       </h2>
                       <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
-                        先看时间痕迹与节奏，再决定要不要进入日志、笔记或项目细读。
+                        先看近十年的总览，再沿年份、月份、日期逐层进入；有内容的节点被强调，空白节点也仍然保留。
                       </p>
                     </div>
 
-                    <TimelinePreview items={timelineItems} />
+                    <TimelinePreview years={timelineYears} />
                   </div>
                 </section>
 
@@ -226,7 +266,7 @@ export default function HomePage() {
                           </div>
                           <h3 className="font-cjk text-[1.08rem] font-medium text-stone-100">让“在学什么”成为主舞台周边的次级模块</h3>
                           <p className="text-sm leading-8 text-stone-400">
-                            这里不和 3-week rail 抢中心，而是作为右侧主板下方的延伸：说明近期正在持续投入哪些方向，以及它们和日志、笔记、项目怎样互相支撑。
+                            这里不和上方时间探索器抢中心，而是作为右侧主板下方的延伸：说明近期正在持续投入哪些方向，以及它们和日志、笔记、项目怎样互相支撑。
                           </p>
                         </div>
                       </section>
