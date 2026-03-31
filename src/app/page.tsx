@@ -110,22 +110,22 @@ export default function HomePage() {
               stats={stats}
             />
 
-            <div className="grid gap-5 2xl:grid-cols-[minmax(280px,18vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-7">
+            <div className="grid gap-5 2xl:grid-cols-[minmax(248px,15.5vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-8">
               <aside className="space-y-4 2xl:sticky 2xl:top-24">
-                <section className="section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-6 xl:py-7">
+                <section className="section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-5 xl:py-6 2xl:space-y-4">
                   <div className="space-y-3 border-b border-white/[0.06] pb-5">
                     <p className="section-label">Study Deck</p>
-                    <h2 className="font-cjk text-[1.22rem] font-medium leading-[1.55] tracking-tight text-stone-100">
+                    <h2 className="font-cjk text-[1.14rem] font-medium leading-[1.6] tracking-tight text-stone-100 2xl:text-[1.18rem]">
                       这里先给索引，
                       <br />
                       再把主舞台留给最近的学习现场。
                     </h2>
-                    <p className="text-sm leading-7 text-stone-400">
+                    <p className="text-[13px] leading-7 text-stone-400 2xl:text-sm">
                       左列像目录、路标和阅读说明；右侧才是本周轨道、当前重点与最近输出的工作台。
                     </p>
                   </div>
 
-                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-white/[0.02] p-4">
+                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-white/[0.02] p-4 2xl:p-3.5">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Desk Index</p>
                       <span className="pill-tag">Stable Nav</span>
@@ -135,7 +135,7 @@ export default function HomePage() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/10 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1]"
+                          className="group flex items-start gap-3 rounded-[18px] border border-white/[0.05] bg-black/10 px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-white/[0.1] 2xl:px-3.5"
                         >
                           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] border border-white/[0.05] bg-white/[0.03] text-[11px] tracking-[0.16em] text-stone-400">
                             0{index + 1}
@@ -153,7 +153,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-black/10 p-4">
+                  <div className="space-y-3 rounded-[24px] border border-white/[0.06] bg-black/10 p-4 2xl:p-3.5">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Reading Order</p>
                       <span className="pill-tag">Flow</span>
@@ -172,7 +172,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <InteractiveSurface className="surface-card rounded-[24px] p-5">
+                  <InteractiveSurface className="surface-card rounded-[24px] p-5 2xl:p-[1.125rem]">
                     <div className="relative space-y-4">
                       <div className="flex items-center justify-between gap-3">
                         <div className="space-y-2">
@@ -190,11 +190,11 @@ export default function HomePage() {
                 </section>
               </aside>
 
-              <div className="space-y-5">
-                <section className="section-shell stagger-surface overflow-hidden rounded-[32px]">
-                  <div className="grid gap-5 2xl:grid-cols-[minmax(0,1.5fr)_minmax(360px,0.9fr)] 2xl:items-stretch">
-                    <div className="space-y-5">
-                      <div className="flex flex-col gap-3 border-b border-white/[0.06] pb-5 md:flex-row md:items-end md:justify-between">
+              <div className="space-y-6 2xl:space-y-7">
+                <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-10">
+                  <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.72fr)_minmax(340px,0.82fr)] 2xl:items-stretch">
+                    <div className="space-y-6">
+                      <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-6 md:flex-row md:items-end md:justify-between 2xl:pb-7">
                         <div className="space-y-2">
                           <p className="section-label">Main Board</p>
                           <h2 className="font-cjk text-[1.45rem] font-medium leading-[1.45] tracking-tight text-stone-100 md:text-[1.8rem]">
@@ -202,8 +202,8 @@ export default function HomePage() {
                             <br className="hidden md:block" />
                             让节奏与重心先被看见。
                           </h2>
-                          <p className="max-w-2xl text-sm leading-8 text-stone-400">
-                            先读 top band，再进入 centerpiece。这样首页更像一张被持续使用的桌面，而不是整齐堆叠的内容列表。
+                          <p className="max-w-[48rem] text-sm leading-8 text-stone-400 2xl:text-[15px] 2xl:leading-8">
+                            先读 top band，再进入 centerpiece。这样首页更像一张被持续使用的桌面：右侧是一块完整工作板，rail 成为视觉核心，周边模块只做支撑与补充。
                           </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2.5">
@@ -216,18 +216,18 @@ export default function HomePage() {
                       <TimelinePreview items={timelineItems} />
                     </div>
 
-                    <div className="grid gap-4 content-start xl:grid-rows-[auto_auto_1fr]">
+                    <div className="grid gap-4 content-start 2xl:grid-rows-[1.08fr_auto_1fr] 2xl:gap-5">
                       <FeaturePanel
-                        eyebrow="Current Focus"
-                        title="把学习过程变成一个可回看、可复用、可迭代的系统"
-                        description="当前更在意结构之间怎么互相支撑：日志保留上下文，笔记收束结构，项目负责把抽象重新压回现实。"
+                        eyebrow="Workbench Note"
+                        title="主工作台负责呈现最近节奏，右侧只补充判断框架"
+                        description="当前更在意结构之间怎么互相支撑：rail 先显示一周的密度与重心，旁边的说明模块只负责补足阅读方式与近期判断。"
                         href="/about"
                       />
 
                       <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                         <div className="relative space-y-4">
                           <div className="flex items-center justify-between gap-3">
-                            <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">工作台状态</h3>
+                            <h3 className="font-cjk text-[1.05rem] font-medium text-stone-100">工作台摘要</h3>
                             <span className="pill-tag">Live</span>
                           </div>
                           <div className="grid gap-3">
@@ -269,11 +269,11 @@ export default function HomePage() {
                   </div>
                 </section>
 
-                <section className="section-shell stagger-surface rounded-[32px]">
-                  <div className="grid gap-5 xl:grid-cols-[minmax(0,1.32fr)_minmax(300px,0.88fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.42fr)_minmax(340px,0.82fr)]">
+                <section className="section-shell stagger-surface rounded-[32px] 2xl:px-10 2xl:py-9">
+                  <div className="grid gap-6 xl:grid-cols-[minmax(0,1.38fr)_minmax(300px,0.8fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.52fr)_minmax(320px,0.74fr)]">
                     <div className="space-y-5">
                       <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
-                      <div className="grid gap-4 md:grid-cols-2">
+                      <div className="grid gap-4 md:grid-cols-2 2xl:gap-5">
                         {currentLearning.map((item) => (
                           <CurrentLearningCard key={item.id} item={item} />
                         ))}
@@ -310,8 +310,8 @@ export default function HomePage() {
                   </div>
                 </section>
 
-                <section className="grid gap-5 xl:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.9fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.5fr)_minmax(390px,0.86fr)]">
-                  <section className="section-shell stagger-surface overflow-hidden rounded-[32px]">
+                <section className="grid gap-5 xl:grid-cols-[minmax(0,1.56fr)_minmax(330px,0.84fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.7fr)_minmax(360px,0.8fr)] 2xl:gap-6">
+                  <section className="section-shell stagger-surface overflow-hidden rounded-[32px] 2xl:px-10 2xl:py-9">
                     <SectionHeader title="最近留下的内容" description="最新更新的学习日志，保留过程而不是只展示结论。" actionLabel="查看全部" actionHref="/logs" />
                     <div className="grid gap-4">
                       {featuredLogs.map((item) => (
@@ -320,9 +320,9 @@ export default function HomePage() {
                     </div>
                   </section>
 
-                  <div className="grid gap-5">
-                    <section className="section-shell stagger-surface rounded-[32px]">
-                      <SectionHeader title="快速复习入口" description="如果不想从长文开始，可以先看最近整理出来的知识卡片。" actionLabel="进入知识库" actionHref="/notes" />
+                  <div className="grid gap-5 2xl:grid-rows-[auto_1fr]">
+                    <section className="section-shell stagger-surface rounded-[32px] 2xl:min-h-[22rem]">
+                      <SectionHeader title="快速复习入口" description="如果不想从长文开始，可以先从最近整理出来的知识卡片切入，再回到上面的轨道与日志。" actionLabel="进入知识库" actionHref="/notes" />
                       <div className="grid gap-3">
                         {featuredNotes.slice(0, 2).map((item) => (
                           <NoteCard key={item.id} item={item} compact />
@@ -330,7 +330,7 @@ export default function HomePage() {
                       </div>
                     </section>
 
-                    <section className="section-shell stagger-surface rounded-[32px]">
+                    <section className="section-shell stagger-surface rounded-[32px] 2xl:min-h-[24rem]">
                       <SectionHeader title="项目 / 实践" description="学习不是收藏信息，而是用真实产出来检验理解。" actionLabel="查看项目" actionHref="/projects" />
                       <div className="grid gap-4">
                         {featuredProjects.map((item) => (
@@ -341,7 +341,7 @@ export default function HomePage() {
                   </div>
                 </section>
 
-                <section className="section-shell stagger-surface rounded-[32px]">
+                <section className="section-shell stagger-surface rounded-[32px] 2xl:px-10 2xl:py-9">
                   <SectionHeader title="精选知识卡片" description="这些内容更偏“结构化沉淀”，适合回顾概念、方法和框架。" actionLabel="进入知识库" actionHref="/notes" />
                   <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {featuredNotes.map((item) => (

@@ -140,18 +140,19 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
   const activeDays = daySlots.filter((day) => day.items.length > 0).length;
   const peakDay = [...daySlots].sort((a, b) => b.items.length - a.items.length)[0];
   const allTopics = Array.from(new Set(daySlots.flatMap((day) => day.topicSummary))).slice(0, 5);
+  const averageEntries = totalEntries > 0 ? (totalEntries / 7).toFixed(1) : '0.0';
 
   return (
-    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.02),rgba(255,248,240,0.008))] p-4 md:rounded-[30px] md:p-5">
-      <div className="relative space-y-7">
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <section className="stagger-surface overflow-hidden rounded-[28px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,248,240,0.028),rgba(255,248,240,0.01))] p-4 md:rounded-[30px] md:p-5 2xl:p-6">
+      <div className="relative space-y-6 2xl:space-y-7">
+        <div className="flex flex-col gap-4 border-b border-white/[0.06] pb-5 xl:flex-row xl:items-end xl:justify-between 2xl:pb-6">
           <div className="space-y-3">
             <p className="section-label">Recent 7 Days</p>
-            <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem]">
+            <h2 className="font-cjk text-[1.55rem] font-medium leading-[1.4] tracking-tight text-stone-100 md:text-[1.9rem] 2xl:text-[2rem]">
               最近 7 天学习轨道
             </h2>
-            <p className="max-w-3xl text-sm leading-8 text-stone-400">
-              把首页主舞台留给最近一周：先看节奏，再看密度，最后再沿着日志、笔记和项目进入具体内容。
+            <p className="max-w-[52rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
+              把首页主舞台留给最近一周：先看节奏，再看密度，最后再沿着日志、笔记和项目进入具体内容。它更像一块被持续使用的学习工作板，而不是放大的时间线组件。
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -163,8 +164,8 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
           </div>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[0.84fr_2.16fr] xl:items-stretch">
-          <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6">
+        <div className="grid gap-4 2xl:grid-cols-[minmax(280px,0.78fr)_minmax(0,2.22fr)] 2xl:items-stretch 2xl:gap-5">
+          <InteractiveSurface className="surface-card rounded-[28px] p-5 md:p-6 2xl:p-6">
             <div className="relative space-y-5">
               <div className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Weekly Reading</p>
@@ -173,7 +174,7 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 2xl:grid-cols-1">
                 <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Active Days</p>
                   <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{String(activeDays).padStart(2, '0')}</p>
@@ -185,9 +186,9 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                   <p className="mt-2 text-xs leading-6 text-stone-500">活动最密的一天，往往也是不同主题开始互相碰撞的时候。</p>
                 </div>
                 <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.025] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Theme Cluster</p>
-                  <p className="mt-3 text-sm leading-7 text-stone-200">{allTopics.slice(0, 2).join(' · ') || '持续积累中'}</p>
-                  <p className="mt-2 text-xs leading-6 text-stone-500">把零散记录看成渐渐成形的主题簇。</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Daily Average</p>
+                  <p className="mt-3 font-cjk text-[1.5rem] text-stone-100">{averageEntries}</p>
+                  <p className="mt-2 text-xs leading-6 text-stone-500">用平均密度判断这一周是平稳推进，还是阶段性集中发力。</p>
                 </div>
               </div>
 
@@ -204,26 +205,45 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                   ))}
                 </div>
               </div>
+
+              <div className="rounded-[22px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.028),rgba(255,255,255,0.015))] p-4">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Theme Cluster</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {(allTopics.length > 0 ? allTopics : ['持续积累中']).map((topic) => (
+                    <span key={topic} className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-stone-300">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </InteractiveSurface>
 
           <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="min-w-[1040px] rounded-[30px] border border-white/[0.07] bg-[linear-gradient(180deg,rgba(255,248,240,0.03),rgba(255,248,240,0.012))] p-4 shadow-[inset_0_1px_0_rgba(255,248,240,0.03)] md:p-5">
-              <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-3">
+            <div className="min-w-[1120px] rounded-[30px] border border-white/[0.07] bg-[linear-gradient(180deg,rgba(255,248,240,0.04),rgba(255,248,240,0.012))] p-4 shadow-[inset_0_1px_0_rgba(255,248,240,0.03)] md:p-5 2xl:p-6">
+              <div className="mb-4 flex items-center justify-between gap-4 border-b border-white/[0.05] pb-4">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">7-Day Board</p>
+                  <p className="mt-1 text-sm leading-7 text-stone-400">按天看最近一周的输入、沉淀与推进，让主舞台先给出整体判断。</p>
+                </div>
+                <span className="pill-tag">7 columns · 3 lanes</span>
+              </div>
+
+              <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-3.5 2xl:gap-4">
                 {daySlots.map((day) => {
                   const dominantLane = day.dominantLane ? laneMeta[day.dominantLane] : null;
 
                   return (
                     <InteractiveSurface
                       key={day.key}
-                      className="surface-card surface-card-hover rounded-[24px] border-white/[0.05] p-4"
+                      className="surface-card surface-card-hover rounded-[24px] border-white/[0.05] p-4 2xl:p-[1.125rem]"
                     >
-                      <div className="relative flex h-full min-h-[388px] flex-col gap-4">
-                        <div className="space-y-3 border-b border-white/[0.06] pb-3">
+                      <div className="relative flex h-full min-h-[430px] flex-col gap-4 2xl:min-h-[454px]">
+                        <div className="space-y-3 border-b border-white/[0.06] pb-3.5">
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">{day.weekLabel}</p>
-                              <p className="mt-1 text-base text-stone-100">{day.label}</p>
+                              <p className="mt-1 text-[1.02rem] text-stone-100">{day.label}</p>
                             </div>
                             <span className="pill-tag">{day.items.length === 0 ? 'Quiet' : `${day.items.length} 条`}</span>
                           </div>
@@ -247,13 +267,13 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                           </div>
                         </div>
 
-                        <div className="space-y-2.5">
+                        <div className="space-y-3">
                           {lanes.map((lane) => {
                             const laneItems = day.items.filter((item) => getLaneId(item) === lane.id);
                             const primary = laneItems[0];
 
                             return (
-                              <div key={`${day.key}-${lane.id}`} className="rounded-[18px] border border-white/[0.05] bg-white/[0.018] p-3">
+                              <div key={`${day.key}-${lane.id}`} className="rounded-[18px] border border-white/[0.05] bg-white/[0.018] p-3.5">
                                 <div className="flex items-center justify-between gap-3">
                                   <div className="flex items-center gap-2 text-[11px] tracking-[0.14em] text-stone-400">
                                     <span
@@ -281,11 +301,11 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                                   ))}
                                 </div>
 
-                                <div className="mt-3 min-h-[42px]">
+                                <div className="mt-3 min-h-[54px]">
                                   {primary ? (
                                     <Link href={primary.href} className="block rounded-[14px] border px-3 py-2.5 text-xs leading-6 text-stone-300 transition hover:-translate-y-0.5" style={{ borderColor: lane.glow, background: `linear-gradient(180deg, ${lane.glow}, rgba(255,255,255,0.02))` }}>
                                       <span className="mr-2 text-stone-500">{getKindLabel(primary.kind)}</span>
-                                      <span className="line-clamp-2">{primary.title}</span>
+                                      <span className="line-clamp-2 font-medium text-stone-200">{primary.title}</span>
                                     </Link>
                                   ) : (
                                     <div className="rounded-[14px] border border-dashed border-white/[0.05] px-3 py-2.5 text-xs text-stone-600">
@@ -299,7 +319,10 @@ export function TimelinePreview({ items }: { items: TimelineEntry[] }) {
                         </div>
 
                         <div className="mt-auto rounded-[18px] border border-white/[0.05] bg-black/10 p-3.5 shadow-[inset_0_1px_0_rgba(255,248,240,0.02)]">
-                          <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Topic Cluster</p>
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">Topic Cluster</p>
+                            {dominantLane ? <span className="text-[11px] text-stone-500">主轴：{dominantLane.label}</span> : null}
+                          </div>
                           <div className="mt-2 flex flex-wrap gap-2">
                             {day.topicSummary.length > 0 ? (
                               day.topicSummary.map((topic) => (

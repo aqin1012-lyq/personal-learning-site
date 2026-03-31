@@ -4,8 +4,8 @@ import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
 export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
   return (
-    <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px]">
-      <Link href={item.href || '/'} className="block p-6">
+    <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px] h-full">
+      <Link href={item.href || '/'} className="block h-full p-6 2xl:p-6">
         <div className="relative space-y-4">
           <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] pb-4">
             <div className="space-y-2">
@@ -15,7 +15,7 @@ export function CurrentLearningCard({ item }: { item: CurrentLearningItem }) {
             <span className="pill-tag shrink-0">{item.status}</span>
           </div>
           <p className="text-sm leading-8 text-stone-400">{item.summary}</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 pt-1">
             {item.tags.map((tag) => (
               <span key={tag} className="pill-tag text-stone-400">
                 {tag}
