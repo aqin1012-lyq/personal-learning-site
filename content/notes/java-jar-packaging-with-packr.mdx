@@ -1,0 +1,383 @@
+---
+title: "Java Jar 如何打包成可双击运行的应用（Packr 实战）"
+summary: "从生成 Jar、下载 Packr、准备 JDK、配置参数到生成可双击运行程序的一套保姆级流程，也补充了代码混淆与源码保护思路。"
+category: "开发实践"
+tags:
+  - "Java"
+  - "Packr"
+  - "Spring Boot"
+  - "Packaging"
+  - "macOS"
+updatedAt: "2025-01-19"
+featured: true
+---
+
+## 先上效果
+
+本文写自 2025-01-19。到目前为止，文中列出的资源都仍然有效，可以直接参考操作。
+
+这篇内容的目标很明确：
+把一个 Java / Spring Boot 的 Jar 包，进一步打包成用户可以双击运行的应用程序。
+如果只是自己本地跑服务，直接 `java -jar` 当然就够了；但如果想把程序交给别人使用，或者想让它看起来更像一个真正的桌面应用，这套流程就很实用。
+
+## 先说整体思路
+
+这套方法主要用到的是 **Packr**。
+它的作用可以简单理解为：
+把你的 Jar 包、运行所需的 JDK，以及启动入口，一起封装成一个更像“应用”的可执行产物。
+
+官方地址：
+
+- https://github.com/libgdx/packr
+
+如果你只是想使用，不打算研究源码，那么下载它发布包里的 Jar 文件即可。
+
+## 第一步：先生成你自己的 Jar 包
+
+如果你已经有现成的 Jar，可以直接跳到下一步。
+如果还没有，需要先把自己的 Java 程序打包。
+
+如果是 Spring Boot 项目，记得在 `pom.xml` 中加入下面这段配置：
+
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <configuration>
+        <excludes>
+          <exclude>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+          </exclude>
+        </excludes>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>repackage</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+```
+
+之后执行 `package`，就能生成可运行的 Jar。
+如果你用的是 IDEA，直接在 Maven 面板里执行 package 即可。
+
+## 第二步：把 Packr 和你的 Jar 放到同一个目录
+
+接下来，把下面几样东西放到同一个目录里：
+
+- 你下载的 `packr` 的 Jar 包
+- 你自己项目生成的 Jar 包
+- 后面要用到的 JDK 压缩包
+- 如果需要图标，还可以把 `.icns` 图标文件也放进去
+
+这样做的好处是，后面很多参数都可以直接填文件名，不用写复杂路径。
+
+## 第三步：执行 Packr 打包命令
+
+下面是一个通用模板。注意，这不是直接复制就能跑的最终命令，而是一个“最小必备参数”模板，你需要按自己的项目情况改。
+
+```bash
+java -jar packr-all.jar \
+ --platform mac \
+ --jdk OpenJDK8U-jdk_x64_mac_hotspot_8u432b06.tar \
+ --executable QWAP \
+ --classpath QWAP-0.0.1.jar \
+ --mainclass org.springframework.boot.loader.JarLauncher \
+ --output out-mac \
+ --icon icon.icns
+```
+
+```bash
+java -jar packr-all.jar \
+ --platform windows64 \
+ --jdk OpenJDK8U-jdk_x64_windows_hotspot_8u442b06.zip \
+ --executable QWAP \
+ --classpath QWAP-0.0.1.jar \
+ --mainclass org.springframework.boot.loader.JarLauncher \
+ --output out-win \
+ --icon icon.icns
+```
+
+## 每个参数到底是什么意思
+
+### `--platform`
+
+表示打包后的程序运行平台。
+可选值包括：
+
+- windows64
+- linux64
+- mac
+
+### `--jdk`
+
+表示程序运行时要带上的 Java 环境。
+这个参数非常关键，因为你打包出来的程序不能默认假设对方机器已经装好了合适版本的 JDK。
+
+获取方式可以参考：
+
+- https://adoptium.net/zh-CN/temurin/releases/
+
+选择与你项目匹配的 Java 版本，再分别下载对应平台的压缩包。
+如果你当前在 macOS 上打包，就先准备 mac 版本的 JDK 压缩包。
+
+因为它和 Packr 的 Jar 在同一个文件夹里，所以这里一般直接写文件名即可。
+
+### `--executable`
+
+生成后的程序名。
+也就是用户最后看到、可以双击打开的应用名称。
+
+### `--classpath`
+
+这里填你自己的 Jar 包路径。
+如果都放在同一个目录里，就直接填 Jar 文件名。
+
+### `--mainclass`
+
+这是启动入口，也是最容易踩坑的地方。
+
+如果你的项目是 **Spring Boot**，这里不要填你自己的启动类，而要填：
+
+- `org.springframework.boot.loader.JarLauncher`
+
+这一点非常重要。如果填错了，很可能打包能成功，但程序启动不起来。
+
+### `--output`
+
+输出目录。
+建议直接填一个不存在的新目录名，这样最省心，也不容易因为目录冲突导致报错。
+
+### `--icon`
+
+应用图标。
+在 macOS 下，这里需要的是 `.icns` 格式。
+
+## PNG 如何转换成 `.icns`
+
+如果你在 MacBook 上操作，可以直接用系统自带命令把 PNG 转成 `.icns`。
+
+先创建图标目录：
+
+```bash
+mkdir icons.iconset
+```
+
+然后依次生成不同尺寸：
+
+```bash
+sips -z 16 16 icon.png --out icons.iconset/icon_16x16.png
+sips -z 32 32 icon.png --out icons.iconset/icon_16x16@2x.png
+sips -z 32 32 icon.png --out icons.iconset/icon_32x32.png
+sips -z 64 64 icon.png --out icons.iconset/icon_32x32@2x.png
+sips -z 128 128 icon.png --out icons.iconset/icon_128x128.png
+sips -z 256 256 icon.png --out icons.iconset/icon_128x128@2x.png
+sips -z 256 256 icon.png --out icons.iconset/icon_256x256.png
+sips -z 512 512 icon.png --out icons.iconset/icon_256x256@2x.png
+sips -z 512 512 icon.png --out icons.iconset/icon_512x512.png
+sips -z 1024 1024 icon.png --out icons.iconset/icon_512x512@2x.png
+```
+
+最后执行：
+
+```bash
+iconutil -c icns icons.iconset -o icon.icns
+```
+
+这样就能得到 `icon.icns`。
+
+## 第四步：正式执行打包
+
+准备好 Packr、Jar、JDK、图标之后，再执行前面的命令。
+如果参数都填对，Packr 会输出打包成功的结果目录。
+
+在 macOS 下，完成后你通常就能得到一套可分发的应用文件，然后双击运行。
+
+## 如果想让 Spring Boot 启动时更安静一点
+
+如果你不想让用户看到太多 Spring Boot 默认日志，可以在配置文件里加上这些：
+
+```properties
+spring.main.banner-mode=off
+logging.level.root=ERROR
+logging.level.org.springframework=OFF
+logging.level.org.apache=OFF
+logging.config=
+```
+
+这样启动时会更干净，用户体验也更像一个桌面应用，而不是开发环境里的后端服务。
+
+## 进一步：源码保护怎么做
+
+如果你不仅想“打包能跑”，还想顺手提高一点源码保护强度，可以往下做。
+
+### 方案一：代码混淆 + 资源隐藏
+
+这是最推荐的基础方案，因为成本相对低，也不需要额外特别重的工具链。
+
+核心思路：
+
+- 用 ProGuard 做代码混淆
+- 把 Jar 放进更深一层的目录
+- 给关键文件加权限控制
+
+示例 Maven 插件配置：
+
+```xml
+<plugin>
+  <groupId>com.github.wvengen</groupId>
+  <artifactId>proguard-maven-plugin</artifactId>
+  <version>2.6.0</version>
+  <executions>
+    <execution>
+      <phase>package</phase>
+      <goals>
+        <goal>proguard</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <options>
+      <option>-keep public class com.yourpackage.Main { public static void main(java.lang.String[]); }</option>
+      <option>-dontoptimize</option>
+      <option>-dontshrink</option>
+    </options>
+  </configuration>
+</plugin>
+```
+
+然后在 Packr 配置里把 Jar 放进隐藏子目录，例如：
+
+```json
+{
+  "platform": "mac",
+  "jdk": "jdk1.8.0_341.zip",
+  "executable": "EnglishTool",
+  "classpath": ["hidden/lib/app.jar"],
+  "mainclass": "com.Main",
+  "vmargs": ["-Djava.library.path=."]
+}
+```
+
+在 macOS 下，打包完成后还可以再做权限控制：
+
+```bash
+chmod 700 EnglishTool.app/Contents/MacOS/EnglishTool
+chmod 600 EnglishTool.app/Contents/hidden/lib/app.jar
+```
+
+这个方案的优点是：
+
+- 不需要很复杂的额外依赖
+- 和 Java 8 兼容性不错
+- 对普通级别的源码窥探已经有一定阻力
+
+### 方案二：Launch4j + UPX 压缩壳
+
+这个方案更偏工程化，适合你希望在 Windows / macOS 两个平台都做一层本地封装。
+
+示意配置大概像这样：
+
+```xml
+<headerType>gui</headerType>
+<jar>your-app.jar</jar>
+<outfile>EnglishTool.exe</outfile>
+<chdir>.</chdir>
+<errTitle>Error</errTitle>
+<jre>
+  <path>jre8</path>
+  <minVersion>1.8.0</minVersion>
+</jre>
+```
+
+配合 UPX：
+
+```bash
+brew install upx
+upx --best EnglishTool.app/Contents/MacOS/EnglishTool
+```
+
+这个方向的价值主要在于：
+
+- 可执行文件体积更小
+- 静态分析门槛略高
+- 更接近“本地二进制”的分发感受
+
+但代价是维护复杂度也会更高。
+
+### 方案三：JNI 保护核心逻辑
+
+如果你真的有一部分核心算法特别想保护，就可以把那部分迁到 C / C++，然后通过 JNI 调用。
+
+示例：
+
+```cpp
+JNIEXPORT jstring JNICALL Java_com_Main_getAnswer(JNIEnv* env, jobject obj) {
+  return env->NewStringUTF("Secret Data");
+}
+```
+
+编译动态库：
+
+```bash
+g++ -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/darwin" -shared -o libcore.dylib NativeCore.cpp
+```
+
+Java 侧调用：
+
+```java
+public class Main {
+  static {
+    System.loadLibrary("core");
+  }
+
+  public native String getAnswer();
+}
+```
+
+这个方案的优点是保护强度更高，但成本也明显更高，适合真正的关键算法模块，而不是所有项目都一上来就做。
+
+## 额外建议
+
+### 资源文件加密
+
+如果配置、模板、关键资源不想明文暴露，可以做加密后再在运行时解密。
+例如：
+
+```java
+Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
+byte[] decrypted = cipher.doFinal(Files.readAllBytes(encryptedFile));
+```
+
+### 代码分割分发
+
+另一种思路是，不把所有逻辑都放在客户端里。
+比如：
+
+- 非核心模块放本地
+- 核心能力放远程服务
+- 客户端只保留必要 UI 和调用逻辑
+
+这样即使客户端被反编译，暴露的也只是壳层。
+
+## 最后的建议
+
+如果只是想让项目更像一个真正可双击运行的桌面应用，**Packr + 合适版本 JDK + 正确 mainclass** 这套已经足够好用。
+
+如果你还担心源码暴露，优先考虑：
+
+- ProGuard 混淆
+- 资源隐藏
+- 文件权限控制
+
+这几件事组合起来，已经能在易用性和保护强度之间取得一个比较实用的平衡。
+
+如果之后再追求更高强度，再考虑 Launch4j、UPX、JNI 这些更重的方案。
