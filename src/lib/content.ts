@@ -86,7 +86,7 @@ export function getAllLogs(): LogItem[] {
 }
 
 export function getAllNotes(): NoteItem[] {
-  return readCollection<NoteItem>('notes', (slug, frontmatter) => ({
+  return readCollection<NoteItem>('notes', (slug, frontmatter, content) => ({
     id: slug,
     slug,
     title: String(frontmatter.title || ''),
@@ -95,6 +95,7 @@ export function getAllNotes(): NoteItem[] {
     tags: (frontmatter.tags as string[]) || [],
     updatedAt: String(frontmatter.updatedAt || ''),
     featured: Boolean(frontmatter.featured),
+    content,
   })).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
 }
 

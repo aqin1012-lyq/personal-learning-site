@@ -7,4 +7,5 @@ export type NoteItem = {
   tags: string[];
   updatedAt: string;
   featured?: boolean;
+  content?: string;
 };

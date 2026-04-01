@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SiteContainer } from '@/components/layout/SiteContainer';
 import { ContentHeader } from '@/components/logs/ContentHeader';
+import { ArticleContent } from '@/components/logs/ArticleContent';
 import { RelatedContent } from '@/components/logs/RelatedContent';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
@@ -44,29 +45,8 @@ export default async function NoteDetailPage({ params }: PageProps) {
           <ContentHeader title={note.title} summary={note.summary} date={note.updatedAt} tags={note.tags} />
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <article className="section-shell reveal-surface">
-              <div className="relative space-y-8 prose-custom max-w-none">
-                <div>
-                  <h2>核心定义</h2>
-                  <p>{note.summary}</p>
-                </div>
-                <div>
-                  <h2>关键要点</h2>
-                  <ul>
-                    <li>先用一句话定义这个概念，再拆成几个关键判断点。</li>
-                    <li>条目要足够短，方便快速回看，也方便长期增量修改。</li>
-                    <li>真正有价值的不是摘抄，而是把它和自己的学习过程连起来。</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>我的理解</h2>
-                  <p>知识条目应该像“被自己真正理解过的卡片”，而不是资料仓库。只要定义、要点和关联足够清楚，这个页面就会长期有用。</p>
-                </div>
-                <div>
-                  <h2>进一步整理</h2>
-                  <p>后续适合接入 MDX，让每条知识卡都能逐渐长成更完整的专题结构，同时保留现在这种简洁、可读、可维护的页面形态。</p>
-                </div>
-              </div>
+            <article>
+              <ArticleContent content={note.content || `## 核心定义\n\n${note.summary}`} />
             </article>
 
             <aside className="space-y-6">
