@@ -8,7 +8,7 @@ export const currentLearning: CurrentLearningItem[] = [
     status: '进行中',
     progressText: '本周重点',
     tags: ['React', 'Design System', 'UI'],
-    href: '/notes/frontend-system-design',
+    href: '/notes?category=前端开发&tag=React',
   },
   {
     id: 'cl-2',
@@ -26,6 +26,6 @@ export const currentLearning: CurrentLearningItem[] = [
     status: '整理中',
     progressText: '专题沉淀',
     tags: ['Learning', 'Notes'],
-    href: '/about',
+    href: '/notes',
   },
 ];

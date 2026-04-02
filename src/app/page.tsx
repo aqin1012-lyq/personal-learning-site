@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { siteConfig } from '@/data/site';
 import { currentLearning } from '@/data/current-learning';
+import type { NoteItem } from '@/types/note';
 import { getAllLogs, getAllNotes, getAllProjects } from '@/lib/content';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -23,6 +24,14 @@ export default function HomePage() {
   const featuredNotes = notes.filter((item) => item.featured).slice(0, 3);
   const featuredProjects = projects.slice(0, 2);
   const latestProject = featuredProjects[0];
+
+  const buildNotesHref = (item: Pick<NoteItem, 'category' | 'tags'>) => {
+    const params = new URLSearchParams();
+    if (item.category) params.set('category', item.category);
+    if (item.tags[0]) params.set('tag', item.tags[0]);
+    const query = params.toString();
+    return query ? `/notes?${query}` : '/notes';
+  };
 
   const stats = [
     { label: 'Learning Logs', value: String(logs.length).padStart(2, '0'), note: '持续记录输入、实践与复盘' },
@@ -241,7 +250,7 @@ export default function HomePage() {
                         <br className="hidden md:block" />
                         也可以是一层层被展开的学习现场。
                       </h2>
-                      <p className="max-w-[42rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
+                      <p className="max-w-[60rem] text-sm leading-8 text-stone-400 2xl:text-[15px]">
                         先看近十年的总览，再沿年份、月份与该月月历逐层进入；有内容的节点被轻量强调，空白节点也仍然保留。
                       </p>
                     </div>
@@ -253,7 +262,7 @@ export default function HomePage() {
                 <InteractiveSurface as="section" className="section-shell interactive-section-shell stagger-surface rounded-[32px] 2xl:px-10 2xl:py-9">
                   <div className="grid gap-6 xl:grid-cols-[minmax(0,1.38fr)_minmax(300px,0.8fr)] xl:items-start 2xl:grid-cols-[minmax(0,1.52fr)_minmax(320px,0.74fr)]">
                     <div className="space-y-5">
-                      <SectionHeader title="当前在学" description="最近正在持续推进的主题，不求铺太开，但求稳定往前走。" />
+                      <SectionHeader title="当前在学" description="最近正在持续推进的主题。" />
                       <div className="grid gap-4 md:grid-cols-2 2xl:gap-5">
                         {currentLearning.map((item) => (
                           <CurrentLearningCard key={item.id} item={item} />
@@ -306,7 +315,7 @@ export default function HomePage() {
                       <SectionHeader title="快速复习入口" description="如果不想从长文开始，可以先从最近整理出来的知识卡片切入，再回到上面的轨道与日志。" actionLabel="进入知识库" actionHref="/notes" />
                       <div className="grid gap-3">
                         {featuredNotes.slice(0, 2).map((item) => (
-                          <NoteCard key={item.id} item={item} compact />
+                          <NoteCard key={item.id} item={item} compact href={buildNotesHref(item)} />
                         ))}
                       </div>
                     </section>
@@ -326,7 +335,7 @@ export default function HomePage() {
                   <SectionHeader title="精选知识卡片" description="这些内容更偏“结构化沉淀”，适合回顾概念、方法和框架。" actionLabel="进入知识库" actionHref="/notes" />
                   <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {featuredNotes.map((item) => (
-                      <NoteCard key={item.id} item={item} />
+                      <NoteCard key={item.id} item={item} href={buildNotesHref(item)} />
                     ))}
                   </div>
                 </section>
