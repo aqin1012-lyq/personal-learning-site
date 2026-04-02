@@ -17,13 +17,13 @@ featured: false
 <h2>题目描述</h2> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/01.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-1" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/01.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-1"  />
 </p> 
 <h2>解题方法</h2> 
 <p>只要一行代码</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/02.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-2" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/02.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-2"  />
 </p> 
 <pre><code>class Solution {
     public boolean repeatedSubstringPattern(String s) {
@@ -34,12 +34,12 @@ featured: false
 <p>我们看下下面这个图</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/03.jpeg" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-3" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/03.jpeg" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-3"  />
 </p> 
 <p>那么为什么呢(ο´&#xff65;д&#xff65;)??</p> 
 <p>如果一个字符串S可以通过他的一个它的子串A拼成&#xff0c;那他至少包含 2 个这个子串A&#xff08;包含一个就是它自己了&#xff09;&#xff0c;那么如果把2个这样的字符串S拼接在一起&#xff0c;至少有4 个子串A&#xff0c;截掉第一个字符&#xff08;假如少了一个子串A&#xff0c;子串A一定是大于等于一个字符的&#xff09;&#xff0c;和最后一个字符&#xff08;假如又少了一个子串A&#xff09;&#xff0c;那么至少还有2个子串A&#xff0c;2个子串A不就是一个字符串S嘛</p> 
 <p>准确一点的话就是</p> 
-<p>一个字符串S可以通过他的一个它的子串A拼成&#xff0c;那它就包含 n 个这个子串A&#xff0c;把2个这样的字符串S拼接在一起&#xff0c;就有 2n 个子串A&#xff0c;截掉第一个和最后一个字符&#xff0c;最多减少2个子串A&#xff0c;于是剩余 2n-2 个&#xff0c;由于 n&gt;&#61;2&#xff08;n&#61;1子串就是字符串本身了&#xff09;&#xff0c;所以2n-2&gt;&#61;n&#xff0c;因此截取后的字符串一定至少包含一个最开始的字符串S。</p> 
+<p>一个字符串S可以通过他的一个它的子串A拼成&#xff0c;那它就包含 n 个这个子串A&#xff0c;把2个这样的字符串S拼接在一起&#xff0c;就有 2n 个子串A&#xff0c;截掉第一个和最后一个字符&#xff0c;最多减少2个子串A&#xff0c;于是剩余 2n-2 个&#xff0c;由于 n>&#61;2&#xff08;n&#61;1子串就是字符串本身了&#xff09;&#xff0c;所以2n-2>&#61;n&#xff0c;因此截取后的字符串一定至少包含一个最开始的字符串S。</p> 
 <p>虽然一行代码非常简单&#xff0c;但是知道这行代码的复杂度不&#x1f914;&#xff1f;</p> 
 <h5>复杂度分析&#xff08; 仅针对Java的实现进行分析&#xff09;</h5> 
 <ul><li>时间复杂度:<code>O(n²)</code></li><li>空间复杂度&#xff1a;<code>O(n)</code></li></ul> 
@@ -47,17 +47,17 @@ featured: false
 <p>首先是拼接字符串 <code>(s&#43;s)</code>&#xff0c;这个的时间复杂度是<code>O(n)</code>&#xff08;先生成一个新的长度为 <code>2n</code> 的新字符串&#xff0c;再进行复制&#xff09;&#xff1b;然后是截取子串&#xff0c;Java的 <code>substring()</code>方法也是复制到一个新数组中&#xff0c;所以也是<code>O(n)</code>&#xff1b;然后就是最复杂的查找&#xff0c;这里用的是 Java 的<code>contains()</code>方法&#xff0c;我们可以看下具体实现&#xff1a;</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/04.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-4" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/04.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-4"  />
 </p> 
 <p>Java 的 <code>contains()</code> 方法底层调用 <code>indexOf()</code></p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/05.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-5" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/05.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-5"  />
 </p> 
 <p>层层调用后&#xff0c;最终调用的方法长这样&#xff1a;</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/06.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-6" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/06.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-6"  />
 </p> 
 <p>可以看到&#xff0c;这里使用的是暴力匹配。也就是说最坏情况下需要遍历子串的每个位置并与目标字符串逐字符比较&#xff0c;因此时间复杂度为 <code>O(m * n)</code>&#xff0c;其中 <code>m</code> 是被搜索字符串的长度&#xff08;<code>2n-2</code>&#xff09;&#xff0c;<code>n</code> 是目标字符串的长度&#xff08;<code>n</code>&#xff09;&#xff0c;即 <code>O(n²)</code></p> 
 <p>那么问题来了&#xff1a;为什么不用我们了解到的高效匹配字符串的 KMP 算法呢&#xff1f;</p> 
@@ -65,7 +65,7 @@ featured: false
 <p>所以刷题不只是为了 AC&#xff0c;这道题建议可以自己用 KMP算法实现一个<code>contains()</code>方法&#xff0c;做一个 KMP 算法的巩固下&#xff08;如果需要一篇专门说 KMP 的文章&#xff0c;可以评论区戳戳&#xff09;</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/07.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-7" /></p>
+<img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/07.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-7"  />
 </p> 
 <pre><code>class Solution {
     public boolean repeatedSubstringPattern(String s) {
@@ -80,8 +80,8 @@ featured: false
         char[] ssArr&#61;ss.toCharArray();
         char[] sArr&#61;s.toCharArray();
         int j&#61;0;
-        for(int i&#61;0;i&lt;ssArr.length;i&#43;&#43;){
-            while(j&gt;0 &amp;&amp; ssArr[i]!&#61;sArr[j]){
+        for(int i&#61;0;i<ssArr.length;i&#43;&#43;){
+            while(j>0 && ssArr[i]!&#61;sArr[j]){
                 j&#61;next[j-1];
             }
             if(ssArr[i]&#61;&#61;sArr[j]){
@@ -99,8 +99,8 @@ featured: false
         int[] next&#61;new int[len];
         int j&#61;0;
         next[0]&#61;0;
-        for(int i&#61;1;i&lt;len;i&#43;&#43;){
-            while(j&gt;0 &amp;&amp; s.charAt(i)!&#61;s.charAt(j)){
+        for(int i&#61;1;i<len;i&#43;&#43;){
+            while(j>0 && s.charAt(i)!&#61;s.charAt(j)){
                 j&#61;next[j-1];
             }
             if(s.charAt(i)&#61;&#61;s.charAt(j)){

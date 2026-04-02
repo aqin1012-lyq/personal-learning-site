@@ -17,11 +17,7 @@ featured: false
 <p><strong>核心目标</strong>&#xff1a;解耦对象的创建与使用&#xff0c;提升灵活性和资源复用。</p>
 </blockquote>
 
-
-
 <table><tbody><tr><td><strong>模式</strong></td><td><strong>核心思想</strong></td><td><strong>典型应用场景</strong></td></tr><tr><td>​​单例模式​​</td><td>确保类仅有一个实例&#xff0c;全局可访问</td><td>数据库连接池、日志管理器、配置中心</td></tr><tr><td>​​工厂方法​​</td><td>子类决定实例化哪个类&#xff0c;延迟创建逻辑</td><td>Spring Bean工厂、日志记录器多实现支持</td></tr><tr><td>​​抽象工厂​​</td><td>创建相关对象族&#xff0c;无需指定具体类</td><td>跨平台UI组件库、数据库驱动兼容</td></tr><tr><td>​​建造者模式​​</td><td>分步骤构建复杂对象&#xff0c;隔离构造细节</td><td>定制化套餐组装、HTML文档生成</td></tr><tr><td>​​原型模式​​</td><td>复制现有对象创建新实例&#xff0c;避免重复初始化</td><td>游戏角色克隆、高性能对象缓存</td></tr></tbody></table>
-
-
 
 <p><strong>关键区别</strong>&#xff1a;</p>
 
@@ -38,11 +34,7 @@ featured: false
 <p><strong>核心目标</strong>&#xff1a;优化类与对象的组合结构&#xff0c;增强扩展性和复用性。</p>
 </blockquote>
 
-
-
 <table><tbody><tr><td><strong>模式</strong></td><td><strong>核心思想</strong></td><td><strong>典型应用场景</strong></td></tr><tr><td>​​适配器模式​​</td><td>转换接口使不兼容类协同工作</td><td>整合第三方库、旧系统接口兼容&#xff08;如USB转Type-C&#xff09;</td></tr><tr><td>​​装饰器模式​​</td><td>动态添加职责&#xff0c;避免继承臃肿</td><td>Java I/O流包装、中间件功能增强&#xff08;加密/压缩&#xff09;</td></tr><tr><td>​​代理模式​​</td><td>控制对象访问&#xff0c;增强安全或延迟加载</td><td>图片懒加载、远程服务调用&#xff08;RPC&#xff09;、防火墙权限控制</td></tr><tr><td>​​组合模式​​</td><td>统一处理树形结构的叶子与容器节点</td><td>文件系统、UI组件树&#xff08;如菜单嵌套子菜单&#xff09;</td></tr><tr><td>​​享元模式​​</td><td>共享细粒度对象&#xff0c;减少内存开销</td><td>文本编辑器字符池、游戏粒子系统</td></tr><tr><td>​​外观模式​​</td><td>简化子系统调用&#xff0c;提供统一入口</td><td>API网关、酒店前台整合服务&#xff08;入住/退房/清洁&#xff09;</td></tr><tr><td>​​桥接模式​​</td><td>分离抽象与实现&#xff0c;支持独立扩展</td><td>多维度变化系统&#xff08;如不同形状&#43;颜色的图形渲染&#xff09;</td></tr></tbody></table>
-
-
 
 <p><strong>关键区别</strong>&#xff1a;</p>
 
@@ -59,11 +51,7 @@ featured: false
 <p><strong>核心目标</strong>&#xff1a;优化对象间通信与职责分配&#xff0c;提升协作效率。</p>
 </blockquote>
 
-
-
 <table><tbody><tr><td><strong>模式</strong></td><td><strong>核心思想</strong></td><td><strong>典型应用场景</strong></td></tr><tr><td>​​观察者模式​​</td><td>一对多依赖&#xff0c;状态变更自动通知</td><td>事件通知系统&#xff08;如微信群消息&#xff09;、数据实时同步</td></tr><tr><td>​​策略模式​​</td><td>封装算法族&#xff0c;支持运行时切换</td><td>支付方式选择&#xff08;微信/支付宝&#xff09;、排序算法动态替换</td></tr><tr><td>​​状态模式​​</td><td>对象行为随内部状态改变而改变</td><td>订单状态流转&#xff08;待支付→已发货&#xff09;、游戏角色行为切换</td></tr><tr><td>​​责任链模式​​</td><td>请求沿处理链传递&#xff0c;直到被处理</td><td>审批流程&#xff08;员工→经理→CEO&#xff09;、异常过滤器链</td></tr><tr><td>​​模板方法模式​​</td><td>定义算法骨架&#xff0c;子类重写特定步骤</td><td>固定流程业务&#xff08;如泡茶步骤&#xff09;、框架钩子方法</td></tr><tr><td>​​命令模式​​</td><td>将请求封装为对象&#xff0c;支持撤销/队列</td><td>GUI按钮操作、事务回滚&#xff08;如文本编辑器撤销&#xff09;</td></tr><tr><td>​​迭代器模式​​</td><td>统一接口遍历聚合对象&#xff0c;隐藏内部结构</td><td>集合遍历&#xff08;JDK的Iterator&#xff09;、数据库查询结果集</td></tr><tr><td>​​访问者模式​​</td><td>分离数据结构与操作&#xff0c;便于新增功能</td><td>语法树分析、报表生成器</td></tr><tr><td>​​中介者模式​​</td><td>集中管理对象间交互&#xff0c;减少耦合</td><td>聊天室消息转发、机场调度系统</td></tr><tr><td>​​备忘录模式​​</td><td>捕获对象状态&#xff0c;支持后续恢复</td><td>游戏存档、事务回滚</td></tr><tr><td>​​解释器模式​​</td><td>定义语法规则&#xff0c;解释特定语言</td><td>正则表达式引擎、SQL解析</td></tr></tbody></table>
-
-
 
 <p><strong>关键区别</strong>&#xff1a;</p>
 

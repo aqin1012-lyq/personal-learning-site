@@ -21,7 +21,7 @@ featured: false
 <p><strong>Example 2:</strong></p> 
 <p><strong>Input:</strong> word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; <strong>Output:</strong> 4</p> 
 <p><strong>Constraints:</strong></p> 
-<ul><li><code>1 &lt;&#61; word1.length, word2.length &lt;&#61; 500</code></li><li><code>word1</code> and <code>word2</code> consist of only lowercase English letters.</li></ul> 
+<ul><li><code>1 <&#61; word1.length, word2.length <&#61; 500</code></li><li><code>word1</code> and <code>word2</code> consist of only lowercase English letters.</li></ul> 
 <h2>英文版地址</h2> 
 <p><a href="https://leetcode.com/problems/delete-operation-for-two-strings/description/" title="https://leetcode.com/problems/delete-operation-for-two-strings/description/" rel="nofollow"><span contenteditable="false"><span>https://leetcode.com/problems/delete-operation-for-two-strings/description/</span><span>https://leetcode.com/problems/delete-operation-for-two-strings/description/</span></span></a></p> 
 <h2>中文版描述</h2> 
@@ -32,13 +32,13 @@ featured: false
 <p><strong>示例 2:</strong></p> 
 <p><strong>输入&#xff1a;</strong>word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; <strong>输出&#xff1a;</strong>4</p> 
 <p><strong>提示&#xff1a;</strong></p> 
-<ul><li><code>1 &lt;&#61; word1.length, word2.length &lt;&#61; 500</code></li><li><code>word1</code> 和 <code>word2</code> 只包含小写英文字母</li></ul> 
+<ul><li><code>1 <&#61; word1.length, word2.length <&#61; 500</code></li><li><code>word1</code> 和 <code>word2</code> 只包含小写英文字母</li></ul> 
 <h2>中文版地址</h2> 
 <p><a href="https://leetcode.cn/problems/delete-operation-for-two-strings/description/" title="https://leetcode.cn/problems/delete-operation-for-two-strings/description/" rel="nofollow"><span contenteditable="false"><span>https://leetcode.cn/problems/delete-operation-for-two-strings/description/</span><span>https://leetcode.cn/problems/delete-operation-for-two-strings/description/</span></span></a></p> 
 <h2>解题方法</h2> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/01.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-1" /></p>
+<img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/01.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-1"  />
 </p> 
 <pre><code>class Solution {
     public int minDistance(String word1, String word2) {
@@ -46,14 +46,14 @@ featured: false
         if (word1.charAt(0) !&#61; word2.charAt(0)) {
             dp[0][0] &#61; 2;
         }
-        for (int i &#61; 1; i &lt; word1.length(); i&#43;&#43;) {
-            if (word1.charAt(i) &#61;&#61; word2.charAt(0) &amp;&amp; dp[i - 1][0] !&#61; i-1) {
+        for (int i &#61; 1; i < word1.length(); i&#43;&#43;) {
+            if (word1.charAt(i) &#61;&#61; word2.charAt(0) && dp[i - 1][0] !&#61; i-1) {
                 dp[i][0] &#61; dp[i - 1][0] - 1;
             } else {
                 dp[i][0] &#61; dp[i - 1][0] &#43; 1;
             }
         }
-        for (int j &#61; 1; j &lt; word2.length(); j&#43;&#43;) {
+        for (int j &#61; 1; j < word2.length(); j&#43;&#43;) {
             if (word1.charAt(0) &#61;&#61; word2.charAt(j)) {
                 dp[0][j] &#61; j;
             } else {
@@ -61,8 +61,8 @@ featured: false
             }
         }
 
-        for (int i &#61; 1; i &lt; word1.length(); i&#43;&#43;) {
-            for (int j &#61; 1; j &lt; word2.length(); j&#43;&#43;) {
+        for (int i &#61; 1; i < word1.length(); i&#43;&#43;) {
+            for (int j &#61; 1; j < word2.length(); j&#43;&#43;) {
                 if (word1.charAt(i) &#61;&#61; word2.charAt(j)) {
                     dp[i][j] &#61; dp[i - 1][j - 1];
                 } else {
@@ -78,16 +78,16 @@ featured: false
 <h2>官方版</h2> 
 <p>这个初始化就有些不太一样叻&#xff5e;&#xff5e;</p> 
 <p>
-<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/02.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-2" /></p>
+<img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/02.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-2"  />
 </p> 
 <pre><code>class Solution {
     public int minDistance(String word1, String word2) {
         int[][] dp &#61; new int[word1.length() &#43; 1][word2.length() &#43; 1];
-        for (int i &#61; 0; i &lt; word1.length() &#43; 1; i&#43;&#43;) dp[i][0] &#61; i;
-        for (int j &#61; 0; j &lt; word2.length() &#43; 1; j&#43;&#43;) dp[0][j] &#61; j;
+        for (int i &#61; 0; i < word1.length() &#43; 1; i&#43;&#43;) dp[i][0] &#61; i;
+        for (int j &#61; 0; j < word2.length() &#43; 1; j&#43;&#43;) dp[0][j] &#61; j;
         
-        for (int i &#61; 1; i &lt; word1.length() &#43; 1; i&#43;&#43;) {
-            for (int j &#61; 1; j &lt; word2.length() &#43; 1; j&#43;&#43;) {
+        for (int i &#61; 1; i < word1.length() &#43; 1; i&#43;&#43;) {
+            for (int j &#61; 1; j < word2.length() &#43; 1; j&#43;&#43;) {
                 if (word1.charAt(i - 1) &#61;&#61; word2.charAt(j - 1)) {
                     dp[i][j] &#61; dp[i - 1][j - 1];
                 }else{
@@ -107,12 +107,12 @@ featured: false
 <p>解法 1 的动规数组的含义是word1 取 [0, i] 范围内并且word2取[0, j] 的范围内时&#xff0c;使得 word1 和 word2 相同所需的最小步数是dp[i][j] &#xff0c;而解法 2 的动规数组的含义是word1 取 [0, i-1] 范围内并且word2取[0, j-1] 的范围内时&#xff0c;使得 word1 和 word2 相同所需的最小步数是dp[i][j]</p> 
 <p>可以看下下图&#xff08;示例 2:输入&#xff1a;word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; 输出&#xff1a;4&#xff0c;第一行是解法 1 的 dp 数组&#xff0c;第二行是解法 2 的 dp 数组&#xff09;&#xff0c;或者自己推一遍就会清楚很多</p> 
 <p>
-<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/03.jpeg" alt="2026-04-02-delete-operation-for-two-strings-dp-init-3" /></p>
+<img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/03.jpeg" alt="2026-04-02-delete-operation-for-two-strings-dp-init-3"  />
 </p> 
 <p>在代码中的体现就是</p> 
  
 <p>
-<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/04.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-4" /></p>
+<img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/04.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-4"  />
 </p> 
 <p>所以如何定义其实并没有对错的问题&#xff0c;只是在处理逻辑上会有一些些差异&#xff5e;&#xff5e;</p>
 

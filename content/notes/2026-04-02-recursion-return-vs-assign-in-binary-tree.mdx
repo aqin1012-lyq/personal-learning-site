@@ -34,14 +34,14 @@ TreeNode right &#61; dfs(root.right);</code></pre>
 <hr /> 
 <h2>我们来看看这两道几乎“长得一样”的 LCA 题</h2> 
 <p>附上 leetcode &#x1f517;感兴趣的同学可以先去做一做&#xff0c;然后感触会更深&#xff5e;</p> 
-<p><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/" title="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/" rel="nofollow">https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/</a></p> 
-<p><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/" title="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/" rel="nofollow">https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/</a></p> 
+<p>https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/</p> 
+<p>https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/</p> 
 <p>为什么拿它俩举例&#xff0c;因为它们<strong>代表上一趴我们提到的两种完全不同的递归模式&#xff1a;传递性递归和加工型递归</strong></p> 
 <hr /> 
 <h2>235. 二叉搜索树的最近公共祖先&#xff08;BST LCA&#xff09;</h2> 
 <h2>1️⃣ 关键前提&#xff1a;BST 的结构性质</h2> 
 <p>BST 有一个<strong>强约束</strong>&#xff1a;</p> 
-<ul><li>左子树所有节点 &lt; root.val</li><li>右子树所有节点 &gt; root.val</li></ul> 
+<ul><li>左子树所有节点 < root.val</li><li>右子树所有节点 > root.val</li></ul> 
 <p>&#x1f449; <strong>节点值大小&#xff0c;直接决定位置方向</strong></p> 
 <h2>2️⃣ 解题思路&#xff08;只走一条路&#xff09;</h2> 
 <ul><li>如果 p、q 都小于 root → LCA 在左子树</li><li>如果 p、q 都大于 root → LCA 在右子树</li><li>否则 → root 就是最近公共祖先</li></ul> 
@@ -49,10 +49,10 @@ TreeNode right &#61; dfs(root.right);</code></pre>
 <pre><code>public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
     if (root &#61;&#61; null) return null;
 
-    if (p.val &lt; root.val &amp;&amp; q.val &lt; root.val)
+    if (p.val < root.val && q.val < root.val)
         return lowestCommonAncestor(root.left, p, q);
 
-    if (p.val &gt; root.val &amp;&amp; q.val &gt; root.val)
+    if (p.val > root.val && q.val > root.val)
         return lowestCommonAncestor(root.right, p, q);
 
     return root;
@@ -77,7 +77,7 @@ TreeNode right &#61; dfs(root.right);</code></pre>
     TreeNode left &#61; lowestCommonAncestor(root.left, p, q);
     TreeNode right &#61; lowestCommonAncestor(root.right, p, q);
 
-    if (left !&#61; null &amp;&amp; right !&#61; null) return root;
+    if (left !&#61; null && right !&#61; null) return root;
     return left !&#61; null ? left : right;
 }</code></pre> 
 <h2>4️⃣ 为什么这里必须先赋值&#xff1f;</h2> 

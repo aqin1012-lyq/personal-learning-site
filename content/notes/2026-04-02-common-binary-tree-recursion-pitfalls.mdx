@@ -131,7 +131,7 @@ int height(TreeNode root) {
     int right &#61; height(root.right);
     if (right &#61;&#61; -1) return -1;
 
-    if (Math.abs(left - right) &gt; 1) return -1;
+    if (Math.abs(left - right) > 1) return -1;
 
     return Math.max(left, right) &#43; 1;
 }</code></pre>
@@ -150,7 +150,7 @@ int height(TreeNode root) {
 <p>很多人&#xff08;比如我一开始&#xff09;会写成&#xff1a;</p>
 
 <pre>
-<code>traversal(root.left) &amp;&amp; traversal(root.right)</code></pre>
+<code>traversal(root.left) && traversal(root.right)</code></pre>
 
 <p>这其实是在判断&#xff1a;</p>
 
@@ -184,12 +184,12 @@ int height(TreeNode root) {
 }
 
 boolean mirror(TreeNode l, TreeNode r) {
-    if (l &#61;&#61; null &amp;&amp; r &#61;&#61; null) return true;
+    if (l &#61;&#61; null && r &#61;&#61; null) return true;
     if (l &#61;&#61; null || r &#61;&#61; null) return false;
     if (l.val !&#61; r.val) return false;
 
     return mirror(l.left, r.right)
-        &amp;&amp; mirror(l.right, r.left);
+        && mirror(l.right, r.left);
 }</code></pre>
 
 <hr />

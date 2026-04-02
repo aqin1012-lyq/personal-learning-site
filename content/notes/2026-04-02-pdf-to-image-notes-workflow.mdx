@@ -37,31 +37,23 @@ featured: false
 
 <p>打开Cursor&#xff0c;新建terminal&#xff0c;输入个提示词&#xff0c;然后回车&#xff5e;转身咖啡还没泡完&#xff0c;200张带水印的笔记整整齐齐躺在output文件夹里&#xff0c;甚至自动按文档名&#43;编号整理完毕➡️关机下班&#xff08;啊&#x1f62d;还要打卡&#xff0c;再坐一会吧&#xff09;&#xff5e;</p>
 
-
-
 <p>
-<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/01.png" alt="2026-04-02-pdf-to-image-notes-workflow-1" /></p>
+<img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/01.png" alt="2026-04-02-pdf-to-image-notes-workflow-1"  />
 </p>
 
 <p>我们还是看下效果&#xff0c;这是原文档&#xff1a;</p>
 
-
-
 <p>
-<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/02.png" alt="2026-04-02-pdf-to-image-notes-workflow-2" /></p>
+<img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/02.png" alt="2026-04-02-pdf-to-image-notes-workflow-2"  />
 </p>
 
 <p>这是生成的图片</p>
 
-
-
 <p>
-<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/03.png" alt="2026-04-02-pdf-to-image-notes-workflow-3" /></p>
+<img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/03.png" alt="2026-04-02-pdf-to-image-notes-workflow-3"  />
 </p>
 
 <p>还加了水印&#xff01;</p>
-
-
 
 <p>二话不说&#xff0c;完整代码如下&#xff08;记得请我喝咖啡哈哈(^^)&#xff09;&#xff1a;</p>
 
@@ -80,8 +72,8 @@ public class Pdf2PicConverter {
 
     public static void main(String[] args) {
         // 项目根目录下 java -jar target/pdf2pic-1.0-SNAPSHOT-jar-with-dependencies.jar pdfs output
-        if (args.length &lt; 2) {
-            System.out.println(&#34;用法: java -jar pdf2pic.jar &lt;PDF源文件夹&gt; &lt;图片输出文件夹&gt; [DPI] [格式]&#34;);
+        if (args.length < 2) {
+            System.out.println(&#34;用法: java -jar pdf2pic.jar <PDF源文件夹> <图片输出文件夹> [DPI] [格式]&#34;);
             System.out.println(&#34;  [DPI]: 可选参数&#xff0c;图片DPI值&#xff0c;默认为300&#34;);
             System.out.println(&#34;  [格式]: 可选参数&#xff0c;输出图片格式&#xff0c;默认为png&#34;);
             return;
@@ -94,7 +86,7 @@ public class Pdf2PicConverter {
         float dpi &#61; 300;
         String format &#61; &#34;png&#34;;
         
-        if (args.length &gt; 2) {
+        if (args.length > 2) {
             try {
                 dpi &#61; Float.parseFloat(args[2]);
             } catch (NumberFormatException e) {
@@ -102,7 +94,7 @@ public class Pdf2PicConverter {
             }
         }
         
-        if (args.length &gt; 3) {
+        if (args.length > 3) {
             format &#61; args[3];
         }
 

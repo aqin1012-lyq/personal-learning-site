@@ -18,7 +18,7 @@ featured: false
 <h2>前序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/01.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-1" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/01.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-1"  />
 </p>
 
 <pre>
@@ -38,13 +38,13 @@ featured: false
  * }
  */
 class Solution {
-    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result &#61; new ArrayList<Integer>();
         preorder(root, result);
         return result;
     }
 
-    public void preorder(TreeNode root, List&lt;Integer&gt; result) {
+    public void preorder(TreeNode root, List<Integer> result) {
         if (root &#61;&#61; null) {
             return;
         }
@@ -57,7 +57,7 @@ class Solution {
 <h2>中序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/02.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-2" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/02.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-2"  />
 </p>
 
 <pre>
@@ -77,13 +77,13 @@ class Solution {
  * }
  */
 class Solution {
-    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result &#61; new ArrayList<Integer>();
         inorder(root, result);
         return result;
     }
 
-    public void inorder(TreeNode root, List&lt;Integer&gt; result) {
+    public void inorder(TreeNode root, List<Integer> result) {
         if (root &#61;&#61; null) {
             return;
         }
@@ -96,7 +96,7 @@ class Solution {
 <h2>后序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/03.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-3" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/03.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-3"  />
 </p>
 
 <pre>
@@ -116,13 +116,13 @@ class Solution {
  * }
  */
 class Solution {
-    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result &#61; new ArrayList<Integer>();
         postorder(root, result);
         return result;
     }
 
-    public void postorder(TreeNode root, List&lt;Integer&gt; result) {
+    public void postorder(TreeNode root, List<Integer> result) {
         if (root &#61;&#61; null) {
             return;
         }
@@ -185,14 +185,14 @@ public class MyTreeNode {
 <h2>前序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/04.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-4" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/04.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-4"  />
 </p>
 
 <pre>
 <code>class Solution {
-    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result &#61; new ArrayList&lt;&gt;();
-        Stack&lt;MyTreeNode&gt; stack&#61;new Stack&lt;&gt;();
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result &#61; new ArrayList<>();
+        Stack<MyTreeNode> stack&#61;new Stack<>();
         stack.add(new MyTreeNode(&#34;white&#34;,root));
         while(!stack.isEmpty()){
             MyTreeNode cur &#61; stack.pop();
@@ -214,14 +214,14 @@ public class MyTreeNode {
 <h2>中序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/05.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-5" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/05.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-5"  />
 </p>
 
 <pre>
 <code>class Solution {
-    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result&#61;new ArrayList&lt;&gt;();
-        Deque&lt;MyTreeNode&gt; stack &#61; new LinkedList&lt;&gt;();
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result&#61;new ArrayList<>();
+        Deque<MyTreeNode> stack &#61; new LinkedList<>();
         stack.add(new MyTreeNode(&#34;white&#34;,root));
         while(!stack.isEmpty()){
             MyTreeNode cur&#61;stack.pop();
@@ -243,14 +243,14 @@ public class MyTreeNode {
 <h2>后序遍历</h2>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/06.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-6" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/06.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-6"  />
 </p>
 
 <pre>
 <code>class Solution {
-    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
-        List&lt;Integer&gt; result &#61; new ArrayList&lt;&gt;();
-        Deque&lt;MyTreeNode&gt; stack&#61;new LinkedList&lt;&gt;();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result &#61; new ArrayList<>();
+        Deque<MyTreeNode> stack&#61;new LinkedList<>();
         stack.add(new MyTreeNode(&#34;white&#34;,root));
         while(!stack.isEmpty()){
             MyTreeNode cur&#61;stack.pop();
@@ -272,7 +272,7 @@ public class MyTreeNode {
 <p>ps&#xff1a;如果也是像我一样使用的是Deque请注意方法add()和push()的区别&#xff0c;不然可能结果正好相反嘿嘿(˶‾᷄ ⁻̫ ‾᷅˵)</p>
 
 <p>
-<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/07.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-7" /></p>
+<img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/07.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-7"  />
 </p>
 
 <p>可以看到只是在入栈顺序进行了调整&#xff0c;就完成了这三种不同的遍历顺序</p>
