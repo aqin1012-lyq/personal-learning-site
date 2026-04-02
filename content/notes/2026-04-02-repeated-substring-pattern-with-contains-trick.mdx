@@ -11,116 +11,108 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 这道题为什么会让人一眼觉得像“脑筋急转弯”
+<p>先看下题目&#xff0c;感兴趣的同学可以先自己去做下</p> 
+<p>题目地址&#xff1a;</p> 
+<p><a href="https://leetcode.cn/problems/repeated-substring-pattern/description/" title="https://leetcode.cn/problems/repeated-substring-pattern/description/" rel="nofollow"><span contenteditable="false"><span>https://leetcode.cn/problems/repeated-substring-pattern/description/</span><span>https://leetcode.cn/problems/repeated-substring-pattern/description/</span></span></a></p> 
+<h2>题目描述</h2> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/01.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-1" /></p>
+</p> 
+<h2>解题方法</h2> 
+<p>只要一行代码</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/02.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-2" /></p>
+</p> 
+<pre><code>class Solution {
+    public boolean repeatedSubstringPattern(String s) {
+        return (s&#43;s).substring(1,(s&#43;s).length()-1).contains(s);
+    }
+}</code></pre> 
+<p>为什么把字符串本身拼接一下&#xff0c;掐头去尾&#xff0c;如果还包含一开始的字符串&#xff0c;就证明这个字符串可以通过他的一个它的子串拼成&#xff1f;</p> 
+<p>我们看下下面这个图</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/03.jpeg" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-3" /></p>
+</p> 
+<p>那么为什么呢(ο´&#xff65;д&#xff65;)??</p> 
+<p>如果一个字符串S可以通过他的一个它的子串A拼成&#xff0c;那他至少包含 2 个这个子串A&#xff08;包含一个就是它自己了&#xff09;&#xff0c;那么如果把2个这样的字符串S拼接在一起&#xff0c;至少有4 个子串A&#xff0c;截掉第一个字符&#xff08;假如少了一个子串A&#xff0c;子串A一定是大于等于一个字符的&#xff09;&#xff0c;和最后一个字符&#xff08;假如又少了一个子串A&#xff09;&#xff0c;那么至少还有2个子串A&#xff0c;2个子串A不就是一个字符串S嘛</p> 
+<p>准确一点的话就是</p> 
+<p>一个字符串S可以通过他的一个它的子串A拼成&#xff0c;那它就包含 n 个这个子串A&#xff0c;把2个这样的字符串S拼接在一起&#xff0c;就有 2n 个子串A&#xff0c;截掉第一个和最后一个字符&#xff0c;最多减少2个子串A&#xff0c;于是剩余 2n-2 个&#xff0c;由于 n&gt;&#61;2&#xff08;n&#61;1子串就是字符串本身了&#xff09;&#xff0c;所以2n-2&gt;&#61;n&#xff0c;因此截取后的字符串一定至少包含一个最开始的字符串S。</p> 
+<p>虽然一行代码非常简单&#xff0c;但是知道这行代码的复杂度不&#x1f914;&#xff1f;</p> 
+<h5>复杂度分析&#xff08; 仅针对Java的实现进行分析&#xff09;</h5> 
+<ul><li>时间复杂度:<code>O(n²)</code></li><li>空间复杂度&#xff1a;<code>O(n)</code></li></ul> 
+<p>我们来分析下&#xff5e;</p> 
+<p>首先是拼接字符串 <code>(s&#43;s)</code>&#xff0c;这个的时间复杂度是<code>O(n)</code>&#xff08;先生成一个新的长度为 <code>2n</code> 的新字符串&#xff0c;再进行复制&#xff09;&#xff1b;然后是截取子串&#xff0c;Java的 <code>substring()</code>方法也是复制到一个新数组中&#xff0c;所以也是<code>O(n)</code>&#xff1b;然后就是最复杂的查找&#xff0c;这里用的是 Java 的<code>contains()</code>方法&#xff0c;我们可以看下具体实现&#xff1a;</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/04.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-4" /></p>
+</p> 
+<p>Java 的 <code>contains()</code> 方法底层调用 <code>indexOf()</code></p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/05.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-5" /></p>
+</p> 
+<p>层层调用后&#xff0c;最终调用的方法长这样&#xff1a;</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/06.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-6" /></p>
+</p> 
+<p>可以看到&#xff0c;这里使用的是暴力匹配。也就是说最坏情况下需要遍历子串的每个位置并与目标字符串逐字符比较&#xff0c;因此时间复杂度为 <code>O(m * n)</code>&#xff0c;其中 <code>m</code> 是被搜索字符串的长度&#xff08;<code>2n-2</code>&#xff09;&#xff0c;<code>n</code> 是目标字符串的长度&#xff08;<code>n</code>&#xff09;&#xff0c;即 <code>O(n²)</code></p> 
+<p>那么问题来了&#xff1a;为什么不用我们了解到的高效匹配字符串的 KMP 算法呢&#xff1f;</p> 
+<p>个人理解是现在的 CPU 足够快&#xff0c;虽然暴力枚举的时间复杂度是<code>O(n²)</code>&#xff0c;但是它的空间复杂度只有<code>O(1)</code>&#xff0c;而 KMP 需要<code>O(n)</code> 的空间复杂度&#xff0c;对于大多数实际场景&#xff08;尤其是子串较短时&#xff09;&#xff0c;现在的 CPU 太快了&#xff0c;相比之下就显得内存资源更加珍贵了&#xff0c;而且暴力法通用性更强&#xff0c;对字符集没有特殊要求&#xff0c;个人理解&#xff0c;欢迎来喷&#xff5e;&#xff5e;&#xff5e;</p> 
+<p>所以刷题不只是为了 AC&#xff0c;这道题建议可以自己用 KMP算法实现一个<code>contains()</code>方法&#xff0c;做一个 KMP 算法的巩固下&#xff08;如果需要一篇专门说 KMP 的文章&#xff0c;可以评论区戳戳&#xff09;</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-repeated-substring-pattern-with-contains-trick/07.png" alt="2026-04-02-repeated-substring-pattern-with-contains-trick-7" /></p>
+</p> 
+<pre><code>class Solution {
+    public boolean repeatedSubstringPattern(String s) {
+        return contains(s);
+    }
+    
+    public boolean contains(String s){
+        int len&#61;s.length();
+        String ss&#61;s&#43;s;
+        ss&#61;ss.substring(1,ss.length()-1);
+        int[] next&#61;getNext(s);
+        char[] ssArr&#61;ss.toCharArray();
+        char[] sArr&#61;s.toCharArray();
+        int j&#61;0;
+        for(int i&#61;0;i&lt;ssArr.length;i&#43;&#43;){
+            while(j&gt;0 &amp;&amp; ssArr[i]!&#61;sArr[j]){
+                j&#61;next[j-1];
+            }
+            if(ssArr[i]&#61;&#61;sArr[j]){
+                j&#43;&#43;;
+            }
+            if(j&#61;&#61;s.length()){
+                return true;
+            }
+        }
+        return false;
+    }
 
-因为它最出名的解法通常特别短：
+    public int[] getNext(String s){
+        int len&#61;s.length();
+        int[] next&#61;new int[len];
+        int j&#61;0;
+        next[0]&#61;0;
+        for(int i&#61;1;i&lt;len;i&#43;&#43;){
+            while(j&gt;0 &amp;&amp; s.charAt(i)!&#61;s.charAt(j)){
+                j&#61;next[j-1];
+            }
+            if(s.charAt(i)&#61;&#61;s.charAt(j)){
+                j&#43;&#43;;
+            }
+            next[i]&#61;j;
+        }
+    
+        return next;
+    }
 
-```java
-return (s + s).substring(1, (s + s).length() - 1).contains(s);
-```
-
-第一次看到时，很多人的反应都一样：
-
-- 这也行？
-- 为什么拼接两次再 contains 一下就能判断？
-- 这到底是技巧，还是有严格逻辑？
-
-其实它不是玄学，而是利用了“周期串在旋转后仍然能对齐”的性质。
-
-## 先说问题本身
-
-题目想判断的是：
-一个字符串 `s`，是否可以由某个更短的子串重复多次构成。
-
-比如：
-
-- `abab` 可以，由 `ab` 重复两次
-- `abcabcabc` 可以，由 `abc` 重复三次
-- `aba` 不可以
-
-## 为什么要看 `s + s`
-
-把一个字符串复制并拼接一次，相当于把它的各种“循环位移”都放到了同一个大串里。
-
-举个例子：
-
-`abab + abab = abababab`
-
-如果原串本身有重复周期，那么你把它切开再错位拼上，往往仍然能在中间重新找到原串。
-
-而如果原串没有这种周期结构，它就不会在这种错位环境下自然重新出现。
-
-## 为什么还要去掉头尾
-
-如果直接在 `s + s` 里找 `s`，那当然永远能找到：
-
-- 开头本来就是一个 `s`
-- 结尾也可能再出现一个 `s`
-
-这没有任何判断价值。
-
-所以要做的是：
-把首尾各去掉一个字符，强行排除“原地匹配”这种废话情况。
-
-也就是说，我们真正问的是：
-
-**除了原本那次位置完全一样的出现之外，`s` 能不能在一个错位后的拼接串里再次出现？**
-
-如果可以，说明它内部大概率有重复节奏。
-
-## 为什么周期串一定能被找到
-
-假设 `s = abcabc`，它由 `abc` 重复两次组成。
-
-那么在 `s + s = abcabcabcabc` 里，你把开头和结尾裁掉一层后，中间依然存在很多错位片段。
-由于 `s` 本身有周期结构，这些错位片段里仍然可能重新拼出完整的 `s`。
-
-换句话说：
-周期串在“旋转后”仍有机会和自己对齐。
-
-这就是这个技巧成立的底层原因。
-
-## 为什么非周期串不行
-
-如果一个字符串内部没有重复周期，那它的字符排列更像一次性的。
-
-即便你把它复制拼接，再尝试在中间错位区域里找自己，也通常拼不回原串。
-
-因为它没有那个“旋转后还能重新贴合”的内部结构。
-
-## 这个解法真正值得学的点
-
-不是背下某句代码，而是学会一种观察方式：
-
-**当一个对象具有周期性时，把它复制、平移、旋转，常常会暴露出这种周期结构。**
-
-字符串题里这是 `s + s`。
-在别的问题里，也可能是数组循环、环形结构、模运算等。
-
-这类思路背后是同一种数学直觉。
-
-## 写题时要注意什么
-
-如果只是为了面试或刷题，这个写法非常漂亮。
-但如果是在解释给别人听，最好别只丢出一行代码。
-
-因为一行代码本身不难，难的是理解：
-
-- 为什么拼接两次
-- 为什么删掉头尾
-- 为什么 contains 能代表周期存在
-
-能把这三层讲清楚，才算真的掌握。
-
-## 最后一段总结
-
-`(s + s).contains(s)` 相关技巧之所以成立，不是因为字符串 API 很神，而是因为：
-
-- 周期串在自拼接后的错位空间里，仍然有机会重新对齐
-- 去掉头尾是为了排除原地匹配
-- 一旦还能重新出现，就说明它内部大概率由更短模式重复构成
-
-所以这题最值得带走的，其实不是一行代码，而是对“周期性”这件事更敏感的直觉。
+}</code></pre>
 
 ## 来源链接
 

@@ -12,143 +12,108 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 为什么很多人装了 Cline 之后，会觉得“好像没那么神”
+<h2>&#x1f680; 如何安装Cline</h2>
 
-因为大多数人的使用方式，还是把它当成一个更强一点的对话框：
+<p>在vs code的左边栏中选中插件&#xff0c;然后搜索&#x1f50d;Cline</p>
 
-- 想到什么问什么
-- 让它直接写代码
-- 结果不对再让它重来
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/01.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-1" /></p>
+</p>
 
-这样当然也能用，但远远没发挥出它真正有价值的地方。
+<p>点击安装</p>
 
-Cline 真正更像“程序员同事”的地方，不是它会聊天，而是它可以在你给足上下文和规则的前提下，围绕一个工程目标持续工作。
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/02.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-2" /></p>
+</p>
 
-## 第一步：别只关心能不能接入，先想清楚要拿它做什么
+<p>安装成功后&#xff0c;会出现如下界面&#xff1a;</p>
 
-接入只是门槛，不是重点。
-真正有差别的是：
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/03.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-3" /></p>
+</p>
 
-- 你是想拿它做代码解释
-- 还是做局部重构
-- 还是生成脚手架
-- 还是让它跨文件排查 bug
+<p>选择你想用的模型并将你从官网获取到的API KEY贴到指定位置&#xff08;我这里以Claude为示例&#xff0c;需要Claude API KEY的同学可以查看作者简介&#xff0c;有方式个位数解决&#xff09;</p>
 
-任务不同，对模型、提示方式、上下文粒度的要求都不同。
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/04.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-4" /></p>
+</p>
 
-如果你自己都没定义好任务，它就很容易表现得像“什么都会一点，但每样都差口气”。
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/05.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-5" /></p>
+</p>
 
-## 第二步：模型切换不是装饰项，而是工作模式开关
+<p>然后点击 Continue</p>
 
-很多 AI 编程工具一旦支持多个模型，用户最容易忽视的一点就是：
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/06.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-6" /></p>
+</p>
 
-**不同模型并不只是回答风格不同，而是适合的工作类型不同。**
+<p>看到这里就安装成功了</p>
 
-比如有的模型：
+<h2>&#x1f680; 如何切换模型</h2>
 
-- 更适合快速产出
-- 更适合长链路推理
-- 更适合解释已有代码
-- 更适合在大上下文里找线索
+<h2>✅ 第 1 步&#xff1a;打开 Cline 设置</h2>
 
-所以实际使用时，一个很实用的策略是：
+<p>在 VS Code 左侧 <strong>Cline 面板右上角</strong>&#xff0c;点⚙️&#xff08;Settings&#xff09;</p>
 
-- 快速原型、常规改动：用响应快的模型
-- 复杂重构、架构取舍：切到更擅长思考的模型
-- 疑难 bug、跨文件分析：优先选上下文处理更稳的模型
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/07.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-7" /></p>
+</p>
 
-这比“始终固定一个模型打天下”有效得多。
+<hr />
+<h2>✅ 第 2 步&#xff1a;把模型切换成你想用的那个(比如Claude 3.5 Sonnet)</h2>
 
-## 第三步：提示词不是写得越长越好，而是越像任务说明书越好
+<p>如何判断选哪个模型更好&#xff0c;这里有个简单的小建议&#xff1a;</p>
 
-很多人给 AI 的指令像是在许愿：
+<p>Cline 里&#xff1a;</p>
 
-- 帮我优化一下
-- 帮我重构下
-- 帮我写得更优雅
+<ul><li><strong>干活&#xff1a;3.5</strong></li><li><strong>想事&#xff1a;4.x</strong></li></ul>
 
-这种话人类同事听了都要追问，更别说模型。
+<p>
+<p><img src="/images/notes/2026-04-02-how-to-use-cline-like-a-programmer-teammate/08.png" alt="2026-04-02-how-to-use-cline-like-a-programmer-teammate-8" /></p>
+</p>
 
-更有效的写法通常会包括：
+<h2>✅ 第 3 步&#xff1a;验证模型是否切换成功</h2>
 
-- 当前目标是什么
-- 不能动什么
-- 优先保证什么
-- 输出需要长什么样
+<p>在 Cline 对话框输入&#xff1a;</p>
 
-比如不要只说“帮我改这个页面”，而是说：
+<pre>
+<code>告诉我你当前使用的 provider 和 model 名称</code></pre>
 
-- 保留现有组件结构
-- 只改 hover 和间距
-- 不引入新依赖
-- 输出修改后的完整文件，并解释关键取舍
+<h2>&#x1f680; 如何让你的 Cline 更好用</h2>
 
-这样模型更容易稳定产出你想要的东西。
+<h2>⭐ 预设提示词</h2>
 
-## 第四步：`.clinerules` 这类规则文件，价值比很多人想的大
+<p>不要一上来就让它写代码&#xff0c;直接复制这段&#xff1a;</p>
 
-如果你希望工具长期参与某个项目，最好不要每次都从零解释项目偏好。
+<pre>
+<code>你是一个资深工程师。
+在不修改任何代码的前提下&#xff0c;
+先分析当前项目结构和关键设计&#xff0c;
+指出潜在问题和改进建议。</code></pre>
 
-像这类规则文件，适合写进去的内容包括：
+<p>你会明显感觉到&#xff1a;</p>
 
-- 代码风格偏好
-- 文件结构约束
-- 组件命名约定
-- 不能随便动的目录
-- 提交前需要自查什么
+<p><strong>Claude 3.5 Sonnet &#43; Cline ≈ 一个真正会思考的高级同事</strong></p>
 
-它的本质不是“让 AI 更听话”，而是把项目的工作协议固化下来。
+<hr />
+<h2>⭐ 建立 <code>.clinerules</code></h2>
 
-这样你后面每次用它，沟通成本都会下降。
+<p>在项目根目录新建文件&#xff1a;</p>
 
-## 第五步：把它当“协作对象”，而不是“全自动替身”
+<pre>
+<code>.clinerules</code></pre>
 
-AI 编程工具最舒服的用法，通常不是一句话把工作全甩出去，而是像带一个执行力很强的同事：
+<p>推荐最小版本&#xff08;直接可用&#xff09;&#xff1a;</p>
 
-- 先明确任务边界
-- 再让它试做一版
-- 然后你 review
-- 它再根据反馈继续改
+<pre>
+<code>- 所有操作前先给计划&#xff0c;不要直接改代码
+- 除非我明确同意&#xff0c;不要新增依赖
+- 优先复用和修改现有代码
+- 修改代码时必须展示 diff
+- 如果不确定&#xff0c;先提问</code></pre>
 
-也就是说，它更适合参与一个迭代闭环，而不是一次性完美交付。
-
-你越把它用成“协作流”，结果通常越稳。
-
-## 哪些场景最适合让它上
-
-我会优先把这类任务交给它：
-
-- 重复性重构
-- 跨文件样式统一
-- 给陌生代码补解释
-- 先搭一个可运行骨架
-- 按已有模式补齐一组类似功能
-
-这些工作都很吃执行力和上下文读取能力，而不是纯创造性。
-
-## 哪些场景最好别盲信
-
-也有一些工作，最好不要一把梭：
-
-- 涉及核心业务规则的改动
-- 安全权限相关逻辑
-- 复杂并发问题
-- 性能瓶颈的根因判断
-- 大规模架构迁移但缺少测试兜底
-
-这些场景里，AI 可以辅助，但不适合无审查直接接管。
-
-## 最后一段总结
-
-想把 Cline 用得像程序员同事，关键不是“装上插件”这么简单，而是把下面几件事一起做好：
-
-- 任务定义清楚
-- 模型切换有策略
-- 提示词像工作说明书
-- 项目规则沉淀到配置里
-- 把它放进迭代协作流，而不是幻想一步到位
-
-这样它才更像一个能一起干活的人，而不只是一个偶尔灵光一闪的代码聊天框。
+<p>&#x1f449; 这一步能让 Cline 成为你更加<strong>“靠谱的小弟”</strong></p>
 
 ## 来源链接
 

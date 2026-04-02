@@ -11,98 +11,138 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 为什么很多 PDF 内容不适合直接发
+<p>如果你有一个PDF文档&#xff0c;然后你想把它发成图文笔记emmm&#xff0c;最好再加个水印&#xff0c;你会怎么做&#xff1f;</p>
 
-PDF 适合保存和阅读，但不一定适合直接做内容传播。
-尤其在图文平台上，很多时候你真正需要的是：
+<p>其实也不麻烦&#xff0c;打开PDF文档&#xff0c;挨个截图&#xff0c;然后打开PS一张一张图片拖进去&#xff0c;再把水印图片拖进去&#xff0c;一张一张导出&#xff0c;搞定&#xff5e;</p>
 
-- 更适合竖屏浏览的图片内容
-- 能逐页滑看的图文笔记
-- 带统一风格、水印和标题页的可发布素材
+<p>但但但是&#xff0c;你是一个程序员呀&#xff0c;还是会用cursor的程序员&#xff0c;所以(●°u°●) 」开干&#xff5e;&#xff5e;</p>
 
-也就是说，目标不是“把 PDF 打开”，而是“把 PDF 转成适合分发的内容形态”。
+<p>某天下午你正摸着鱼&#xff0c;有个叫产品经理的物种突然出现&#xff0c;给你发了个PDF&#xff1a;&#34;把这个用户手册做成小红书图文笔记&#xff0c;每页加统一水印&#xff0c;很急很急哦&#xff01;&#34;</p>
 
-## 这类需求的核心，不是格式转换，而是工作流转换
+<p>你盯着200页的文档瞳孔地震&#xff0c;然后安慰了下自己&#xff0c;其实也不太麻烦哈哈。。。</p>
 
-如果只是单纯把 PDF 导出成图片，其实问题只解决了一半。
+<p>打开PDF文档&#xff0c;挨个截图&#xff0c;然后打开PS一张一张图片拖进去&#xff0c;再把水印图片拖进去&#xff0c;一张一张导出&#xff0c;搞定&#xff5e;</p>
 
-真正完整的流程通常包括：
+<p>但但但但但但是&#xff01;你摸着自己锃亮的程序员脑门&#xff08;也可能是日渐稀疏的发际线&#xff09;&#xff0c;突然意识到&#xff1a;我可是一个程序员呀&#xff0c;还是会用AI的程序员&#xff0c;所以(●°u°●) 」开干&#xff5e;&#xff5e;</p>
 
-- 把页面转成图片
-- 控制分辨率和清晰度
-- 根据平台尺寸做二次排版
-- 按需要加水印或标识
-- 最后整理成适合发布的一组图
+<p>▋ 原始人 vs 赛博人 工作流对比</p>
 
-所以它本质上不是文件格式问题，而是内容工作流问题。
+<p>原始部落打法&#xff1a;</p>
 
-## 为什么“批量”很重要
+<ol><li>打开PDF→滚轮翻页→挨个截图&#xff08;啊&#x1f62d;第37次忘记取消显示聊天窗口、啊这页截没截&#xff1f;不记得。。打开文件夹看看。。&#xff09;</li><li>打开Photoshop&#xff1a;先导入截图&#xff0c;再拖水印&#xff0c;调整位置。。。</li><li>导出&#xff08;编号到几来着&#xff1f;&#xff09;</li></ol>
 
-如果只有一页两页，手工处理当然也能做。
-但一旦 PDF 页数多起来，手工一个个导出、裁剪、命名、加字，效率会非常差。
+<p>long time later。。。</p>
 
-批量处理真正节省的，不只是时间，而是把很多重复劳动变成稳定流程：
+<p>而你是赛博程序员&#xff0c;操作不光要简单准确&#xff0c;还必须优雅&#xff1a;</p>
 
-- 一次性导出
-- 一次性统一尺寸
-- 一次性加水印
-- 一次性整理发布素材
+<p>打开Cursor&#xff0c;新建terminal&#xff0c;输入个提示词&#xff0c;然后回车&#xff5e;转身咖啡还没泡完&#xff0c;200张带水印的笔记整整齐齐躺在output文件夹里&#xff0c;甚至自动按文档名&#43;编号整理完毕➡️关机下班&#xff08;啊&#x1f62d;还要打卡&#xff0c;再坐一会吧&#xff09;&#xff5e;</p>
 
-这时你得到的就不是“做完这一次”，而是一套以后还能复用的方法。
 
-## 什么时候这种方式特别有用
 
-这类工作流很适合下面几种场景：
+<p>
+<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/01.png" alt="2026-04-02-pdf-to-image-notes-workflow-1" /></p>
+</p>
 
-- 把课程讲义整理成社媒图文
-- 把笔记、报告、方案拆成连续可读的图片页
-- 把资料做成更适合手机端浏览的版本
-- 想在分发时加上自己的统一标识
+<p>我们还是看下效果&#xff0c;这是原文档&#xff1a;</p>
 
-尤其当你面对的平台更偏图片流阅读时，这种转换会比直接扔 PDF 更友好。
 
-## 真正值得提前想清楚的几个点
 
-### 1. 你的目标平台长什么样
+<p>
+<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/02.png" alt="2026-04-02-pdf-to-image-notes-workflow-2" /></p>
+</p>
 
-不同平台对内容形态要求差别很大。
+<p>这是生成的图片</p>
 
-有的平台适合长图，
-有的平台更适合一页一图，
-有的平台对封面和首图点击率特别敏感。
 
-所以别一开始就只想着“怎么转”，先想“我要发到哪”。
 
-### 2. 水印和品牌标识要不要统一
+<p>
+<p><img src="/images/notes/2026-04-02-pdf-to-image-notes-workflow/03.png" alt="2026-04-02-pdf-to-image-notes-workflow-3" /></p>
+</p>
 
-如果这些内容是长期输出的一部分，那统一水印、角标、页眉页脚风格会很重要。
+<p>还加了水印&#xff01;</p>
 
-它不只是防搬运，也是在积累自己的内容识别度。
 
-### 3. 是忠实保留原 PDF，还是二次重排
 
-有的资料适合原样分页转图，
-有的资料则更适合重新拆版，把重点做得更适合手机阅读。
+<p>二话不说&#xff0c;完整代码如下&#xff08;记得请我喝咖啡哈哈(^^)&#xff09;&#xff1a;</p>
 
-前者省力，后者传播效果通常更好。
+<pre>
+<code>package com.pdf2pic;
 
-## 一个更现实的思路
+import org.apache.pdfbox.rendering.ImageType;
 
-如果你经常要做这件事，最值得投入的不是一次性手工处理，而是逐渐把流程模板化：
+import java.io.File;
 
-- 固定导出参数
-- 固定图片尺寸
-- 固定命名规则
-- 固定水印样式
-- 固定发布顺序
+/**
+ * PDF转图片工具
+ * 用于将指定文件夹下的PDF文件转换为图片
+ */
+public class Pdf2PicConverter {
 
-这样以后遇到新的 PDF，几乎可以直接套流程。
+    public static void main(String[] args) {
+        // 项目根目录下 java -jar target/pdf2pic-1.0-SNAPSHOT-jar-with-dependencies.jar pdfs output
+        if (args.length &lt; 2) {
+            System.out.println(&#34;用法: java -jar pdf2pic.jar &lt;PDF源文件夹&gt; &lt;图片输出文件夹&gt; [DPI] [格式]&#34;);
+            System.out.println(&#34;  [DPI]: 可选参数&#xff0c;图片DPI值&#xff0c;默认为300&#34;);
+            System.out.println(&#34;  [格式]: 可选参数&#xff0c;输出图片格式&#xff0c;默认为png&#34;);
+            return;
+        }
 
-## 最后一段总结
+        String pdfFolderPath &#61; args[0];
+        String outputBasePath &#61; args[1];
+        
+        // 解析可选参数
+        float dpi &#61; 300;
+        String format &#61; &#34;png&#34;;
+        
+        if (args.length &gt; 2) {
+            try {
+                dpi &#61; Float.parseFloat(args[2]);
+            } catch (NumberFormatException e) {
+                System.out.println(&#34;警告: 无效的DPI值&#xff0c;使用默认值300&#34;);
+            }
+        }
+        
+        if (args.length &gt; 3) {
+            format &#61; args[3];
+        }
 
-PDF 批量转图文笔记真正有价值的地方，不是“把文件换个格式”，而是把原本偏阅读型的内容，改造成更适合平台传播和手机浏览的内容形态。
-
-如果把它当成一条完整工作流来设计，你得到的就不只是几张图，而是一套可持续复用的内容生产方法。
+        try {
+            System.out.println(&#34;PDF转图片工具启动...&#34;);
+            System.out.println(&#34;PDF源文件夹: &#34; &#43; pdfFolderPath);
+            System.out.println(&#34;图片输出文件夹: &#34; &#43; outputBasePath);
+            System.out.println(&#34;图片DPI: &#34; &#43; dpi);
+            System.out.println(&#34;图片格式: &#34; &#43; format);
+            
+            // 获取项目根目录下的水印图片
+            File watermarkFile &#61; new File(&#34;2.png&#34;);
+            if (watermarkFile.exists()) {
+                System.out.println(&#34;水印图片: &#34; &#43; watermarkFile.getAbsolutePath());
+            } else {
+                System.out.println(&#34;警告: 未找到水印图片 2.png&#34;);
+            }
+            
+            // 创建转换器并设置参数
+            PdfConverter converter &#61; new PdfConverter()
+                .withDpi(dpi)
+                .withFormat(format)
+                .withImageType(ImageType.RGB);
+            
+            // 设置水印图片&#xff08;如果存在&#xff09;
+            if (watermarkFile.exists()) {
+                converter.withWatermark(watermarkFile);
+            }
+            
+            // 执行批量转换
+            converter.batchConvert(pdfFolderPath, outputBasePath, true);
+            
+            System.out.println(&#34;所有PDF文件处理完成!&#34;);
+            
+        } catch (Exception e) {
+            System.out.println(&#34;处理过程中发生错误:&#34;);
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
 
 ## 来源链接
 

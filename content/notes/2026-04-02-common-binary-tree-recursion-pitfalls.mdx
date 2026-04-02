@@ -11,153 +11,193 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 为什么这几题总让人感觉“明明差不多，结果老错”
+<p>刷二叉树题的时候&#xff0c;我一开始也有个错觉&#xff1a;</p>
 
-二叉树递归里，最容易让人掉坑的一类题，就是这种表面非常像的题：
+<p>不就是递归吗&#xff1f;<code>left</code>、<code>right</code> 一套模板走天下。</p>
 
-- 最大深度 `maxDepth`
-- 最小深度 `minDepth`
-- 平衡二叉树 `isBalanced`
-- 对称二叉树 `isSymmetric`
+<p>直到我在 <strong>minDepth</strong>、<strong>isSymmetric</strong> 这些题上反复 WA&#xff0c;才意识到&#xff1a;<br />
+<strong>真正难的不是递归&#xff0c;而是“你在递归里比较的到底是什么”。</strong></p>
 
-很多人第一次写时都会觉得：
-“递归左右子树，再做点判断，不就差不多吗？”
+<p>这篇文章&#xff0c;我想把二叉树里最容易混的四道经典题&#xff0c;一次性讲清楚&#xff1a;</p>
 
-结果一提交就 WA。
-问题不在于你不会递归，而在于这几题虽然都长得像二叉树递归，但每题对“空节点”“合法路径”“比较对象”的定义都不同。
+<ul><li>最大深度 <code>maxDepth</code></li><li>最小深度 <code>minDepth</code></li><li>是否平衡 <code>isBalanced</code></li><li>是否对称 <code>isSymmetric</code></li></ul>
 
-## 坑一：maxDepth 和 minDepth 不能机械套同一个公式
+<p>不讲抽象概念&#xff0c;只讲<strong>为什么会错、错在哪、怎么一眼看出来</strong>。</p>
 
-### `maxDepth` 为什么好写
+<hr />
+<h2>一、maxDepth&#xff1a;最“老实”的一题</h2>
 
-最大深度很好理解：
+<h2>题意</h2>
 
-- 左子树有多深
-- 右子树有多深
-- 取更大的那个，再加上当前节点这一层
+<p>返回二叉树的最大深度。</p>
 
-所以通常就是：
+<h2>正确代码</h2>
 
-```java
-return Math.max(left, right) + 1;
-```
+<pre><code>
+<code>int maxDepth(TreeNode root) {
+    if (root &#61;&#61; null) return 0;
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) &#43; 1;
+}</code></code></pre>
 
-### `minDepth` 为什么不能照抄
+<h2>为什么这题几乎不会错&#xff1f;</h2>
 
-最小深度的关键在于：
-**必须走到叶子节点，路径才算结束。**
+<p>因为它的逻辑非常“宽松”&#xff1a;</p>
 
-这就意味着，如果某一边是空，另一边不空，你不能直接取 `min(left, right)`。
-因为空的那一边根本不是一条合法路径。
+<ul><li>左边走得深 ✔</li><li>右边走得深 ✔</li><li>只要有一条路深&#xff0c;就算数</li></ul>
 
-这是最经典的坑。
+<p>哪怕一边是 <code>null</code>&#xff0c;返回 0&#xff0c;也不会影响最终结果。</p>
 
-### 真正应该记住的点
+<p>&#x1f449; <strong>maxDepth 的特点&#xff1a;所有路径都是合法路径。</strong></p>
 
-- `maxDepth`：空节点深度是 0，直接取最大值没问题
-- `minDepth`：如果一边空，一边不空，必须走非空那边
+<hr />
+<h2>二、minDepth&#xff1a;第一个真正的坑</h2>
 
-也就是说，`minDepth` 不是“左右中较小的那个”，而是“合法根到叶路径中较短的那个”。
+<h2>很多人一开始会这么写&#xff08;比如我。。&#xff09;</h2>
 
-## 坑二：isBalanced 不是只看根节点左右高度差
+<pre>
+<code>int minDepth(TreeNode root) {
+    if (root &#61;&#61; null) return 0;
+    return Math.min(minDepth(root.left), minDepth(root.right)) &#43; 1;
+}</code></pre>
 
-很多人会把平衡二叉树理解成：
+<p>这段代码&#xff0c;看起来和 <code>maxDepth</code> 只差一个 <code>min</code>&#xff0c;但它是 <strong>错的</strong>。</p>
 
-- 当前节点左右高度差不超过 1 就行
+<hr />
+<h2>最小反例&#xff08;一定要记住&#xff09;</h2>
 
-这句话只说对了一半。
+<pre>
+<code>    1
+   /
+  2</code></pre>
 
-平衡二叉树要求的是：
+<p>正确答案&#xff1a;<strong>2</strong></p>
 
-- 当前节点左右高度差不超过 1
-- 并且左右子树自己也都必须平衡
+<p>但上面的代码会算成&#xff1a;</p>
 
-所以这题不是单纯“求高度”，而是“求高度 + 顺带判断是否平衡”。
+<pre>
+<code>min(1, 0) &#43; 1 &#61; 1</code></pre>
 
-如果你每到一个节点都重新去算左右子树高度，再递归判断平衡，逻辑虽然能写出来，但通常效率不够好。
+<p>为什么&#xff1f;</p>
 
-更自然的思路是：
-递归返回一个“带状态的结果”，比如：
+<p>因为你把 <strong>不存在的右子树&#xff08;null&#xff09;</strong> 当成了一条“更短的路径”。</p>
 
-- 要么返回高度
-- 要么一旦发现不平衡就提前返回特殊值
+<hr />
+<h2>本质原因</h2>
 
-这类题的重点在于：
-**返回值不只是答案，还承担了剪枝和状态传递的作用。**
+<p><strong>最小深度&#xff0c;要求的是&#xff1a;到“叶子节点”的最短路径</strong></p>
 
-## 坑三：isSymmetric 比的不是“各自是否对称”，而是“彼此是否镜像”
+<p><code>null</code> 节点不是叶子节点。</p>
 
-这个点很容易被直觉带偏。
+<hr />
+<h2>正确写法</h2>
 
-很多人一看到“对称二叉树”，就会写成：
+<pre>
+<code>int minDepth(TreeNode root) {
+    if (root &#61;&#61; null) return 0;
 
-- 判断左子树是否对称
-- 判断右子树是否对称
+    if (root.left &#61;&#61; null) {
+        return minDepth(root.right) &#43; 1;
+    }
+    if (root.right &#61;&#61; null) {
+        return minDepth(root.left) &#43; 1;
+    }
 
-但这不是题目要的。
+    return Math.min(minDepth(root.left), minDepth(root.right)) &#43; 1;
+}</code></pre>
 
-题目真正要比较的是：
+<hr />
+<h2>三、isBalanced&#xff1a;不是“算高度”&#xff0c;而是“边算边判断”</h2>
 
-- 左子树的左节点，是否等于右子树的右节点
-- 左子树的右节点，是否等于右子树的左节点
+<h2>错误但常见的思路</h2>
 
-也就是说，比较关系是交叉的、镜像的。
+<ul><li>写一个 <code>depth()</code></li><li>每个节点算左右高度</li><li>再判断差值</li></ul>
 
-所以 `isSymmetric` 的本质不是：
-“左边自己对称，右边自己对称”。
+<p>这样写会导致<strong>大量重复计算</strong>&#xff0c;性能会退化到 O(n²)。</p>
 
-而是：
-“左边和右边，是否互为镜像”。
+<hr />
+<h2>正确思路&#xff1a;用高度返回值“顺便”传递状态</h2>
 
-这个比较对象一旦想错，代码结构就会从根上歪掉。
+<pre>
+<code>boolean isBalanced(TreeNode root) {
+    return height(root) !&#61; -1;
+}
 
-## 坑四：空节点不是统一的“什么都没有”，它的含义要看题目
+int height(TreeNode root) {
+    if (root &#61;&#61; null) return 0;
 
-这是最容易被忽略、但也是最底层的坑。
+    int left &#61; height(root.left);
+    if (left &#61;&#61; -1) return -1;
 
-在不同题里，空节点的意义并不一样：
+    int right &#61; height(root.right);
+    if (right &#61;&#61; -1) return -1;
 
-- 在 `maxDepth` 里，空节点表示深度终点，返回 0 很自然
-- 在 `minDepth` 里，空节点不能总被当成合法最短路径
-- 在 `isSymmetric` 里，两边同时空是对称；一边空一边不空就不对称
-- 在 `isBalanced` 里，空节点高度可以视作 0，但还要服务于整体状态判断
+    if (Math.abs(left - right) &gt; 1) return -1;
 
-所以很多题看似只是“递归模板微调”，其实真正决定正确性的，是你对空节点语义的理解是否贴题。
+    return Math.max(left, right) &#43; 1;
+}</code></pre>
 
-## 一个很实用的刷题方法
+<h2>这里的关键点</h2>
 
-每做一题递归前，先把下面三件事写清楚：
+<ul><li><code>-1</code> 表示“已经不平衡”</li><li>一旦发现不平衡&#xff0c;直接向上传播</li><li><strong>不用再算高度了&#xff0c;提前剪枝</strong></li></ul>
 
-1. `dfs(node)` 返回什么
-2. 空节点返回什么
-3. 当前节点如何利用左右结果
+<p>&#x1f449; 这是一个非常典型的“递归返回多重信息”的例子。</p>
 
-这三句如果能提前说清，很多 bug 在下笔前就已经被消掉了。
+<hr />
+<h2>四、isSymmetric&#xff1a;最容易“逻辑方向写反”的题</h2>
 
-## 为什么这类题特别适合放在一起看
+<h2>常见误区</h2>
 
-因为它们最适合训练一种能力：
-**别被题目表面结构骗了，要盯住递归语义。**
+<p>很多人&#xff08;比如我一开始&#xff09;会写成&#xff1a;</p>
 
-真正的分界线不在“是不是二叉树”，而在：
+<pre>
+<code>traversal(root.left) &amp;&amp; traversal(root.right)</code></pre>
 
-- 你返回的是高度、布尔值，还是复合信息
-- 空节点在这里到底是不是合法答案
-- 当前层到底是比较、汇总，还是镜像匹配
+<p>这其实是在判断&#xff1a;</p>
 
-这些东西看懂了，树题会顺很多。
+<p>左子树自己对称<br />
+右子树自己对称</p>
 
-## 最后一段总结
+<p>但题目要的是&#xff1a;</p>
 
-二叉树递归最容易出错，不是因为模板记不住，而是因为相似题目里真正变化的那一层语义没有想清楚。
+<p><strong>左子树和右子树是否互为镜像</strong></p>
 
-这四类题提醒我们的其实是同一件事：
+<hr />
+<h2>反例直接说明问题</h2>
 
-- 别机械套递归公式
-- 别把空节点理解得过于粗暴
-- 别把“当前层该做什么”想得含糊
+<pre>
+<code>    1
+   / \
+  2   2
+   \   \
+    3   3</code></pre>
 
-一旦这几个点开始变清楚，你会发现很多树题并没有原来想象中那么玄。
+<p>这棵树 <strong>不是对称的</strong>&#xff0c;<br />
+但“左右各自检查”的写法很容易被它骗过去。</p>
+
+<hr />
+<h2>正确写法&#xff1a;一次递归比较两个节点</h2>
+
+<pre>
+<code>boolean isSymmetric(TreeNode root) {
+    if (root &#61;&#61; null) return true;
+    return mirror(root.left, root.right);
+}
+
+boolean mirror(TreeNode l, TreeNode r) {
+    if (l &#61;&#61; null &amp;&amp; r &#61;&#61; null) return true;
+    if (l &#61;&#61; null || r &#61;&#61; null) return false;
+    if (l.val !&#61; r.val) return false;
+
+    return mirror(l.left, r.right)
+        &amp;&amp; mirror(l.right, r.left);
+}</code></pre>
+
+<hr />
+<h2>最后一点个人经验</h2>
+
+<p>二叉树递归&#xff0c;真正的难点从来不是代码&#xff0c;而是这三个问题&#xff1a;</p>
+
+<ol><li><strong>空节点代表什么&#xff1f;</strong></li><li><strong>哪些路径是“合法路径”&#xff1f;</strong></li><li><strong>递归函数到底在比较谁跟谁&#xff1f;</strong></li></ol>
 
 ## 来源链接
 

@@ -11,100 +11,273 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 为什么二叉树迭代遍历总让人记不牢
+<p>做过二叉树前中后序遍历的同学应该有些印象&#xff0c;这三种遍历方式的递归法非常的简单&#xff0c;并且非常的相似&#xff0c;只需要稍微调整下处理逻辑&#xff08;这里指将节点值添加进集合&#xff09;的位置即可</p>
 
-因为前序、中序、后序递归写法都很好理解，但一换成迭代，很多人脑子就开始打结：
+<h2>递归法</h2>
 
-- 为什么这里先压右再压左
-- 为什么中序要一路往左钻
-- 为什么后序看起来最别扭
+<h2>前序遍历</h2>
 
-本质上，问题不在遍历本身，而在于递归里“系统帮你保存的执行顺序”，到了迭代时得你自己手动管理。
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/01.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-1" /></p>
+</p>
 
-## 黑白标记法到底在干什么
+<pre>
+<code>/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val &#61; val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val &#61; val;
+ *         this.left &#61; left;
+ *         this.right &#61; right;
+ *     }
+ * }
+ */
+class Solution {
+    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+        preorder(root, result);
+        return result;
+    }
 
-它的核心想法非常漂亮：
+    public void preorder(TreeNode root, List&lt;Integer&gt; result) {
+        if (root &#61;&#61; null) {
+            return;
+        }
+        result.add(root.val);
+        preorder(root.left, result);
+        preorder(root.right, result);
+    }
+}</code></pre>
 
-**把一个节点分成两种状态来看。**
+<h2>中序遍历</h2>
 
-- 白色：这个节点还没处理，只是刚被看到
-- 黑色：这个节点已经按要求展开过，现在该真正处理它了
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/02.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-2" /></p>
+</p>
 
-这样一来，你就不必死记前中后序的各种特殊写法，而是统一成：
+<pre>
+<code>/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val &#61; val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val &#61; val;
+ *         this.left &#61; left;
+ *         this.right &#61; right;
+ *     }
+ * }
+ */
+class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+        inorder(root, result);
+        return result;
+    }
 
-- 先决定“子树访问顺序”和“节点处理时机”
-- 再通过入栈顺序把这个时机编码进去
+    public void inorder(TreeNode root, List&lt;Integer&gt; result) {
+        if (root &#61;&#61; null) {
+            return;
+        }
+        inorder(root.left, result);
+        result.add(root.val);
+        inorder(root.right, result);
+    }
+}</code></pre>
 
-## 为什么这招能统一前中后序
+<h2>后序遍历</h2>
 
-因为三种遍历真正的区别，其实不是“节点和子树有哪些元素”，而只是：
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/03.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-3" /></p>
+</p>
 
-**节点值是在左子树前处理、左右之间处理，还是右子树后处理。**
+<pre>
+<code>/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val &#61; val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val &#61; val;
+ *         this.left &#61; left;
+ *         this.right &#61; right;
+ *     }
+ * }
+ */
+class Solution {
+    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result &#61; new ArrayList&lt;Integer&gt;();
+        postorder(root, result);
+        return result;
+    }
 
-换句话说，差别只在“处理当前节点”这个动作放在哪。
+    public void postorder(TreeNode root, List&lt;Integer&gt; result) {
+        if (root &#61;&#61; null) {
+            return;
+        }
+        postorder(root.left, result);
+        postorder(root.right, result);
+        result.add(root.val);
+    }
+}</code></pre>
 
-黑白标记法正好把这个动作显式拆出来了。
-于是你只需要调整压栈顺序，就能统一写出：
+<p>可是迭代法就没那么简单了&#xff0c;我第一次写的时候三种遍历除了都用了while循环都用了栈结构&#xff0c;其他的逻辑都是重新捋的&#xff0c;并不像&#x1f446;迭代法一样&#xff0c;写出一个&#xff0c;另外两种遍历改下顺序就成&#61; &#61;&#xff0c;But不应该啊&#x1f914;&#x1f914;&#x1f914;&#x1f914;&#x1f914;&#x1f914;&#x1f914;</p>
 
-- 前序
-- 中序
-- 后序
+<p>为什么递归可以&#xff0c;迭代不行&#xff1f;</p>
 
-这就是它最省脑子的地方。
+<p>二刷的时候又重新捋了捋这二叉树的遍历逻辑&#xff0c;发现其实迭代法之所以看起来如此简洁&#xff0c;是因为由于递归中方法不断调用调用&#xff0c;系统为我们隐性的维护了一个“栈”&#xff0c;而在迭代法中&#xff0c;我们只能自己来维护这个“栈”&#xff0c;而前序/中序/后序遍历之所以无法统一的主要原因在于<strong>处理节点的顺序和访问节点的顺序是不一致的</strong>&#xff08;感谢卡哥的代码随想录&#xff09;&#xff0c;简单来说就是无法确定当前访问的节点是不是已经访问过了。</p>
 
-## 它比普通迭代模板更值得学的点
+<p>卡哥在代码随想录中提供了一种适用于三种遍历方式的统一写法&#xff0c;用这种统一的写法&#xff0c;先序遍历、中序遍历、后序遍历也像递归法一样只需要进行位置上的简单调整即可&#xff0c;这种统一写法的基本原理就是在处理过的节点再次入栈时&#xff0c;后面紧跟着添加一个“null”&#xff0c;当遍历到“null”时&#xff0c;说明下一个节点已经访问过了&#xff0c;直接添加到结果集即可。</p>
 
-很多普通模板，你最后记住的是“这个题怎么写”。
+<p>很机智的方法&#xff0c;很好的解决了“无法确定当前访问的节点是不是已经处理过了”这个问题&#xff0c;但其实在看代码的时候&#xff0c;还是有些不是很好理解的感觉&#xff0c;在整理笔记时&#xff0c;不经意看到了之前学习JVM GC相关的笔记&#xff0c;忽然看到——“三色标记法”&#xff5e;</p>
 
-但黑白标记法更像一种抽象层更高的想法：
+<p>简单介绍下垃圾回收的三色标记法&#xff0c;以免有不了解的朋友&#xff08;知道的朋友可以直接跳过这part&#xff5e;&#xff09;</p>
 
-- 节点第一次出现时，不一定立刻处理
-- 可以先把“以后再处理我”这件事放进栈里
-- 等未来某个时刻，再回来真正取值
+<p>三色标记法是一种垃圾回收算法&#xff0c;即在垃圾回收的过程中使用“白”、“灰”、“黑”三种颜色&#xff0c;分别表示“未被标记的垃圾对象”、“已被标记&#xff0c;但其引用的对象尚未全部被标记的非垃圾对象”和“已被标记&#xff0c;且其引用的对象也全部被标记的非垃圾对象”&#xff0c;以便回收不再使用的对象&#xff0c;释放内存空间。</p>
 
-这其实已经很接近递归的本质了。
+<p>于是&#xff5e;有了这篇文章&#xff0c;希望能更好的帮助大家理并掌握二叉树的各种遍历(&#xffe3;∇&#xffe3;)/</p>
 
-## 为什么它特别适合拿来理解递归和迭代的关系
+<p>我们就姑且叫它“黑白标记法”&#xff0c;即使用“白色&#xff08;white&#xff09;”和“黑色&#xff08;black&#xff09;”两种颜色来对入栈的节点进行标记&#xff0c;“白色”表示改节点未访问&#xff0c;“黑色”表示该节点已访问&#xff0c;基本逻辑就是在遍历的过程中&#xff0c;碰到“白色”的节点则继续对其子节点进行访问&#xff0c;碰到“黑色”则直接进行逻辑处理&#xff08;这里的处理逻辑比较简单&#xff0c;就是添加进结果集&#xff0c;当然以后碰到更复杂的处理逻辑也是适用的&#xff09;</p>
 
-递归之所以好写，是因为系统调用栈替你保存了：
+<p>基于上面的基本思想&#xff0c;我们可以在Leetcode官方提供的TreeNode结构的基础上&#xff0c;再“包”一层</p>
 
-- 我现在在哪个节点
-- 我接下来该先去左边还是右边
-- 左边回来后要不要处理当前节点
+<pre>
+<code>//方定义的二叉树结构
+public class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode() {}
+      TreeNode(int val) { this.val &#61; val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val &#61; val;
+          this.left &#61; left;
+          this.right &#61; right;
+      }
+}
+// 再“包”一层
+public class MyTreeNode {
+    // white 未处理 black 已处理
+      String type;
+      TreeNode node;
+      MyTreeNode() {}
+      MyTreeNode(String type, TreeNode node) {
+        this.type &#61; type;
+        this.node &#61; node;
+      }
+}</code></pre>
 
-而黑白标记法做的，就是把这部分“隐式流程”变成显式数据结构。
+<p>基于上面构建的MyTreeNode&#xff0c;我们开始遍历&#xff01;</p>
 
-所以它不只是一个做题技巧，也是在帮你看见递归背后的执行模型。
+<h2>黑白标记法</h2>
 
-## 什么时候这套方法最有价值
+<h2>前序遍历</h2>
 
-它特别适合下面几种情况：
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/04.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-4" /></p>
+</p>
 
-- 你总把前中后序迭代写混
-- 你想要一个统一模板而不是三套记忆
-- 你正在从“会写题”过渡到“理解遍历本质”
+<pre>
+<code>class Solution {
+    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result &#61; new ArrayList&lt;&gt;();
+        Stack&lt;MyTreeNode&gt; stack&#61;new Stack&lt;&gt;();
+        stack.add(new MyTreeNode(&#34;white&#34;,root));
+        while(!stack.isEmpty()){
+            MyTreeNode cur &#61; stack.pop();
+            if(cur.node&#61;&#61;null){
+                continue;
+            }
+            if(cur.type.equals(&#34;white&#34;)){
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.right));
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.left));
+                stack.push(new MyTreeNode(&#34;black&#34;,cur.node));
+            }else{
+                result.add(cur.node.val);
+            }
+        }
+        return result;
+    }
+}</code></pre>
 
-如果你已经非常熟练地掌握了各种专用写法，那黑白标记法未必总是最短。
-但从理解和统一性上，它非常有价值。
+<h2>中序遍历</h2>
 
-## 一个更值得带走的思维
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/05.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-5" /></p>
+</p>
 
-很多算法题里，最难的不是“做某件事”，而是“什么时候做某件事”。
+<pre>
+<code>class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result&#61;new ArrayList&lt;&gt;();
+        Deque&lt;MyTreeNode&gt; stack &#61; new LinkedList&lt;&gt;();
+        stack.add(new MyTreeNode(&#34;white&#34;,root));
+        while(!stack.isEmpty()){
+            MyTreeNode cur&#61;stack.pop();
+            if(cur.node&#61;&#61;null){
+                continue;
+            }
+            if(cur.type.equals(&#34;white&#34;)){
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.right));
+                stack.push(new MyTreeNode(&#34;black&#34;,cur.node));
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.left));
+            }else{
+                result.add(cur.node.val);
+            }
+        }
+        return result;
+    }  
+}</code></pre>
 
-黑白标记法本质上是在解决这个问题：
+<h2>后序遍历</h2>
 
-- 我不是不能处理节点
-- 我只是要在正确的时机处理它
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/06.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-6" /></p>
+</p>
 
-一旦这种时机控制被显式表达出来，很多原本看起来绕的流程都会清楚很多。
+<pre>
+<code>class Solution {
+    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result &#61; new ArrayList&lt;&gt;();
+        Deque&lt;MyTreeNode&gt; stack&#61;new LinkedList&lt;&gt;();
+        stack.add(new MyTreeNode(&#34;white&#34;,root));
+        while(!stack.isEmpty()){
+            MyTreeNode cur&#61;stack.pop();
+            if(cur.node&#61;&#61;null){
+                continue;
+            }
+            if(cur.type.equals(&#34;white&#34;)){
+                stack.push(new MyTreeNode(&#34;black&#34;,cur.node));
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.right));
+                stack.push(new MyTreeNode(&#34;white&#34;,cur.node.left));
+            }else{
+                result.add(cur.node.val);
+            }
+        }
+        return result;
+    }
+}</code></pre>
 
-## 最后一段总结
+<p>ps&#xff1a;如果也是像我一样使用的是Deque请注意方法add()和push()的区别&#xff0c;不然可能结果正好相反嘿嘿(˶‾᷄ ⁻̫ ‾᷅˵)</p>
 
-黑白标记法之所以好用，不是因为它发明了新的遍历，而是因为它把二叉树遍历里最关键的差别——“节点处理时机”——清楚地放到了栈里。
+<p>
+<p><img src="/images/notes/2026-04-02-black-white-marking-binary-tree-traversal/07.png" alt="2026-04-02-black-white-marking-binary-tree-traversal-7" /></p>
+</p>
 
-这样前序、中序、后序的差别，就从三套零散模板，变成了同一个框架下的顺序调整。
+<p>可以看到只是在入栈顺序进行了调整&#xff0c;就完成了这三种不同的遍历顺序</p>
 
-这比单纯记代码更值得学。
+<p>搞定撒花(&#xffe3;∇&#xffe3;)/&#x1f389;&#x1f389;&#x1f389;&#xff5e;&#xff5e;&#xff5e;&#xff5e;&#xff5e;&#xff5e;</p>
 
 ## 来源链接
 

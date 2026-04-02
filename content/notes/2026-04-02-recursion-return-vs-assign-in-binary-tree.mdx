@@ -11,169 +11,84 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 这篇想解决什么问题
-
-很多人刷二叉树递归题时，都会反复卡在一个很像细节、其实是核心的问题上：
-
-- 为什么有的递归结果可以直接 `return dfs(...)`
-- 有的题却必须先用变量接住左右子树结果，再在当前层做判断
-
-如果这个点没想清楚，代码就会写得很凭感觉。
-而一旦想清楚，你会发现很多树题其实都能被归到两类。
-
-## 先说结论：递归大致有两种工作模式
-
-### 第一种：传话型递归
-
-特点是：
-当前节点自己不怎么加工信息，而是根据题目结构，把答案从某个子树一路传上来。
-
-这种情况下，通常可以直接：
-
-```java
-return dfs(root.left);
-```
-
-或者：
-
-```java
-return dfs(root.right);
-```
-
-因为子问题的返回值，本身就已经是你要的答案。
-
-### 第二种：加工型递归
-
-特点是：
-当前节点必须同时看左右子树返回什么，再决定自己要返回什么。
-
-这种情况就不能只写一个直接 return 了，而是通常要这么写：
-
-```java
-TreeNode left = dfs(root.left);
-TreeNode right = dfs(root.right);
-```
-
-然后在当前节点做综合判断。
-
-## 用最近公共祖先两题来感受差别
-
-最典型的对比，就是：
-
-- BST 最近公共祖先
-- 普通二叉树最近公共祖先
-
-它们表面题意很像，但递归结构完全不是一回事。
-
-## 场景一：BST 最近公共祖先为什么可以直接 return
-
-在二叉搜索树里，节点有大小关系：
-
-- 如果 `p` 和 `q` 都比当前节点小，就去左边
-- 如果都比当前节点大，就去右边
-- 否则当前节点就是分界点
-
-所以逻辑是：
-你并不需要“左右都搜一遍再综合”，因为树本身已经告诉你应该往哪边走。
-
-也就是说，当前层更像一个路由器：
-
-- 判断方向
-- 把问题交给对应子树
-- 直接把子树答案传回来
-
-这就是典型的传话型递归。
-
-## 场景二：普通二叉树最近公共祖先为什么必须先接结果
-
-普通二叉树没有 BST 的大小性质。
-你不能提前知道答案在左边还是右边，所以必须：
-
-- 左边找一次
-- 右边找一次
-- 再看当前节点和左右结果之间的关系
-
-比如：
-
-- 如果左边找到了，右边也找到了，那当前节点就是 LCA
-- 如果只有一边找到了，那就把那一边返回上去
-- 如果两边都没找到，返回空
-
-这里的关键不是“递归调用了两次”，而是：
-当前节点必须解释这两次调用的意义。
-
-所以这就是典型的加工型递归。
-
-## 真正该问自己的判断题
-
-以后写递归时，可以先问自己一句：
-
-**当前节点是不是必须利用左右子树的结果，额外做一次判断或组合？**
-
-如果答案是：
-
-- **不需要**，子结果就是最终答案的一部分，那大概率是传话型递归
-- **需要**，必须在当前层加工、汇总、筛选，那大概率是加工型递归
-
-这句判断，比背模板更有用。
-
-## 一个更通用的理解方式
-
-你可以把递归函数想成在向父节点汇报。
-
-### 传话型
-
-子节点说：
-“我这里已经有答案了，你直接转给上面就行。”
-
-### 加工型
-
-子节点说：
-“我这里只能给你局部信息，你得把左右两边放一起看，才能得出结论。”
-
-这两种汇报方式，对应的代码结构自然就不一样。
-
-## 为什么很多人会写混
-
-因为题目表面都长得像：
-
-- 先递归左边
-- 再递归右边
-- 再 return 某个东西
-
-但真正决定写法的，不是“长相”，而是函数返回值的语义。
-
-你得先想清楚：
-这个递归函数返回的是——
-
-- 一个完整答案
-- 还是一个给父节点继续加工的中间信息
-
-这个问题一旦想明白，很多二叉树题的递归骨架都会变稳定。
-
-## 刷题时特别实用的一个习惯
-
-开始写递归前，先把这句话补完整：
-
-**`dfs(node)` 的返回值表示什么？**
-
-比如：
-
-- 表示“以 node 为根的子树中，目标节点的最近公共祖先”
-- 表示“这棵子树里是否找到了目标”
-- 表示“这棵子树的高度”
-- 表示“这棵子树是否平衡，同时顺带返回高度”
-
-一旦返回值定义清楚，你就更容易判断当前层是传话，还是加工。
-
-## 最后一段总结
-
-递归里“能不能直接 return”，本质上不是代码风格问题，而是信息流问题。
-
-- 如果子调用返回的就是答案，当前层只负责转发，那就可以直接 return
-- 如果当前层还要解释、组合、筛选左右结果，那就必须先接住，再处理
-
-把这层想通之后，你写二叉树递归时会少很多“凭手感”，多很多结构感。
+<p>需要解释下什么是LCA吗&#xff1f;</p> 
+<p>算了我解释下吧——</p> 
+<p><strong>Lowest Common Ancestor</strong>&#x1f449; <strong>最近公共祖先</strong>&#xff0c;意思是两节点在树中<strong>最近的共同父节点</strong>。</p> 
+<hr /> 
+<h2>先给结论</h2> 
+<p><strong>递归返回值如果就是当前问题的最终答案 → 可以直接 return</strong></p> 
+<p><strong>递归返回值如果只是“判断材料” → 必须先赋值再处理</strong></p> 
+<hr /> 
+<h2>递归的两种本质角色</h2> 
+<h2>1️⃣ 传话型递归<strong> → </strong>可直接 return</h2> 
+<p><strong>特点&#xff1a;</strong></p> 
+<ul><li>当前层不加工子结果</li><li>子问题答案 &#61; 当前问题答案</li><li>当前层没有“决策权”</li></ul> 
+<p><strong>代码特征&#xff1a;</strong></p> 
+<pre><code>return dfs(root.left);</code></pre> 
+<h2>2️⃣ 加工型递归<strong> → </strong>必须先赋值</h2> 
+<p><strong>特点&#xff1a;</strong></p> 
+<ul><li>当前层必须根据左右子结果做判断</li><li>子结果只是“信息”&#xff0c;不是最终答案</li><li>当前节点可能成为答案&#xff08;或者答案的一部分&#xff0c;如<a href="https://leetcode.cn/problems/insert-into-a-binary-search-tree/" title="701. 二叉搜索树中的插入操作" rel="nofollow">701. 二叉搜索树中的插入操作</a>&#xff09;</li></ul> 
+<p><strong>代码特征&#xff1a;</strong></p> 
+<pre><code>TreeNode left &#61; dfs(root.left);
+TreeNode right &#61; dfs(root.right);</code></pre> 
+<hr /> 
+<h2>我们来看看这两道几乎“长得一样”的 LCA 题</h2> 
+<p>附上 leetcode &#x1f517;感兴趣的同学可以先去做一做&#xff0c;然后感触会更深&#xff5e;</p> 
+<p><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/" title="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/" rel="nofollow">https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/</a></p> 
+<p><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/" title="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/" rel="nofollow">https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/</a></p> 
+<p>为什么拿它俩举例&#xff0c;因为它们<strong>代表上一趴我们提到的两种完全不同的递归模式&#xff1a;传递性递归和加工型递归</strong></p> 
+<hr /> 
+<h2>235. 二叉搜索树的最近公共祖先&#xff08;BST LCA&#xff09;</h2> 
+<h2>1️⃣ 关键前提&#xff1a;BST 的结构性质</h2> 
+<p>BST 有一个<strong>强约束</strong>&#xff1a;</p> 
+<ul><li>左子树所有节点 &lt; root.val</li><li>右子树所有节点 &gt; root.val</li></ul> 
+<p>&#x1f449; <strong>节点值大小&#xff0c;直接决定位置方向</strong></p> 
+<h2>2️⃣ 解题思路&#xff08;只走一条路&#xff09;</h2> 
+<ul><li>如果 p、q 都小于 root → LCA 在左子树</li><li>如果 p、q 都大于 root → LCA 在右子树</li><li>否则 → root 就是最近公共祖先</li></ul> 
+<h2>3️⃣ 递归代码&#xff08;传话型&#xff0c;直接 return&#xff09;</h2> 
+<pre><code>public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root &#61;&#61; null) return null;
+
+    if (p.val &lt; root.val &amp;&amp; q.val &lt; root.val)
+        return lowestCommonAncestor(root.left, p, q);
+
+    if (p.val &gt; root.val &amp;&amp; q.val &gt; root.val)
+        return lowestCommonAncestor(root.right, p, q);
+
+    return root;
+}</code></pre> 
+<h2>4️⃣ 为什么这里可以直接 return&#xff1f;</h2> 
+<p>因为在 BST 中&#xff1a;</p> 
+<ul><li>当前节点一旦判断“答案不在我这里”</li><li>就能<strong>确定答案 100% 在某一侧</strong></li><li>当前层不需要处理左右结果</li></ul> 
+<p>&#x1f449; <strong>子递归的结果&#xff0c;就是最终答案</strong></p> 
+<hr /> 
+<h2>236. 二叉树的最近公共祖先&#xff08;普通二叉树&#xff09;</h2> 
+<h2>1️⃣ 关键前提&#xff1a;没有任何大小规则</h2> 
+<p>普通二叉树中&#xff1a;</p> 
+<ul><li><code>left</code> / <code>right</code> 只是结构关系</li><li><code>val</code> 的大小与位置无关</li></ul> 
+<p>&#x1f449; <strong>不能靠数值判断方向</strong></p> 
+<h2>2️⃣ 解题思路&#xff08;必须左右都找&#xff09;</h2> 
+<ul><li>去左子树找 p 或 q</li><li>去右子树找 p 或 q</li><li>根据左右返回结果判断当前节点身份</li></ul> 
+<h2>3️⃣ 递归代码&#xff08;加工型&#xff0c;必须赋值&#xff09;</h2> 
+<pre><code>public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root &#61;&#61; null) return null;
+    if (root &#61;&#61; p || root &#61;&#61; q) return root;
+
+    TreeNode left &#61; lowestCommonAncestor(root.left, p, q);
+    TreeNode right &#61; lowestCommonAncestor(root.right, p, q);
+
+    if (left !&#61; null &amp;&amp; right !&#61; null) return root;
+    return left !&#61; null ? left : right;
+}</code></pre> 
+<h2>4️⃣ 为什么这里必须先赋值&#xff1f;</h2> 
+<p>因为你要回答的是&#xff1a;</p> 
+<p>“p 和 q 是不是分别出现在我左右两棵子树&#xff1f;”</p> 
+<p>这个判断<strong>必须同时知道左右子树的搜索结果</strong>&#xff0c; 而当前节点是否是 LCA&#xff0c;取决于<strong>结果的组合状态</strong>。</p> 
+<p>&#x1f449; 子递归结果 ≠ 最终答案&#xff0c;只是判断材料。</p> 
+<hr /> 
+<h2>总个结吧&#xff09;</h2> 
+<p>&#x1f511; <strong>递归返回值是最终答案 → 直接 return</strong></p> 
+<p>&#x1f511; <strong>递归返回值只是判断材料 → 必须先接住再处理</strong></p>
 
 ## 来源链接
 

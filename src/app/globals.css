@@ -22,6 +22,8 @@
   --accent-violet: #8875d8;
   --accent-violet-strong: #9d8bf2;
   --accent-violet-soft: rgba(136, 117, 216, 0.14);
+  --accent-cyan-strong: #7aaecb;
+  --accent-cyan-soft: rgba(122, 174, 203, 0.14);
   --accent-teal: rgba(84, 154, 150, 0.68);
   --accent-amber: rgba(181, 145, 86, 0.72);
   --accent-cyan: rgba(86, 151, 194, 0.68);
@@ -119,7 +121,7 @@ a {
     inset: 0;
     background:
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.08), transparent 26%),
-      radial-gradient(circle at left 10% bottom 14%, rgba(74, 117, 135, 0.06), transparent 22%),
+      radial-gradient(circle at left 10% bottom 14%, rgba(122, 174, 203, 0.08), transparent 22%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 34%);
     pointer-events: none;
   }
@@ -166,6 +168,7 @@ a {
       radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 1px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -2px)), rgba(246, 248, 255, var(--flare-vertical-alpha)) 0%, rgba(221, 214, 250, calc(var(--flare-vertical-alpha) * 0.66)) 34%, transparent 84%),
       radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(234, 228, 255, calc(var(--flare-diagonal-alpha) * 0.26)) 0%, transparent 70%),
       radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 4px)) calc(var(--pointer-y) + 10px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 76%),
+      radial-gradient(calc(var(--flare-aura-width) * 0.72) calc(var(--flare-aura-height) * 0.58) at calc(var(--pointer-x) - (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + 18px), rgba(122, 174, 203, calc(var(--flare-aura-alpha) * 0.56)), transparent 74%),
       radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 2px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 76%),
       radial-gradient(circle at calc(22% + (var(--grain-shift-x) * 0.25)) calc(28% + (var(--grain-shift-y) * 0.25)), rgba(255, 255, 255, 0.022) 0.7px, transparent 0.8px),
       radial-gradient(circle at calc(72% + (var(--grain-shift-x) * -0.18)) calc(62% + (var(--grain-shift-y) * -0.18)), rgba(255, 255, 255, 0.016) 0.65px, transparent 0.8px),
@@ -185,6 +188,7 @@ a {
       0 0,
       0 0;
     background-size:
+      auto,
       auto,
       auto,
       auto,
@@ -239,6 +243,7 @@ a {
       radial-gradient(var(--flare-vertical-width) var(--flare-vertical-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + (var(--pointer-glint-pitch) * -3px)), rgba(249, 250, 255, var(--flare-vertical-alpha)) 0%, rgba(222, 213, 255, calc(var(--flare-vertical-alpha) * 0.72)) 34%, transparent 84%),
       radial-gradient(var(--flare-diagonal-size) var(--flare-diagonal-size) at var(--pointer-x) var(--pointer-y), rgba(240, 231, 255, calc(var(--flare-diagonal-alpha) * 0.3)) 0%, transparent 70%),
       radial-gradient(var(--flare-aura-width) var(--flare-aura-height) at calc(var(--pointer-x) + (var(--pointer-glint-yaw) * 5px)) calc(var(--pointer-y) + 12px), rgba(136, 117, 216, var(--flare-aura-alpha)), transparent 76%),
+      radial-gradient(calc(var(--flare-aura-width) * 0.7) calc(var(--flare-aura-height) * 0.54) at calc(var(--pointer-x) - (var(--pointer-glint-yaw) * 2px)) calc(var(--pointer-y) + 20px), rgba(122, 174, 203, calc(var(--flare-aura-alpha) * 0.52)), transparent 74%),
       radial-gradient(var(--flare-sheen-width) var(--flare-sheen-height) at calc(var(--pointer-x) + ((var(--pointer-sweep) - 0.5) * var(--flare-sheen-shift))) calc(var(--pointer-y) - 1px), rgba(255, 255, 255, var(--flare-sheen-alpha)), transparent 76%),
       linear-gradient(108deg, transparent 32%, rgba(255, 255, 255, 0.024) 46%, rgba(255, 255, 255, 0.008) 58%, transparent 72%),
       radial-gradient(circle at top right, rgba(136, 117, 216, 0.055), transparent 25%),
@@ -254,6 +259,7 @@ a {
       0 0,
       0 0;
     background-size:
+      auto,
       auto,
       auto,
       auto,
@@ -389,6 +395,17 @@ a {
     filter: brightness(1.014) saturate(0.985);
   }
 
+  .note-card-accent {
+    border-color: rgba(122, 174, 203, 0.12);
+  }
+
+  .note-card-accent::before {
+    background:
+      radial-gradient(circle at top right, rgba(122, 174, 203, 0.12), transparent 24%),
+      radial-gradient(circle at left 10% bottom 14%, rgba(92, 151, 188, 0.08), transparent 22%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 34%);
+  }
+
   .section-shell {
     @apply relative space-y-7 rounded-[28px] border p-7 md:p-9;
     border-color: rgba(236, 241, 255, 0.055);
@@ -403,7 +420,8 @@ a {
     border-radius: inherit;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
-      radial-gradient(circle at top right, rgba(136, 117, 216, 0.06), transparent 24%);
+      radial-gradient(circle at top right, rgba(136, 117, 216, 0.06), transparent 24%),
+      radial-gradient(circle at left bottom, rgba(122, 174, 203, 0.05), transparent 22%);
     pointer-events: none;
   }
 
@@ -414,7 +432,7 @@ a {
     right: 28px;
     top: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(136, 117, 216, 0.22), transparent);
+    background: linear-gradient(90deg, transparent, rgba(136, 117, 216, 0.18), rgba(122, 174, 203, 0.16), transparent);
     pointer-events: none;
   }
 
@@ -497,12 +515,13 @@ a {
   .pill-tag:hover,
   .pill-tag:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(236, 241, 255, 0.14);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.028));
+    border-color: rgba(122, 174, 203, 0.22);
+    background: linear-gradient(180deg, rgba(122, 174, 203, 0.065), rgba(255, 255, 255, 0.028));
     color: rgba(214, 221, 232, 0.92);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 10px 18px rgba(0, 0, 0, 0.14);
+      0 10px 18px rgba(0, 0, 0, 0.14),
+      0 0 0 1px rgba(122, 174, 203, 0.06);
   }
 
   .pill-tag:active {
@@ -512,8 +531,8 @@ a {
 
   .hero-kicker {
     @apply inline-flex items-center gap-3 rounded-full border px-4 py-2 text-[11px] uppercase;
-    border-color: rgba(236, 241, 255, 0.08);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.022));
+    border-color: rgba(122, 174, 203, 0.14);
+    background: linear-gradient(180deg, rgba(122, 174, 203, 0.05), rgba(255, 255, 255, 0.022));
     color: rgba(210, 216, 226, 0.86);
     letter-spacing: 0.22em;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
@@ -613,7 +632,7 @@ a {
     display: inline-block;
     width: 1.4rem;
     height: 1px;
-    background: linear-gradient(90deg, rgba(136, 117, 216, 0.72), rgba(136, 117, 216, 0.12));
+    background: linear-gradient(90deg, rgba(122, 174, 203, 0.82), rgba(136, 117, 216, 0.18));
   }
 
   .section-label {
@@ -799,7 +818,7 @@ a {
     top: 16%;
     width: 180px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(136, 117, 216, 0.24), transparent);
+    background: linear-gradient(90deg, transparent, rgba(122, 174, 203, 0.2), rgba(136, 117, 216, 0.16), transparent);
     animation: shimmerSlide 7.5s ease-in-out infinite;
     pointer-events: none;
   }
@@ -904,6 +923,32 @@ a {
     transform: translateY(-1px);
     filter: brightness(1.018) saturate(0.988);
   }
+
+  .studio-note-shell::before {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
+      radial-gradient(circle at top right, rgba(122, 174, 203, 0.08), transparent 24%),
+      radial-gradient(circle at left bottom, rgba(122, 174, 203, 0.05), transparent 22%);
+  }
+
+  .studio-log-shell::before {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
+      radial-gradient(circle at top right, rgba(136, 117, 216, 0.07), transparent 24%),
+      radial-gradient(circle at left bottom, rgba(136, 117, 216, 0.04), transparent 22%);
+  }
+
+  .studio-learning-shell::before {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 30%),
+      radial-gradient(circle at top right, rgba(136, 117, 216, 0.05), transparent 24%),
+      radial-gradient(circle at left bottom, rgba(122, 174, 203, 0.04), transparent 22%);
+  }
+}
+
+.prose-custom h1 {
+  @apply mt-10 font-cjk text-3xl font-semibold tracking-tight;
+  color: var(--text-primary);
 }
 
 .prose-custom h2 {
@@ -916,18 +961,62 @@ a {
   color: var(--text-primary);
 }
 
+.prose-custom h4,
+.prose-custom h5,
+.prose-custom h6 {
+  @apply mt-6 font-cjk text-lg font-medium;
+  color: var(--text-primary);
+}
+
 .prose-custom p {
   @apply mt-4 text-base leading-8;
   color: var(--text-secondary);
 }
 
-.prose-custom ul {
-  @apply mt-4 list-disc space-y-2 pl-5;
+.prose-custom ul,
+.prose-custom ol {
+  @apply mt-4 space-y-2 pl-5;
   color: var(--text-secondary);
+}
+
+.prose-custom ul {
+  @apply list-disc;
+}
+
+.prose-custom ol {
+  @apply list-decimal;
 }
 
 .prose-custom li {
   @apply leading-8;
+}
+
+.prose-custom blockquote {
+  @apply mt-6 space-y-3 rounded-2xl border-l-2 px-5 py-4;
+  border-color: rgba(136, 117, 216, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.prose-custom hr {
+  @apply my-8 border-0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(236, 241, 255, 0.18), transparent);
+}
+
+.prose-custom pre {
+  @apply mt-6 overflow-x-auto rounded-2xl border p-4 text-sm leading-7;
+  border-color: rgba(236, 241, 255, 0.08);
+  background: rgba(7, 10, 14, 0.86);
+  color: rgba(235, 239, 244, 0.94);
+}
+
+.prose-custom code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.prose-custom img {
+  @apply mt-6 h-auto w-full rounded-2xl border object-cover;
+  border-color: rgba(236, 241, 255, 0.08);
 }
 
 @media (prefers-reduced-motion: reduce) {

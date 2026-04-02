@@ -11,109 +11,110 @@ updatedAt: "2026-04-02"
 featured: false
 ---
 
-## 这道题为什么常让人“转移会写，结果不对”
+<p>其实做动态规划相关题目的朋友难免会碰到该如何初始化 dp 数组的问题&#xff0c;有的解答是 dp[i]代表的是 (i-1)&#xff0c;有时候又代表的是 i&#xff0c;那到底是应该用哪种呢&#xff1f;这两种又有什么区别&#xff1f;今天这道题带你整明白嘿嘿&#x1f60e;</p> 
+<h2>题目描述</h2> 
+<h2>英文版描述</h2> 
+<p>Given two strings <code>word1</code> and <code>word2</code>, return <em>the minimum number of </em><strong><em>steps</em></strong><em> required to make</em><code>word1</code><em>and</em><code>word2</code><em>the same</em>.</p> 
+<p>In one <strong>step</strong>, you can delete exactly one character in either string.</p> 
+<p><strong>Example 1:</strong></p> 
+<p><strong>Input:</strong> word1 &#61; &#34;sea&#34;, word2 &#61; &#34;eat&#34; <strong>Output:</strong> 2 <strong>Explanation:</strong> You need one step to make &#34;sea&#34; to &#34;ea&#34; and another step to make &#34;eat&#34; to &#34;ea&#34;.</p> 
+<p><strong>Example 2:</strong></p> 
+<p><strong>Input:</strong> word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; <strong>Output:</strong> 4</p> 
+<p><strong>Constraints:</strong></p> 
+<ul><li><code>1 &lt;&#61; word1.length, word2.length &lt;&#61; 500</code></li><li><code>word1</code> and <code>word2</code> consist of only lowercase English letters.</li></ul> 
+<h2>英文版地址</h2> 
+<p><a href="https://leetcode.com/problems/delete-operation-for-two-strings/description/" title="https://leetcode.com/problems/delete-operation-for-two-strings/description/" rel="nofollow"><span contenteditable="false"><span>https://leetcode.com/problems/delete-operation-for-two-strings/description/</span><span>https://leetcode.com/problems/delete-operation-for-two-strings/description/</span></span></a></p> 
+<h2>中文版描述</h2> 
+<p>给定两个单词 <code>word1</code> 和 <code>word2</code> &#xff0c;返回使得 <code>word1</code> 和 <code>word2</code><strong>相同</strong>所需的<strong>最小步数</strong>。</p> 
+<p><strong>每步 </strong>可以删除任意一个字符串中的一个字符。</p> 
+<p><strong>示例 1&#xff1a;</strong></p> 
+<p><strong>输入:</strong> word1 &#61; &#34;sea&#34;, word2 &#61; &#34;eat&#34; <strong>输出:</strong> 2 <strong>解释:</strong> 第一步将 &#34;sea&#34; 变为 &#34;ea&#34; &#xff0c;第二步将 &#34;eat &#34;变为 &#34;ea&#34;</p> 
+<p><strong>示例 2:</strong></p> 
+<p><strong>输入&#xff1a;</strong>word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; <strong>输出&#xff1a;</strong>4</p> 
+<p><strong>提示&#xff1a;</strong></p> 
+<ul><li><code>1 &lt;&#61; word1.length, word2.length &lt;&#61; 500</code></li><li><code>word1</code> 和 <code>word2</code> 只包含小写英文字母</li></ul> 
+<h2>中文版地址</h2> 
+<p><a href="https://leetcode.cn/problems/delete-operation-for-two-strings/description/" title="https://leetcode.cn/problems/delete-operation-for-two-strings/description/" rel="nofollow"><span contenteditable="false"><span>https://leetcode.cn/problems/delete-operation-for-two-strings/description/</span><span>https://leetcode.cn/problems/delete-operation-for-two-strings/description/</span></span></a></p> 
+<h2>解题方法</h2> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/01.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-1" /></p>
+</p> 
+<pre><code>class Solution {
+    public int minDistance(String word1, String word2) {
+        int[][] dp &#61; new int[word1.length()][word2.length()];
+        if (word1.charAt(0) !&#61; word2.charAt(0)) {
+            dp[0][0] &#61; 2;
+        }
+        for (int i &#61; 1; i &lt; word1.length(); i&#43;&#43;) {
+            if (word1.charAt(i) &#61;&#61; word2.charAt(0) &amp;&amp; dp[i - 1][0] !&#61; i-1) {
+                dp[i][0] &#61; dp[i - 1][0] - 1;
+            } else {
+                dp[i][0] &#61; dp[i - 1][0] &#43; 1;
+            }
+        }
+        for (int j &#61; 1; j &lt; word2.length(); j&#43;&#43;) {
+            if (word1.charAt(0) &#61;&#61; word2.charAt(j)) {
+                dp[0][j] &#61; j;
+            } else {
+                dp[0][j] &#61; dp[0][j - 1] &#43; 1;
+            }
+        }
 
-像“两个字符串的删除操作”这类题，很多人看完思路后会觉得自己已经懂了：
-
-- 定义一个二维 `dp`
-- 看两个字符是否相等
-- 相等就继承，不等就取最优
-
-结果代码一跑，答案却不对。
-
-这种题里，真正最容易出问题的常常不是状态转移，而是初始化。
-
-## 为什么初始化这么关键
-
-因为二维字符串 DP 的第一行、第一列，不是随手填的边角料。
-它们是在定义：
-
-**当其中一个字符串长度为 0 时，问题答案是什么。**
-
-而这件事，正好决定了整个表格后续推导的起点。
-
-如果起点语义没立住，后面的转移即使形式上看起来没错，整张表也会被带偏。
-
-## 这题本质在算什么
-
-“两个字符串的删除操作”问的是：
-把两个字符串删到完全相同，最少要删多少次。
-
-你可以从两个角度理解它：
-
-- 直接定义删除次数 DP
-- 或者先求最长公共子序列，再推导删除次数
-
-无论你走哪条路，初始化都绕不过去。
-
-## 为什么第一行第一列这么容易写错
-
-因为很多人写 DP 时，脑中其实没有一句清楚的话来描述 `dp[i][j]`。
-
-比如你必须先说清楚：
-
-- `dp[i][j]` 表示 word1 前 i 个字符和 word2 前 j 个字符变成相同所需的最少删除次数
-
-一旦这个定义明确，初始化才有依据。
-
-例如：
-
-- `dp[0][j]` 表示第一个字符串为空，第二个字符串前 j 个字符要删多少次才能相同
-- 那显然就是删掉这 j 个字符
-
-同理：
-
-- `dp[i][0] = i`
-
-这不是“套路规定”，而是状态定义的自然结果。
-
-## 字符串 DP 最该养成的习惯
-
-每次做题前，别急着写循环，先回答三个问题：
-
-1. `dp[i][j]` 表示什么
-2. 当 `i = 0` 或 `j = 0` 时，这个定义意味着什么
-3. 当前状态是从哪些更小状态推出来的
-
-这三件事如果能提前说清楚，初始化基本就不会写歪。
-
-## 为什么很多人会觉得“明明两种写法都像对的”
-
-因为二维 DP 很容易出现两套下标体系：
-
-- 一种是 `dp[i][j]` 对应前 `i` / `j` 个字符
-- 一种是直接对应字符下标位置
-
-这两种都能做，但初始化逻辑会跟着一起变。
-
-问题往往不是哪种写法不行，而是：
-你在第一种定义上写了第二种初始化，或者反过来。
-
-所以真正要统一的不是代码形式，而是语义系统。
-
-## 这题带来的更大启发
-
-很多字符串 DP 题都共享同一个难点：
-
-- 编辑距离
-- 删除操作
-- 最长公共子序列
-- 最长重复子数组 / 子序列相关题
-
-它们都在提醒你：
-
-**DP 表格不是算出来的，它是先被“定义”出来的。**
-
-初始化就是定义的第一块地基。
-
-## 最后一段总结
-
-“两个字符串的删除操作”这题最值得记住的，不是某个固定模板，而是一个判断标准：
-
-如果你不知道第一行、第一列为什么这么填，那说明你对 `dp[i][j]` 的定义还没有真正想清楚。
-
-字符串 DP 很多时候不是输在不会转移，而是输在状态和初始化没有对齐。
-一旦这层对齐了，题目会顺很多。
+        for (int i &#61; 1; i &lt; word1.length(); i&#43;&#43;) {
+            for (int j &#61; 1; j &lt; word2.length(); j&#43;&#43;) {
+                if (word1.charAt(i) &#61;&#61; word2.charAt(j)) {
+                    dp[i][j] &#61; dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] &#61; Math.min(dp[i][j - 1], dp[i - 1][j]) &#43; 1;
+                }
+            }
+        }
+        return dp[word1.length() - 1][word2.length() - 1];
+    }
+}</code></pre> 
+<h5>复杂度分析</h5> 
+<ul><li>时间复杂度&#xff1a;O(n*m)&#xff0c;其中 n 是word1的长度&#xff0c;m 是word2的长度</li><li>空间复杂度&#xff1a;O(n*m)</li></ul> 
+<h2>官方版</h2> 
+<p>这个初始化就有些不太一样叻&#xff5e;&#xff5e;</p> 
+<p>
+<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/02.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-2" /></p>
+</p> 
+<pre><code>class Solution {
+    public int minDistance(String word1, String word2) {
+        int[][] dp &#61; new int[word1.length() &#43; 1][word2.length() &#43; 1];
+        for (int i &#61; 0; i &lt; word1.length() &#43; 1; i&#43;&#43;) dp[i][0] &#61; i;
+        for (int j &#61; 0; j &lt; word2.length() &#43; 1; j&#43;&#43;) dp[0][j] &#61; j;
+        
+        for (int i &#61; 1; i &lt; word1.length() &#43; 1; i&#43;&#43;) {
+            for (int j &#61; 1; j &lt; word2.length() &#43; 1; j&#43;&#43;) {
+                if (word1.charAt(i - 1) &#61;&#61; word2.charAt(j - 1)) {
+                    dp[i][j] &#61; dp[i - 1][j - 1];
+                }else{
+                    dp[i][j] &#61; Math.min(dp[i - 1][j - 1] &#43; 2,
+                                        Math.min(dp[i - 1][j] &#43; 1, dp[i][j - 1] &#43; 1));
+                }
+            }
+        }
+        
+        return dp[word1.length()][word2.length()];
+    }
+}</code></pre> 
+<h5>复杂度分析</h5> 
+<ul><li>时间复杂度&#xff1a;O(n*m)&#xff0c;其中 n 是word1的长度&#xff0c;m 是word2的长度</li><li>空间复杂度&#xff1a;O(n*m)</li></ul> 
+<h2>总结</h2> 
+<p>这两种写法的主要差别其实就是在初始化的时候&#xff0c;可以看下他俩的 dp 数组</p> 
+<p>解法 1 的动规数组的含义是word1 取 [0, i] 范围内并且word2取[0, j] 的范围内时&#xff0c;使得 word1 和 word2 相同所需的最小步数是dp[i][j] &#xff0c;而解法 2 的动规数组的含义是word1 取 [0, i-1] 范围内并且word2取[0, j-1] 的范围内时&#xff0c;使得 word1 和 word2 相同所需的最小步数是dp[i][j]</p> 
+<p>可以看下下图&#xff08;示例 2:输入&#xff1a;word1 &#61; &#34;leetcode&#34;, word2 &#61; &#34;etco&#34; 输出&#xff1a;4&#xff0c;第一行是解法 1 的 dp 数组&#xff0c;第二行是解法 2 的 dp 数组&#xff09;&#xff0c;或者自己推一遍就会清楚很多</p> 
+<p>
+<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/03.jpeg" alt="2026-04-02-delete-operation-for-two-strings-dp-init-3" /></p>
+</p> 
+<p>在代码中的体现就是</p> 
+ 
+<p>
+<p><img src="/images/notes/2026-04-02-delete-operation-for-two-strings-dp-init/04.png" alt="2026-04-02-delete-operation-for-two-strings-dp-init-4" /></p>
+</p> 
+<p>所以如何定义其实并没有对错的问题&#xff0c;只是在处理逻辑上会有一些些差异&#xff5e;&#xff5e;</p>
 
 ## 来源链接
 
