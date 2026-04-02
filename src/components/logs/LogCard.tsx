@@ -3,10 +3,10 @@ import type { LogItem } from '@/types/log';
 import { formatDate, formatDuration } from '@/lib/utils';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
 
-export function LogCard({ item }: { item: LogItem }) {
+export function LogCard({ item, href }: { item: LogItem; href?: string }) {
   return (
     <InteractiveSurface className="surface-card surface-card-hover reveal-surface block rounded-[24px]">
-      <Link href={`/logs/${item.slug}`} className="block p-6 md:p-7">
+      <Link href={href || `/logs/${item.slug}`} className="block p-6 md:p-7">
         <div className="relative space-y-5">
           <div className="flex flex-wrap items-center gap-3 text-sm text-stone-500">
             <span>{formatDate(item.date)}</span>

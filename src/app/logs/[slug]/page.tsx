@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/data/site';
 import { getAllLogs, getAllNotes } from '@/lib/content';
@@ -58,14 +59,39 @@ export default async function LogDetailPage({ params }: PageProps) {
             <aside className="space-y-6">
               <InteractiveSurface className="surface-card rounded-[24px] p-5 md:p-6">
                 <div className="relative space-y-4">
-                  <h3 className="text-sm font-semibold text-stone-100">标签</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {log.tags.map((tag) => (
-                      <span key={tag} className="pill-tag text-stone-400">
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-stone-100">类型</h3>
+                    <Link
+                      href={`/logs?type=${encodeURIComponent(log.type)}`}
+                      className="inline-flex rounded-full border border-[rgba(122,174,203,0.18)] bg-[rgba(122,174,203,0.08)] px-3 py-1.5 text-sm text-[rgba(201,223,235,0.92)] transition hover:bg-[rgba(122,174,203,0.14)]"
+                    >
+                      {log.type}
+                    </Link>
                   </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-stone-100">标签</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {log.tags.map((tag) => (
+                        <Link
+                          key={tag}
+                          href={`/logs?tag=${encodeURIComponent(tag)}`}
+                          className="pill-tag text-stone-300 transition hover:text-stone-100"
+                        >
+                          {tag}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {relatedNotes.length > 0 ? (
+                    <Link
+                      href={`/notes?tag=${encodeURIComponent(relatedNotes[0].tags[0] || log.tags[0] || '')}`}
+                      className="inline-flex items-center text-sm text-stone-400 transition hover:text-stone-200"
+                    >
+                      去看相关知识条目 →
+                    </Link>
+                  ) : null}
                 </div>
               </InteractiveSurface>
               <RelatedContent notes={relatedNotes.slice(0, 4)} logs={relatedLogs} />
