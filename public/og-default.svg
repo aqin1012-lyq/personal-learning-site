@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B0D10"/>
+  <rect x="28" y="28" width="1144" height="574" rx="28" stroke="rgba(236,241,255,0.08)"/>
+  <circle cx="946" cy="126" r="180" fill="#8875D8" fill-opacity="0.18"/>
+  <circle cx="228" cy="520" r="160" fill="#7AAECB" fill-opacity="0.12"/>
+  <text x="88" y="192" fill="#A39ACF" font-size="24" font-family="Arial, sans-serif" letter-spacing="4">PERSONAL LEARNING SYSTEM TEMPLATE</text>
+  <text x="88" y="286" fill="#F3F5F7" font-size="64" font-family="Arial, sans-serif" font-weight="700">Logs · Notes · Projects</text>
+  <text x="88" y="360" fill="#C5CCD6" font-size="30" font-family="Arial, sans-serif">把学习过程、知识沉淀和实践输出串成一个闭环</text>
+  <rect x="88" y="430" width="220" height="56" rx="28" fill="#5B4EA4"/>
+  <text x="124" y="466" fill="#FFFFFF" font-size="24" font-family="Arial, sans-serif">learning system</text>
+</svg>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState, useTransition } from 'react';
 import type { NoteItem } from '@/types/note';
 import type { CurrentLearningItem } from '@/types/home';
-import { createLogAction, createNoteAction, updateCurrentLearningAction } from '@/app/studio/actions';
+import { createLogAction, createNoteAction, createProjectAction, updateCurrentLearningAction } from '@/app/studio/actions';
 
 type StudioClientProps = {
   notes: NoteItem[];
@@ -14,6 +14,7 @@ type StudioClientProps = {
 const PROGRESS_OPTIONS = ['本周重点', '每日练习', '专题沉淀', '持续输入', '阶段整理'];
 const STATUS_OPTIONS = ['进行中', '持续推进', '整理中', '已暂停', '已完成'];
 const LOG_TYPES = ['reading', 'practice', 'project', 'review', 'writing'];
+const PROJECT_STATUS_OPTIONS = ['planning', 'in-progress', 'completed', 'paused'];
 
 export function StudioClient({ notes, currentLearning }: StudioClientProps) {
   const [isPending, startTransition] = useTransition();
@@ -131,6 +132,57 @@ export function StudioClient({ notes, currentLearning }: StudioClientProps) {
           </form>
         </section>
       </div>
+
+      <section className="section-shell studio-log-shell space-y-5">
+        <div className="space-y-2">
+          <p className="section-label">Studio · New Project</p>
+          <h2 className="font-cjk text-[1.2rem] font-medium text-stone-100">直接新增项目 / 实践</h2>
+          <p className="text-sm leading-7 text-stone-400">项目页不是拿来堆“最终战果”的，它更适合记录你如何把一个学习主题落到真实输出里。</p>
+        </div>
+
+        <form
+          action={(formData) => {
+            setMessage('');
+            setCreatedHref('');
+            startTransition(async () => {
+              try {
+                const result = await createProjectAction(formData);
+                setMessage('项目已新增。');
+                setCreatedHref(result.href);
+              } catch (error) {
+                setMessage(error instanceof Error ? error.message : '新增失败');
+              }
+            });
+          }}
+          className="grid gap-4"
+        >
+          <div className="rounded-[18px] border border-dashed border-white/[0.08] bg-white/[0.015] px-4 py-3 text-sm leading-7 text-stone-400">
+            如果你刚开始，项目可以很小。关键不是“做得多大”，而是让它真的能验证一段学习是否落地了。
+          </div>
+          <input name="title" placeholder="项目标题" className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+          <textarea name="summary" placeholder="项目摘要" rows={3} className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+          <div className="grid gap-4 md:grid-cols-2">
+            <select name="status" defaultValue="in-progress" className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none">
+              {PROJECT_STATUS_OPTIONS.map((status) => (
+                <option key={status} value={status}>{status}</option>
+              ))}
+            </select>
+            <input name="period" placeholder="项目周期，如 2026.04 - 2026.05" className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+          </div>
+          <input name="tags" placeholder="标签，逗号分隔" className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+          <div className="grid gap-4 md:grid-cols-3">
+            <textarea name="outcomes" placeholder="成果，每行一条" rows={5} className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+            <textarea name="lessons" placeholder="收获，每行一条" rows={5} className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+            <textarea name="nextSteps" placeholder="下一步，每行一条" rows={5} className="rounded-[18px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm text-stone-100 outline-none" />
+          </div>
+          <textarea name="content" placeholder="项目正文" rows={14} className="rounded-[20px] border border-white/[0.08] bg-black/10 px-4 py-3 text-sm leading-7 text-stone-100 outline-none" />
+          <button type="submit" disabled={isPending} className="hero-button-primary w-fit disabled:opacity-60">
+            {isPending ? '提交中…' : '新增项目'}
+          </button>
+          {message ? <p className="text-sm text-stone-400">{message}</p> : null}
+          {createdHref ? <Link href={createdHref} className="refined-link interactive-link w-fit"><span>打开新项目</span><span aria-hidden>→</span></Link> : null}
+        </form>
+      </section>
 
       <section className="section-shell studio-learning-shell space-y-5">
         <div className="space-y-2">
