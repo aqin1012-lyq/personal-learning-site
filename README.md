@@ -152,8 +152,10 @@ Studio 里已经支持直接创建：
 - `LAUNCH_COPY_DRAFT.md`
 - `LAUNCH_EXECUTION_PLAN.md`
 - `DEMO_ASSETS_CHECKLIST.md`
+- `SCREENSHOT_SHOTLIST.md`
 - `REPO_SETUP_GUIDE.md`
 - `GITHUB_RELEASE_TEMPLATE.md`
+- `FINAL_LAUNCH_RUNBOOK.md`
 - `RELEASE_NOTES_v0.1.md`
 
 如果你准备第一次公开发布，建议按这些文件的顺序走一遍。
