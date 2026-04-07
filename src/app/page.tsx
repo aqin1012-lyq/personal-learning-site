@@ -286,16 +286,16 @@ export default function HomePage() {
                 <section className="surface-card stagger-surface rounded-[32px] p-7 md:p-9">
                   <div className="relative grid gap-4 md:grid-cols-[1.2fr_0.8fr] md:items-end">
                     <div className="space-y-3">
-                      <p className="text-xs uppercase tracking-[0.2em] text-stone-500">About this site</p>
-                      <h2 className="font-cjk text-[1.9rem] font-medium leading-[1.35] tracking-tight text-stone-100 md:text-[2.35rem]">这不是传统博客，而是我长期维护的学习记录系统</h2>
+                      <p className="text-xs uppercase tracking-[0.2em] text-stone-500">About this template</p>
+                      <h2 className="font-cjk text-[1.9rem] font-medium leading-[1.35] tracking-tight text-stone-100 md:text-[2.35rem]">这不是传统博客模板，而是一套长期可维护的学习系统界面</h2>
                       <p className="max-w-3xl text-[0.98rem] leading-8 text-stone-300">
-                        这里记录学习日志、沉淀知识结构，也保存那些在长期练习中逐渐成形的理解。目标不是“看起来很满”，而是让每一次学习都更容易被找回、连接和继续推进。
+                        它把学习日志、知识卡片和项目实践组织到同一个结构里。目标不是让页面看起来很满，而是让学习过程更容易被找回、被连接、被继续推进。
                       </p>
                     </div>
                     <div className="grid gap-2 text-sm text-stone-400 md:justify-items-end">
                       <span className="pill-tag">记录输入</span>
                       <span className="pill-tag">整理结构</span>
-                      <span className="pill-tag">反复迭代</span>
+                      <span className="pill-tag">验证输出</span>
                     </div>
                   </div>
                 </section>
