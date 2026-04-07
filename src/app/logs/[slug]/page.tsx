@@ -11,6 +11,7 @@ import { ArticleContent } from '@/components/logs/ArticleContent';
 import { InfoBlock } from '@/components/logs/InfoBlock';
 import { RelatedContent } from '@/components/logs/RelatedContent';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
+import { ContinueReadingSection } from '@/components/common/ContinueReadingSection';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -24,9 +25,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const logs = getAllLogs();
   const { slug } = await params;
   const log = logs.find((item) => item.slug === slug);
+  const title = log ? `${log.title}｜学习日志` : '学习日志';
+  const description = log?.summary || '学习日志详情页';
+  const url = `${siteConfig.siteUrl}/logs/${slug}`;
+
   return {
-    title: log ? `${log.title}｜学习日志` : '学习日志',
-    description: log?.summary || '学习日志详情页',
+    title,
+    description,
+    alternates: {
+      canonical: `/logs/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 
@@ -40,6 +61,7 @@ export default async function LogDetailPage({ params }: PageProps) {
 
   const relatedNotes = notes.filter((note) => note.tags.some((tag) => log.tags.includes(tag)));
   const relatedLogs = logs.filter((item) => item.slug !== log.slug && item.tags.some((tag) => log.tags.includes(tag))).slice(0, 2);
+  const moreLogs = logs.filter((item) => item.slug !== log.slug && (item.type === log.type || item.tags.some((tag) => log.tags.includes(tag)))).slice(0, 3);
 
   return (
     <>
@@ -97,6 +119,13 @@ export default async function LogDetailPage({ params }: PageProps) {
               <RelatedContent notes={relatedNotes.slice(0, 4)} logs={relatedLogs} />
             </aside>
           </div>
+
+          <ContinueReadingSection
+            title="继续沿这条学习线往下读"
+            description="如果你想从过程继续走向结构化整理，可以顺着相关日志和知识条目继续看。"
+            notes={relatedNotes.slice(0, 3)}
+            logs={moreLogs}
+          />
         </SiteContainer>
       </main>
       <Footer />

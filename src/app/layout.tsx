@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
   },
+  manifest: '/site.webmanifest',
   robots: {
     index: true,
     follow: true,

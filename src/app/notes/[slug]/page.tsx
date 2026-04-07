@@ -10,6 +10,7 @@ import { ContentHeader } from '@/components/logs/ContentHeader';
 import { ArticleContent } from '@/components/logs/ArticleContent';
 import { RelatedContent } from '@/components/logs/RelatedContent';
 import { InteractiveSurface } from '@/components/common/InteractiveSurface';
+import { ContinueReadingSection } from '@/components/common/ContinueReadingSection';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -23,9 +24,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const notes = getAllNotes();
   const { slug } = await params;
   const note = notes.find((item) => item.slug === slug);
+  const title = note ? `${note.title}｜知识笔记` : '知识笔记';
+  const description = note?.summary || '知识笔记详情页';
+  const url = `${siteConfig.siteUrl}/notes/${slug}`;
+
   return {
-    title: note ? `${note.title}｜知识笔记` : '知识笔记',
-    description: note?.summary || '知识笔记详情页',
+    title,
+    description,
+    alternates: {
+      canonical: `/notes/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 
@@ -37,6 +58,7 @@ export default async function NoteDetailPage({ params }: PageProps) {
   if (!note) return notFound();
 
   const relatedLogs = logs.filter((log) => log.tags.some((tag) => note.tags.includes(tag))).slice(0, 3);
+  const moreNotes = notes.filter((item) => item.slug !== note.slug && (item.category === note.category || item.tags.some((tag) => note.tags.includes(tag)))).slice(0, 3);
 
   return (
     <>
@@ -91,6 +113,13 @@ export default async function NoteDetailPage({ params }: PageProps) {
               <RelatedContent logs={relatedLogs} />
             </aside>
           </div>
+
+          <ContinueReadingSection
+            title="继续沿这个主题往下看"
+            description="看完这篇之后，可以回到相关知识条目或学习日志，继续把上下文串起来。"
+            notes={moreNotes}
+            logs={relatedLogs}
+          />
         </SiteContainer>
       </main>
       <Footer />

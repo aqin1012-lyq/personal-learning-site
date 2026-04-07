@@ -6,7 +6,10 @@
     "dev": "next dev -p 3004",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "new:log": "node scripts/create-content.js log",
+    "new:note": "node scripts/create-content.js note",
+    "new:project": "node scripts/create-content.js project"
   },
   "dependencies": {
     "next": "15.3.0",

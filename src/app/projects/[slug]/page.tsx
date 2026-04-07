@@ -23,9 +23,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const projects = getAllProjects();
   const { slug } = await params;
   const project = projects.find((item) => item.slug === slug);
+  const title = project ? `${project.title}｜项目实践` : '项目实践';
+  const description = project?.summary || '项目详情页';
+  const url = `${siteConfig.siteUrl}/projects/${slug}`;
+
   return {
-    title: project ? `${project.title}｜项目实践` : '项目实践',
-    description: project?.summary || '项目详情页',
+    title,
+    description,
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 

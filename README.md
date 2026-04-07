@@ -79,6 +79,18 @@ npm run dev
 
 你可以直接复制这些模板来写第一条内容。
 
+## 内容创建脚本
+
+如果你不想手动复制模板，可以直接运行：
+
+```bash
+npm run new:log
+npm run new:note
+npm run new:project
+```
+
+脚本会询问标题（日志还会询问日期），然后自动在对应目录下创建文件。
+
 ## 项目结构
 
 - `src/app`：页面与路由

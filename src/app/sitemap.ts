@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteConfig.siteUrl}/notes`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteConfig.siteUrl}/projects`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteConfig.siteUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${siteConfig.siteUrl}/studio`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   ];
 
   const logRoutes: MetadataRoute.Sitemap = getAllLogs().map((item) => ({
