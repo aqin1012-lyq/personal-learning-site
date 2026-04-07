@@ -1,111 +1,122 @@
-# Personal Learning Site
+# Personal Learning System Template
 
-一个基于 Next.js + Tailwind CSS 的个人学习记录网站，适合用于持续发布学习日志、知识条目与项目实践。
+一个面向长期学习者的个人学习系统模板。它不是普通博客，而是把 **Logs / Notes / Projects** 串成一个闭环：
 
-## 已包含
+- **Logs**：记录学习过程
+- **Notes**：沉淀知识结构
+- **Projects**：验证实践输出
 
-- 首页
-- 学习日志列表页 / 详情页
-- 知识库列表页 / 详情页
-- 项目列表页 / 详情页
-- 关于页
-- 基于 `content/` 的本地 MDX 内容源
-- TypeScript 类型定义
-- 基础响应式布局
-- 基础 SEO 元信息
-- `sitemap.xml` 与 `robots.txt`
+目标不是把内容堆满，而是让学习变成可以被找回、被连接、被展示、被持续推进的个人资产。
 
-## 技术栈
+## 适合谁
 
-- Next.js (App Router)
-- React
-- Tailwind CSS
-- TypeScript
+适合这些人：
 
-## 本地启动
+- 正在长期学习 AI、编程、英语、设计或其他技能
+- 想把学习过程公开记录下来
+- 不满足于普通博客，只展示结果不展示过程
+- 想做一个能长期积累的个人成长网站
+
+## 这个模板解决什么问题
+
+很多人的学习记录是分裂的：
+
+- 过程写在日记里
+- 知识点散在笔记里
+- 项目在 GitHub 里
+
+最后没有形成真正的系统。
+
+这个模板把它们重新组织成三层：
+
+1. **日志（Logs）**：今天学了什么、卡在哪里、下一步做什么
+2. **知识卡片（Notes）**：把高频概念、方法和结构沉淀成可复用内容
+3. **项目实践（Projects）**：用真实输出验证自己是不是学会了
+
+## 快速开始
 
 ```bash
 npm install
 npm run dev
 ```
 
-然后访问：
+默认访问：<http://localhost:3004>
 
-```bash
-http://localhost:3000
-```
+## 复制后先做这三步
 
-## 生产构建
+### 1. 改站点信息
+编辑：`src/data/site.ts`
 
-```bash
-npm run build
-npm run start
-```
+建议先改这些字段：
 
-## 上线前必改配置
+- `name`
+- `tagline`
+- `productTagline`
+- `description`
+- `siteUrl`
+- `author`
+- `audience`
 
-请先修改 `src/data/site.ts` 中这些字段：
+### 2. 写第一条内容
+内容都在：
 
-- `siteUrl`：替换为你的正式域名，例如 `https://your-domain.com`
-- `author`：替换为你的名字或站点署名
-- `keywords`：按你的内容方向调整
-- `name` / `description` / `tagline`：按站点定位微调
+- `content/logs`
+- `content/notes`
+- `content/projects`
 
-如果不改，站点虽然能跑，但 sitemap、robots 和 canonical 会指向占位域名。
+也可以直接打开站内的 **/studio** 页面，在页面里新增日志和知识卡片。
 
-## 推荐部署方式
+### 3. 替换示例内容
+如果你不想保留示例内容，可以把内容目录里的示例文件删掉，再换成自己的。
 
-### 方案 A：Vercel（推荐）
+## 模板文件
 
-适合这个项目当前形态，最省心。
+仓库里提供了三种模板：
 
-1. 将项目推送到 GitHub
+- `templates/log-template.mdx`
+- `templates/note-template.mdx`
+- `templates/project-template.mdx`
+
+你可以直接复制这些模板来写第一条内容。
+
+## 项目结构
+
+- `src/app`：页面与路由
+- `src/components`：UI 组件
+- `src/data`：站点配置与静态数据
+- `src/lib`：内容读取与 Studio 辅助逻辑
+- `content/logs`：学习日志
+- `content/notes`：知识卡片
+- `content/projects`：项目实践
+- `templates`：内容模板文件
+
+## 当前已具备
+
+- 首页时间线与学习总览
+- 学习日志列表/详情
+- 知识库列表/详情
+- 项目列表/详情
+- About 页面
+- Studio 页面（支持直接新增日志、知识卡片）
+- sitemap / robots / 基础 metadata
+
+## 推荐部署
+
+### Vercel（推荐）
+
+1. 把项目推到 GitHub
 2. 在 Vercel 导入仓库
-3. 构建命令使用默认值：
-   - Build Command: `npm run build`
-   - Output: 由 Next.js 自动识别
-4. 绑定正式域名
-5. 回到 `src/data/site.ts`，把 `siteUrl` 改成正式域名后重新部署
-
-### 方案 B：Cloudflare Pages
-
-也可以部署，但对 Next.js 的兼容与配置通常没有 Vercel 省事。如果你的重点是快速稳定上线，这个项目优先选 Vercel。
-
-## 推荐基础设施
-
-对于这个个人内容站，推荐使用：
-
-- **代码托管**：GitHub
-- **部署**：Vercel
-- **DNS / CDN / HTTPS / WAF**：Cloudflare
-- **监控**：Sentry + Uptime Kuma / Better Stack
-- **访问统计**：Plausible / Umami
-
-## 目录结构
-
-- `src/app` 页面与路由
-- `src/components` UI 组件
-- `src/data` 站点配置与静态数据
-- `src/lib` 内容读取与工具函数
-- `src/types` 类型定义
-- `content/logs` 学习日志
-- `content/notes` 知识条目
-- `content/projects` 项目实践
-
-## 已补的正式上线必需项
-
-- 全站基础 metadata
-- Open Graph / Twitter metadata 基础配置
-- canonical 基础配置
-- 自动生成 sitemap
-- 自动生成 robots
-- 生产构建验证
+3. 使用默认 Next.js 配置部署
+4. 部署后把 `src/data/site.ts` 里的 `siteUrl` 改成真实域名
 
 ## 下一步建议
 
-- 补 favicon / app icon / OG 图片
-- 为详情页补更完整的社交分享 metadata
-- 把简化 frontmatter 解析升级为更稳的 MDX 方案
-- 增加 RSS
-- 增加标签聚合页 / 分类聚合页
-- 接入分析与错误监控
+如果你准备把它真的做成自己的长期学习系统，建议优先做：
+
+- 替换示例文案和 About 页面内容
+- 写 3 条日志
+- 写 3 张知识卡片
+- 放 1 个项目实践
+- 补 favicon / OG 图
+
+这样站点会很快从“模板”变成“你自己的成长界面”。

@@ -8,6 +8,7 @@ import { TagFilter } from '@/components/common/TagFilter';
 import { TypeFilter } from './TypeFilter';
 import { LogCard } from './LogCard';
 import { EmptyState } from '@/components/common/EmptyState';
+import { siteConfig } from '@/data/site';
 
 export function LogsClient({
   logs,
@@ -152,7 +153,16 @@ export function LogsClient({
             ))}
           </div>
         ) : (
-          <EmptyState title="没有找到符合条件的日志" description="试试更换关键词或取消筛选。" />
+          <EmptyState
+            title={logs.length === 0 ? '这里还没有学习日志' : '没有找到符合条件的日志'}
+            description={
+              logs.length === 0
+                ? '复制模板后，建议先写下第一条学习记录：今天学了什么、卡在哪里、下一步打算做什么。'
+                : '试试更换关键词或取消筛选。'
+            }
+            label={logs.length === 0 ? 'Start Your First Log' : 'No Matching Content'}
+            action={logs.length === 0 ? siteConfig.emptyStateCta : undefined}
+          />
         )}
       </section>
     </>

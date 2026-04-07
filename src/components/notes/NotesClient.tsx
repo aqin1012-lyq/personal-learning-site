@@ -8,6 +8,7 @@ import { TagFilter } from '@/components/common/TagFilter';
 import { CategoryFilter } from './CategoryFilter';
 import { NoteCard } from './NoteCard';
 import { EmptyState } from '@/components/common/EmptyState';
+import { siteConfig } from '@/data/site';
 
 export function NotesClient({
   notes,
@@ -155,7 +156,16 @@ export function NotesClient({
             </div>
           </div>
         ) : (
-          <EmptyState title="没有找到符合条件的知识条目" description="试试更换搜索词或筛选条件。" />
+          <EmptyState
+            title={notes.length === 0 ? '这里还没有知识卡片' : '没有找到符合条件的知识条目'}
+            description={
+              notes.length === 0
+                ? '先把那些会反复出现的概念、方法或框架整理成第一张卡片，后面你会发现它们很值钱。'
+                : '试试更换搜索词或筛选条件。'
+            }
+            label={notes.length === 0 ? 'Start Your First Note' : 'No Matching Content'}
+            action={notes.length === 0 ? siteConfig.emptyStateCta : undefined}
+          />
         )}
       </section>
     </>
