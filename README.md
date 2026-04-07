@@ -144,6 +144,20 @@ Studio 里已经支持直接创建：
 3. 使用默认 Next.js 构建配置部署
 4. 部署后回到 `src/data/site.ts`，把 `siteUrl` 改成你的正式域名
 
+## 发布准备文件
+
+仓库里已经准备了一组首发辅助文件：
+
+- `PUBLISH_CHECKLIST.md`
+- `LAUNCH_COPY_DRAFT.md`
+- `LAUNCH_EXECUTION_PLAN.md`
+- `DEMO_ASSETS_CHECKLIST.md`
+- `REPO_SETUP_GUIDE.md`
+- `GITHUB_RELEASE_TEMPLATE.md`
+- `RELEASE_NOTES_v0.1.md`
+
+如果你准备第一次公开发布，建议按这些文件的顺序走一遍。
+
 ## 上线前检查清单
 
 建议在正式分享前确认：
