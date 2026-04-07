@@ -160,6 +160,61 @@ export default function HomePage() {
               stats={stats}
             />
 
+            <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+              <InteractiveSurface className="surface-card rounded-[28px] p-6 md:p-7">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="section-label">Template Positioning</p>
+                    <h2 className="font-cjk text-[1.35rem] font-medium leading-8 text-stone-100">{siteConfig.productTagline || '这不是普通博客，而是一套个人学习系统模板。'}</h2>
+                    <p className="text-sm leading-8 text-stone-400">{siteConfig.audience}</p>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {[
+                      {
+                        title: 'Logs',
+                        text: '记录每天在学什么、卡在哪里，以及下一步怎么继续。',
+                      },
+                      {
+                        title: 'Notes',
+                        text: '把重复出现的概念、方法和框架沉淀成可复用卡片。',
+                      },
+                      {
+                        title: 'Projects',
+                        text: '用项目和真实输出证明自己不是“看过就算会了”。',
+                      },
+                    ].map((item) => (
+                      <div key={item.title} className="rounded-[18px] border border-white/[0.06] bg-white/[0.018] px-4 py-4">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-stone-500">{item.title}</p>
+                        <p className="mt-2 text-sm leading-7 text-stone-300">{item.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </InteractiveSurface>
+
+              <section className="section-shell space-y-4 rounded-[28px]">
+                <div className="space-y-2">
+                  <p className="section-label">Start Here</p>
+                  <h2 className="font-cjk text-[1.2rem] font-medium text-stone-100">复制这个模板后，建议先做这三步</h2>
+                </div>
+                <div className="grid gap-3">
+                  {siteConfig.setupSteps?.map((step, index) => (
+                    <div key={step} className="rounded-[18px] border border-white/[0.06] bg-white/[0.018] px-4 py-3.5">
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-stone-500">Step 0{index + 1}</p>
+                      <p className="mt-1 text-sm leading-7 text-stone-300">{step}</p>
+                    </div>
+                  ))}
+                </div>
+                {siteConfig.studioCta ? (
+                  <div className="pt-1">
+                    <Link href={siteConfig.studioCta.href} className="hero-button-secondary inline-flex">
+                      {siteConfig.studioCta.label}
+                    </Link>
+                  </div>
+                ) : null}
+              </section>
+            </section>
+
             <div className="grid gap-5 2xl:grid-cols-[minmax(248px,15.5vw)_minmax(0,1fr)] 2xl:items-start 2xl:gap-8">
               <aside className="space-y-4 2xl:sticky 2xl:top-24">
                 <InteractiveSurface as="section" className="section-shell interactive-section-shell stagger-surface space-y-5 rounded-[30px] xl:min-h-[calc(100vh-7.5rem)] xl:px-5 xl:py-6 2xl:space-y-4">
