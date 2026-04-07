@@ -6,9 +6,9 @@ export function Footer() {
     <footer className="mt-16 border-t border-white/[0.07] bg-[#0d1014]/72 backdrop-blur-xl">
       <SiteContainer className="grid gap-8 py-10 text-sm text-stone-500 md:grid-cols-[1.2fr_0.8fr] md:items-start">
         <div className="space-y-3">
-          <p className="text-base text-stone-300">这是我的个人学习记录站，记录输入、实践、复盘，也记录那些慢慢成形的理解。</p>
+          <p className="text-base text-stone-300">这是一个个人学习系统模板，用来把学习过程、知识沉淀和项目实践串成一个长期可复用的成长界面。</p>
           <p className="max-w-2xl leading-7 text-stone-500">
-            希望这里不是一堆被遗忘的草稿，而是一套越用越顺手、越写越清晰的长期知识基础设施。
+            你可以把它当成自己的公开学习主页，也可以把它当成一个长期维护的知识基础设施模板，从第一条日志开始慢慢长起来。
           </p>
         </div>
         <div className="grid gap-3 md:justify-end">
@@ -23,6 +23,9 @@ export function Footer() {
           </Link>
           <Link href="/projects" className="hover:text-violet-200/90">
             项目实践
+          </Link>
+          <Link href="/studio" className="hover:text-violet-200/90">
+            Studio
           </Link>
         </div>
       </SiteContainer>

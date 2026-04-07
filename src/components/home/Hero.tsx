@@ -9,18 +9,25 @@ type HeroStat = {
   note: string;
 };
 
+type HeroChip = {
+  label: string;
+  href: string;
+};
+
 export function Hero({
   title,
   subtitle,
   primaryAction,
   secondaryAction,
   stats,
+  quickChips = [],
 }: {
   title: string;
   subtitle: string;
   primaryAction: { label: string; href: string };
   secondaryAction?: { label: string; href: string };
   stats: HeroStat[];
+  quickChips?: HeroChip[];
 }) {
   const manualBreak = '沉淀成可复用的认知结构';
   const titleParts = title.split('，');
@@ -70,14 +77,25 @@ export function Hero({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 pt-1">
-            <Link href={primaryAction.href} className="hero-button-primary hero-magnetic-chip">
-              {primaryAction.label}
-            </Link>
-            {secondaryAction ? (
-              <Link href={secondaryAction.href} className="hero-button-secondary hero-magnetic-chip">
-                {secondaryAction.label}
+          <div className="space-y-4 pt-1">
+            <div className="flex flex-wrap gap-3">
+              <Link href={primaryAction.href} className="hero-button-primary hero-magnetic-chip">
+                {primaryAction.label}
               </Link>
+              {secondaryAction ? (
+                <Link href={secondaryAction.href} className="hero-button-secondary hero-magnetic-chip">
+                  {secondaryAction.label}
+                </Link>
+              ) : null}
+            </div>
+            {quickChips.length > 0 ? (
+              <div className="flex flex-wrap gap-2.5">
+                {quickChips.map((chip) => (
+                  <Link key={chip.href} href={chip.href} className="pill-tag hero-magnetic-chip">
+                    {chip.label}
+                  </Link>
+                ))}
+              </div>
             ) : null}
           </div>
         </div>

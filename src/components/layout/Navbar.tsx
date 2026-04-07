@@ -34,8 +34,8 @@ export function Navbar({ nav }: { nav: NavItem[] }) {
             ✦
           </span>
           <span>
-            <span className="block font-cjk text-[1.02rem] font-medium tracking-[0.01em]">学习记录站</span>
-            <span className="block text-xs text-stone-500">Notes · Logs · Practice</span>
+            <span className="block font-cjk text-[1.02rem] font-medium tracking-[0.01em]">学习系统模板</span>
+            <span className="block text-xs text-stone-500">Logs · Notes · Projects</span>
           </span>
         </Link>
 
