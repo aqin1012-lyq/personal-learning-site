@@ -1,0 +1,15 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="640" fill="#0B0D10"/>
+  <rect x="24" y="24" width="1232" height="592" rx="28" stroke="rgba(236,241,255,0.08)"/>
+  <circle cx="1030" cy="140" r="210" fill="#8875D8" fill-opacity="0.16"/>
+  <circle cx="220" cy="540" r="180" fill="#7AAECB" fill-opacity="0.12"/>
+  <text x="84" y="140" fill="#A39ACF" font-size="26" font-family="Arial, sans-serif" letter-spacing="5">PERSONAL LEARNING SYSTEM TEMPLATE</text>
+  <text x="84" y="254" fill="#F3F5F7" font-size="68" font-family="Arial, sans-serif" font-weight="700">Build your own learning OS</text>
+  <text x="84" y="330" fill="#C5CCD6" font-size="30" font-family="Arial, sans-serif">Use Logs, Notes, and Projects to turn learning into a public, reusable system.</text>
+  <rect x="84" y="406" width="148" height="54" rx="27" fill="#5B4EA4"/>
+  <text x="118" y="441" fill="#FFFFFF" font-size="24" font-family="Arial, sans-serif">Logs</text>
+  <rect x="250" y="406" width="156" height="54" rx="27" fill="#1B2028" stroke="rgba(236,241,255,0.12)"/>
+  <text x="287" y="441" fill="#FFFFFF" font-size="24" font-family="Arial, sans-serif">Notes</text>
+  <rect x="424" y="406" width="186" height="54" rx="27" fill="#1B2028" stroke="rgba(236,241,255,0.12)"/>
+  <text x="456" y="441" fill="#FFFFFF" font-size="24" font-family="Arial, sans-serif">Projects</text>
+</svg>

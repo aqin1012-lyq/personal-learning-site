@@ -32,6 +32,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ['/og-default.svg'],
   },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   manifest: '/site.webmanifest',
   robots: {
     index: true,
